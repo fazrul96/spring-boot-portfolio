@@ -1,0 +1,17 @@
+version: '3'
+services:
+  java-backend:
+    build:
+      context: ./java-backend
+    ports:
+      - "8080:8080"
+    networks:
+      - portfolio-network
+
+  react-frontend:
+    build:
+      context: ./react-frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - portfolio-network
