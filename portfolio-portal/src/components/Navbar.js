@@ -11,20 +11,48 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            {/* Left Links */}
             <li className="nav-item">
               <a className="nav-link" href="#">Home</a>
             </li>
-            {/* ... Add other links */}
+            <li className="nav-item">
+              <a className="nav-link" href="#portfolio">Portfolio</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#project">Project</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#experience">Experience</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#education">Education</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#certification">Certification</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#skills">Skills</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#contact">Contact</a>
+            </li>
           </ul>
+    
           <ul className="navbar-nav">
-            {/* Right Links */}
             <li className="nav-item">
               <a href="https://www.linkedin.com/in/fazrul-romli-79138415b/" className="nav-link" target="_blank">
                 <i className="fa fa-linkedin"></i>
               </a>
             </li>
-            {/* ... Add other social links */}
+            <li className="nav-item">
+              <a href="mailto:mfazrul07@gmail.com" className="nav-link" target="_blank">
+                <i className="fa fa-envelope"></i>
+              </a>
+            </li>
+            <li className="nav-item">
+              <a href="http://github.com/fazrul96/" className="nav-link" target="_blank">
+                <i className="fa fa-github mr-2"></i>GitHub
+              </a>
+            </li>
           </ul>
         </div>
       </div>

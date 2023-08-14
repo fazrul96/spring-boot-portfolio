@@ -1,24 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { fetchEducations } from '../../services/api';
 
 const Education = () => {
+  const [educations, setProjects] = useState([]);
+
+  useEffect(() => {
+    async function fetchData(fetchFunction, setDataFunction) {
+      try {
+        const data = await fetchFunction();
+        setDataFunction(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData(fetchEducations, setProjects);
+  }, []);
+
   return (
     <div>
       <hr className="mb-3" />
       <section id="education">
         <h1 className="text-center" style={{ fontWeight: 'bold', fontSize: 100 }}>Education</h1>
         <div className="row">
-          <div className="col-md-12">
-            <article className="work-item">
-              <ul>
-                <li style={{ textAlign: 'left' }}>
-                  National University of Malaysia (UKM) (2015 - 2019)
-                  <ul>
-                    <li>Bachelor of Software Engineering (Information Systems)</li>
-                  </ul>
-                </li>
-              </ul>
-            </article>
-          </div>
+          {educations.map((education) => (
+            <div className="col-md-12" key={education.id}>
+              <article className="work-item">
+                <ul>
+                  <li style={{ textAlign: 'left' }}>
+                    {education.name} ({education.year})
+                    <ul>
+                      <li>{education.module}</li>
+                    </ul>
+                  </li>
+                </ul>
+              </article>
+            </div>
+          ))}
         </div>
       </section>
     </div>
