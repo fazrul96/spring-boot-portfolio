@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchEducations } from '../../services/api';
+import { fetch } from '../../services/EducationServices';
 
 const Education = () => {
   const [educations, setProjects] = useState([]);
@@ -14,7 +14,7 @@ const Education = () => {
       }
     }
 
-    fetchData(fetchEducations, setProjects);
+    fetchData(fetch, setProjects);
   }, []);
 
   return (

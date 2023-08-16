@@ -10,7 +10,7 @@ import Project from './components/section/Project';
 import Experience from './components/section/Experience';
 import Education from './components/section/Education';
 import Certification from './components/section/Certification';
-import Skills from './components/section/Skills';
+import Skills from './components/section/Skill';
 import Contact from './components/section/Contact';
 
 // import 'jquery/dist/jquery.min.js'; // Import jQuery

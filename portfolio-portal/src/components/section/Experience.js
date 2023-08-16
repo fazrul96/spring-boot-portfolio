@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchExperiences } from '../../services/api';
+import { fetch } from '../../services/ExperienceServices';
 
 const Experience = () => {
   const [experiences, setProjects] = useState([]);
@@ -14,7 +14,7 @@ const Experience = () => {
       }
     }
 
-    fetchData(fetchExperiences, setProjects);
+    fetchData(fetch, setProjects);
   }, []);
 
   return (
