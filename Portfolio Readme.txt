@@ -1,5 +1,8 @@
 Portfolio
 
+Port:
+npx kill-port 3000
+
 Frontend
 npx create-react-app portfolio-portal
 npm install react-bootstrap bootstrap
@@ -15,3 +18,6 @@ https://start.spring.io/
 Open terminal run this command
 ./gradlew bootRun (Recommended)
 ./mvnw spring-boot:run
+
+Tutorial
+https://spring.io/guides/tutorials/react-and-spring-data-rest/
