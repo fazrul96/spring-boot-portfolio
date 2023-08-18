@@ -14,4 +14,33 @@ async function fetchExperiences() {
   }
 }
 
-export { fetchExperiences };
+async function fetchEducations() {
+  try {
+    const response = await fetch(`${BASE_URL}/getEducations`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch educations');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching educations:', error);
+    throw error;
+  }
+}
+
+async function fetchProjects() {
+  try {
+    const response = await fetch(`${BASE_URL}/getProjects`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch projects');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching projects:', error);
+    throw error;
+  }
+}
+
+
+export { fetchExperiences, fetchEducations, fetchProjects };

@@ -12,19 +12,45 @@ public class ExperienceServiceImpl implements ExperienceService {
 
     @Override
     public List<Experience> getExperiences() {
-        return createListOfExperiences();
-    }
-
-    private List<Experience> createListOfExperiences() {
         List<Experience> experiences = new ArrayList<>();
 
-        experiences.add(new Experience(1, "Accenture Solutions Sdn. Bhd.", "Business & Integration Arch Analyst", "Dec 2022 - Present", createItemsForAccenture()));
-        experiences.add(new Experience(2, "The Lorry Online Sdn. Bhd.", "Back End Developer", "Nov 2020 - Nov 2022", createItemsForTheLorry()));
-        experiences.add(new Experience(3, "BizAid Technologies Sdn. Bhd.", "Software Programmer", "Apr 2019 - Oct 2020", createItemsForBizAid()));
+        experiences.add(createAccentureExperience());
+        experiences.add(createTheLorryExperience());
+        experiences.add(createBizAidExperience());
 
         return experiences;
     }
 
+    private Experience createAccentureExperience() {
+        return new Experience(
+            1,
+            "Accenture Solutions Sdn. Bhd.",
+            "Business & Integration Arch Analyst",
+            "Dec 2022 - Present",
+            createItemsForAccenture()
+        );
+    }
+
+    private Experience createTheLorryExperience() {
+        return new Experience(
+            2,
+            "The Lorry Online Sdn. Bhd.",
+            "Back End Developer",
+            "Nov 2020 - Nov 2022",
+            createItemsForTheLorry()
+        );
+    }
+
+    private Experience createBizAidExperience() {
+        return new Experience(
+            3,
+            "BizAid Technologies Sdn. Bhd.",
+            "Software Programmer",
+            "Apr 2019 - Oct 2020",
+            createItemsForBizAid()
+        );
+    }
+    
     private List<ExperienceItem> createItemsForAccenture() {
         List<ExperienceItem> items = new ArrayList<>();
         

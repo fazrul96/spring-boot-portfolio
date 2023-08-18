@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { fetch, fetchVideo } from '../../services/ProjectServices';
+import { fetchVideo } from '../../services/ProjectServices';
 
-const Project = () => {
-  const [projects, setProjects] = useState([]);
+const Project = ({ projects }) => {
   const [videoProjects, setVideoProjects] = useState([]);
 
   useEffect(() => {
@@ -15,7 +14,6 @@ const Project = () => {
       }
     }
 
-    fetchData(fetch, setProjects);
     fetchData(fetchVideo, setVideoProjects);
   }, []);
 

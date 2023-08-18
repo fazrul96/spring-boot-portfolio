@@ -1,7 +1,7 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.Experience;
-import com.example.demo.services.ExperienceService;
+import com.example.demo.models.Project;
+import com.example.demo.services.ProjectService;
 import com.example.demo.services.AppConfig;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/getExperiences")
-public class ExperienceController {
-    private final ExperienceService experienceService;
+@RequestMapping("/api/v1/getProjects")
+public class ProjectController {
+    private final ProjectService projectService;
     private final AppConfig appConfig;
 
-    public ExperienceController(ExperienceService experienceService, AppConfig appConfig) {
-        this.experienceService = experienceService;
+    public ProjectController(ProjectService projectService, AppConfig appConfig) {
+        this.projectService = projectService;
         this.appConfig = appConfig;
     }
 
     @CrossOrigin(origins = "${app.basePath}")
     @GetMapping
-    public List<Experience> getExperiences() {
-        return experienceService.getExperiences();
+    public List<Project> getProjects() {
+        return projectService.getProjects();
     }
 }

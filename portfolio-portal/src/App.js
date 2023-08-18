@@ -10,16 +10,22 @@ import Education from './components/section/Education';
 import Certification from './components/section/Certification';
 import Skills from './components/section/Skill'; // Fixed typo in import statement
 import Contact from './components/section/Contact';
-import { fetchExperiences } from './services/ApiServices'; // Corrected import path
-
+import { fetchExperiences, fetchEducations, fetchProjects} from './services/ApiServices';
 function App() {
   const [experiences, setExperiences] = useState([]);
+  const [educations, setEducations] = useState([]);
+  const [projects, setProjects] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const experiencesData = await fetchExperiences();
+        const educationsData = await fetchEducations();
+        const projectsData = await fetchProjects();
+
         setExperiences(experiencesData);
+        setEducations(educationsData);
+        setProjects(projectsData);
       } catch (error) {
         console.error('Error fetching experiences:', error);
       }
@@ -36,9 +42,9 @@ function App() {
       <main>
         <div className="container">
           <Portfolio />
-          <Project />
+          <Project projects={projects} />
           <Experience experiences={experiences} />
-          <Education />
+          <Education educations={educations} />
           <Certification />
           <Skills />
           <Contact />

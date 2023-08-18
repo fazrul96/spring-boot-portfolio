@@ -1,22 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { fetch } from '../../services/EducationServices';
+import React from 'react';
 
-const Education = () => {
-  const [educations, setProjects] = useState([]);
-
-  useEffect(() => {
-    async function fetchData(fetchFunction, setDataFunction) {
-      try {
-        const data = await fetchFunction();
-        setDataFunction(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    }
-
-    fetchData(fetch, setProjects);
-  }, []);
-
+const Education = ({ educations }) => {
   return (
     <div>
       <hr className="mb-3" />

@@ -14,7 +14,6 @@ public class ExperienceItem {
         this.description = description;
     }
 
-    // Getters and setters
     public String getTitle() {
         return title;
     }
