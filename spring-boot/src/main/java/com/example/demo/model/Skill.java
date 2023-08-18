@@ -5,16 +5,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Skill {
     private int id;
     
+    @JsonProperty("title")
+    private String title;
+
     @JsonProperty("name")
     private String name;
-    
-    @JsonProperty("module")
-    private String module;
 
-    public Skill(int id, String name, String module, String year) {
+    public Skill(int id, String title, String name) {
         this.id = id;
+        this.title = title;
         this.name = name;
-        this.module = module;
     }
 
     public int getId() {
@@ -25,19 +25,19 @@ public class Skill {
         this.id = id;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getModule() {
-        return module;
-    }
-
-    public void setModule(String module) {
-        this.module = module;
     }
 }

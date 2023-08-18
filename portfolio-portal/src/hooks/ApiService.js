@@ -25,12 +25,16 @@ class ApiService {
     return this.fetchData('/getEducations');
   }
 
+  async fetchCertifications() {
+    return this.fetchData('/getCertifications');
+  }
+
   async fetchProjects() {
     return this.fetchData('/getProjects');
   }
 
   async fetchSkills() {
-    return this.fetchData('/getProjects');
+    return this.fetchData('/getSkills');
   }
 }
 

@@ -11,7 +11,7 @@ const Certification = ({ certifications }) => {
     <div>
       <hr className="mb-3" />
       <section id="certification">
-        <h1 className="text-center font-weight-bold">Certification</h1>
+        <h1 className="text-center" style={{ fontWeight: 'bold', fontSize: 100 }}>Certification</h1>
         <div className="row wow fadeIn">
           <div id="carousel-tool-1z" className="carousel slide carousel-fade" data-ride="carousel">
             {/* Indicators */}
@@ -25,70 +25,41 @@ const Certification = ({ certifications }) => {
               <div className="carousel-item active">
                 <div className="view">
                   <div className="mask rgba-black-light d-flex justify-content-center align-items-center">
-                    <div className="col-xs-12 col-sm-6 col-md-6">
-                      <div className={`image-flip ${isFlipped ? 'hover' : ''}`} onTouchStart={handleTouchStart}>
-                        <div className="mainflip">
-                          <div className="frontside">
-                            <div className="card">
-                              <div className="card-header text-center">
-                                <a href="http://androidatc.com/_transcript.php?action=transcript">Android Certified Application Developer</a>
-                              </div>
-                              <div className="card-body text-center">
-                                <img src="https://androidatc.com/template/style/img/new_theme/logo.png" alt="Android ATC" className="card-img-top" />
-                                <p className="card-text text-muted">Android ATC</p>
-                                <p className="card-text text-muted">Issued: Oct 2017</p>
-                                <p className="card-text text-muted">Credential ID: ATC1001761</p>
-                              </div>
-                              <div className="card-footer text-center">
-                                <a href="#" className="btn btn-primary btn-sm"><i className="fas fa-angle-double-right"></i> Hover for more information</a>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="backside">
-                            <div className="card">
-                              <div className="card-body text-center mt-4">
-                                <i className="icon solid fa-map"></i>
-                                <p>ATC</p>
-                                <p>Will update later</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae, blanditiis deserunt eligendi ex expedita, incidunt ipsa mollitia optio quaerat qui saepe sit, vel voluptatum! Cupiditate dignissimos fuga quas quibusdam velit!</p>
+                    
+                    {certifications.map((certification, index) => (
+                      <div className="col-xs-12 col-sm-6 col-md-6" key={index}>
+                        <div className={`image-flip ${isFlipped ? 'hover' : ''}`} onTouchStart={handleTouchStart}>
+                          <div className="mainflip">
+                            <div className="frontside">
+                              <div className="card">
+                                <div className="card-header text-center">
+                                  <a href={certification.reference}>{certification.title}</a>
+                                </div>
+                                <div className="card-body text-center">
+                                  <img src={certification.logo} alt={certification.name} className="card-img-top" />
+                                  <p className="card-text text-muted">{certification.name}</p>
+                                  <p className="card-text text-muted">Issued: {certification.issued_date}</p>
+                                  <p className="card-text text-muted">Credential ID: {certification.cred_id}</p>
+                                </div>
+                                <div className="card-footer text-center">
+                                  <a href="#" className="btn btn-primary btn-sm"><i className="fas fa-angle-double-right"></i> Hover for more information</a>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xs-12 col-sm-6 col-md-6">
-                    <div className={`image-flip ${isFlipped ? 'hover' : ''}`} onTouchStart={handleTouchStart}>
-                        <div className="mainflip">
-                          <div className="frontside">
-                            <div className="card">
-                              <div className="card-header text-center">
-                                <a href="http://www.mstb.org/IREB.php">Certified Professional Requirements Engineer (CPRE-FL)</a>
-                              </div>
-                              <div className="card-body text-center">
-                                <img src="https://th.bing.com/th/id/R.cd12ed352bce0c80fc5fcf5c9e81d991?rik=9WE5d%2bkNI9KbOQ&riu=http%3a%2f%2fwww.gripoprequirements.nl%2fimg%2flogo-ireb.jpg&ehk=EwXrzLBz%2btzxziwTZfDWobZqQfiu9bWESXGA2u5Jqr0%3d&risl=&pid=ImgRaw&r=0" alt="IREB" className="card-img-top"/>
-                                <p className="card-text text-muted">IREB</p>
-                                <p className="card-text text-muted">Issued: Jan 2017</p>
-                                <p className="card-text text-muted">Credential ID: MY-CPRE-FL-2017-00007</p>
-                              </div>
-                              <div className="card-footer text-center">
-                                <a href="#" className="btn btn-primary btn-sm"><i className="fas fa-angle-double-right"></i> Hover for more information</a>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="backside">
-                            <div className="card">
-                              <div className="card-body text-center mt-4">
-                                <i className="icon solid fa-map"></i>
-                                <p>IREB</p>
-                                <p>Will update later</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae, blanditiis deserunt eligendi ex expedita, incidunt ipsa mollitia optio quaerat qui saepe sit, vel voluptatum! Cupiditate dignissimos fuga quas quibusdam velit!</p>
+                            <div className="backside">
+                              <div className="card">
+                                <div className="card-body text-center mt-4">
+                                  <i className="icon solid fa-map"></i>
+                                  <p>{certification.name}</p>
+                                  <p>Will update later</p>
+                                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae, blanditiis deserunt eligendi ex expedita, incidunt ipsa mollitia optio quaerat qui saepe sit, vel voluptatum! Cupiditate dignissimos fuga quas quibusdam velit!</p>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
                 <div className="carousel-caption"></div>

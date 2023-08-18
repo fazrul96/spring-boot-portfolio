@@ -15,6 +15,7 @@ import ApiService from './hooks/ApiService';
 const App = () => {
   const [experiences, setExperiences] = useState([]);
   const [educations, setEducations] = useState([]);
+  const [certifications, setCertifications] = useState([]);
   const [projects, setProjects] = useState([]);
   const [skills, setSkills] = useState([]);
   const [error, setError] = useState(null);
@@ -26,11 +27,13 @@ const App = () => {
 
         const experiencesData = await apiService.fetchExperiences();
         const educationsData = await apiService.fetchEducations();
+        const certificationsData = await apiService.fetchCertifications();
         const projectsData = await apiService.fetchProjects();
         const skillsData = await apiService.fetchSkills();
 
         setExperiences(experiencesData);
         setEducations(educationsData);
+        setCertifications(certificationsData);
         setProjects(projectsData);
         setSkills(skillsData);
       } catch (error) {
@@ -53,7 +56,7 @@ const App = () => {
           <Project projects={projects} />
           <Experience experiences={experiences} />
           <Education educations={educations} />
-          <Certification />
+          <Certification certifications={certifications} />
           <Skills skills={skills} />
           {error && <p className="error-message">Error fetching data: {error.message}</p>}
           <Contact />

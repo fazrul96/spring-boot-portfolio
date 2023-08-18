@@ -20,18 +20,30 @@ public class SkillServiceImpl implements SkillService {
         String[][] skillData = {
             {
                 "Web Development",
-                "HTML",
+                "Laravel | CodeIgniter | React | Spring Boot",
             },
             {
                 "Programming Languages",
-                "PHP",
+                "PHP | Java | Javascript/Typescript | VBA | C#",
+            },
+            {
+                "Web Services",
+                "SQS | CloudWatch | S3 | Lambda | CodePipeline | MinIO | Jenkins",
+            },
+            {
+                "Database Management Systems (DMS)",
+                "MySQL | MSSQL | PostgreSQL",
+            },
+            {
+                "Automation Testing",
+                "Cypress | Selenium WebDriver | Cucumber",
             }
         };
 
         // Loop through the skill data and create Skill instances
         for (int id = 1; id <= skillData.length; id++) {
             String[] data = skillData[id - 1]; // Get skill data for the current ID
-            skills.add(new Skill(id, data[0], data[1], data[2]));
+            skills.add(new Skill(id, data[0], data[1]));
         }
 
         return skills;

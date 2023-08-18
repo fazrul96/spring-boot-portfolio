@@ -1,60 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const Skills = () => {
+const Skills = ({ skills }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleTouchStart = () => {
+    setIsFlipped(!isFlipped);
+  };
+
   return (
     <div>
       <hr className="mb-3" />
       <section id="skills">
-        <div className="container">
-          <h1 className="text-center font-weight-bold">Skills</h1>
-          <p className="text-center">Here are some of the tools and technologies I have experience with:</p>
-          <div className="row justify-content-center">
-            <div className="col-md-6">
-              <h3 className="font-weight-bold" style={{ textAlign: 'left' }}>Web Development</h3>
-              <ul className="list-unstyled" style={{ textAlign: 'left' }}>
-                <li>HTML</li>
-                <li>CSS</li>
-                <li>JavaScript</li>
-                <li>PHP</li>
-                <li>CodeIgniter</li>
-                <li>Laravel</li>
-              </ul>
+        <h1 className="text-center" style={{ fontWeight: 'bold', fontSize: 100 }}>Skill</h1>
+        <p className="text-center">Here are some of the tools and technologies I have experience with:</p>
+        <div className="row">
+          {skills.map((skill, index) => (
+            <div className="col-md-12" key={index}>
+              <article className="work-item">
+              <h3 className="font-weight-bold" style={{ textAlign: 'left' }}>{skill.title}</h3>
+                <ul className="list-unstyled" style={{ textAlign: 'left' }}>
+                  {skill.name}
+                </ul>
+              </article>
             </div>
-            <div className="col-md-6">
-              <h3 className="font-weight-bold" style={{ textAlign: 'left' }}>Programming Languages</h3>
-              <ul className="list-unstyled" style={{ textAlign: 'left' }}>
-                <li>PHP</li>
-                <li>JavaScript</li>
-                <li>VBA</li>
-                <li>C#</li>
-              </ul>
-            </div>
-            <div className="col-md-6">
-              <h3 className="font-weight-bold" style={{ textAlign: 'left' }}>Amazon Web Services (AWS)</h3>
-              <ul className="list-unstyled" style={{ textAlign: 'left' }}>
-                <li>SQS</li>
-                <li>CloudWatch</li>
-                <li>S3</li>
-                <li>Lambda</li>
-                <li>CodePipeline</li>
-              </ul>
-            </div>
-            <div className="col-md-6">
-              <h3 className="font-weight-bold" style={{ textAlign: 'left' }}>Database Management Systems (DMS)</h3>
-              <ul className="list-unstyled" style={{ textAlign: 'left' }}>
-                <li>MySQL</li>
-                <li>Microsoft SQL Server (MSSQL)</li>
-              </ul>
-            </div>
-            <div className="col-md-6">
-              <h3 className="font-weight-bold" style={{ textAlign: 'left' }}>Automation Testing</h3>
-              <ul className="list-unstyled" style={{ textAlign: 'left' }}>
-                <li>Cypress</li>
-                <li>Selenium WebDriver</li>
-              </ul>
-            </div>
-          </div>
+          ))}
         </div>
+
         <div className="row wow fadeIn">
           <div id="carousel-tool-1z" className="carousel slide carousel-fade" data-ride="carousel">
             <ol className="carousel-indicators">
@@ -66,7 +37,7 @@ const Skills = () => {
                 <div className="view">
                   <div className="mask rgba-black-light d-flex justify-content-center align-items-center">
                     <div className="col-xs-6 col-sm-3 col-md-3">
-                      <div className="image-flip" ontouchstart="this.classList.toggle('hover');">
+                    <div className={`image-flip ${isFlipped ? 'hover' : ''}`} onTouchStart={handleTouchStart}>
                         <div className="mainflip">
                           <div className="frontside">
                             <div className="card">
@@ -95,7 +66,7 @@ const Skills = () => {
                       </div>
                     </div>
                     <div className="col-xs-6 col-sm-3 col-md-3">
-                      <div className="image-flip" ontouchstart="this.classList.toggle('hover');">
+                      <div className={`image-flip ${isFlipped ? 'hover' : ''}`} onTouchStart={handleTouchStart}>
                         <div className="mainflip">
                           <div className="frontside">
                             <div className="card">
@@ -124,7 +95,7 @@ const Skills = () => {
                       </div>
                     </div>
                     <div className="col-xs-6 col-sm-3 col-md-3">
-                      <div className="image-flip" ontouchstart="this.classList.toggle('hover');">
+                      <div className={`image-flip ${isFlipped ? 'hover' : ''}`} onTouchStart={handleTouchStart}>
                         <div className="mainflip">
                           <div className="frontside">
                             <div className="card">
@@ -162,7 +133,7 @@ const Skills = () => {
                 <div className="view">
                   <div className="mask rgba-black-light d-flex justify-content-center align-items-center">
                     <div className="col-xs-6 col-sm-3 col-md-3">
-                      <div className="image-flip" ontouchstart="this.classList.toggle('hover');">
+                      <div className={`image-flip ${isFlipped ? 'hover' : ''}`} onTouchStart={handleTouchStart}>
                         <div className="mainflip">
                           <div className="frontside">
                             <div className="card">
@@ -191,7 +162,7 @@ const Skills = () => {
                       </div>
                     </div>
                     <div className="col-xs-6 col-sm-3 col-md-3">
-                      <div className="image-flip" ontouchstart="this.classList.toggle('hover');">
+                      <div className={`image-flip ${isFlipped ? 'hover' : ''}`} onTouchStart={handleTouchStart}>
                         <div className="mainflip">
                           <div className="frontside">
                             <div className="card">
@@ -220,7 +191,7 @@ const Skills = () => {
                       </div>
                     </div>
                     <div className="col-xs-6 col-sm-3 col-md-3">
-                      <div className="image-flip" ontouchstart="this.classList.toggle('hover');">
+                      <div className={`image-flip ${isFlipped ? 'hover' : ''}`} onTouchStart={handleTouchStart}>
                         <div className="mainflip">
                           <div className="frontside">
                             <div className="card">
@@ -249,7 +220,7 @@ const Skills = () => {
                       </div>
                     </div>
                     <div className="col-xs-6 col-sm-3 col-md-3">
-                      <div className="image-flip" ontouchstart="this.classList.toggle('hover');">
+                      <div className={`image-flip ${isFlipped ? 'hover' : ''}`} onTouchStart={handleTouchStart}>
                         <div className="mainflip">
                           <div className="frontside">
                             <div className="card">
@@ -287,7 +258,7 @@ const Skills = () => {
                 <div className="view">
                   <div className="mask rgba-black-light d-flex justify-content-center align-items-center">
                     <div className="col-xs-6 col-sm-3 col-md-3">
-                      <div className="image-flip" ontouchstart="this.classList.toggle('hover');">
+                      <div className={`image-flip ${isFlipped ? 'hover' : ''}`} onTouchStart={handleTouchStart}>
                         <div className="mainflip">
                           <div className="frontside">
                             <div className="card">
@@ -316,7 +287,7 @@ const Skills = () => {
                       </div>
                     </div>
                     <div className="col-xs-6 col-sm-3 col-md-3">
-                      <div className="image-flip" ontouchstart="this.classList.toggle('hover');">
+                      <div className={`image-flip ${isFlipped ? 'hover' : ''}`} onTouchStart={handleTouchStart}>
                         <div className="mainflip">
                           <div className="frontside">
                             <div className="card">
@@ -345,7 +316,7 @@ const Skills = () => {
                       </div>
                     </div>
                     <div className="col-xs-6 col-sm-3 col-md-3">
-                      <div className="image-flip" ontouchstart="this.classList.toggle('hover');">
+                      <div className={`image-flip ${isFlipped ? 'hover' : ''}`} onTouchStart={handleTouchStart}>
                         <div className="mainflip">
                           <div className="frontside">
                             <div className="card">
@@ -374,7 +345,7 @@ const Skills = () => {
                       </div>
                     </div>
                     <div className="col-xs-6 col-sm-3 col-md-3">
-                      <div className="image-flip" ontouchstart="this.classList.toggle('hover');">
+                      <div className={`image-flip ${isFlipped ? 'hover' : ''}`} onTouchStart={handleTouchStart}>
                         <div className="mainflip">
                           <div className="frontside">
                             <div className="card">
