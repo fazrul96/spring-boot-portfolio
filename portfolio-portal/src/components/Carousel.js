@@ -12,7 +12,7 @@ const Carousel = () => {
         {/* First slide */}
         <div className="carousel-item active">
           {/* <img src="https://mdbcdn.b-cdn.net/img/new/slides/041.webp" className="d-block w-100" alt="Wild Landscape"/> */}
-          <video className="video-intro" autoplay loop muted>
+          <video className="video-intro" autoPlay loop muted>
             <source src="https://mdbootstrap.com/img/video/Tropical.mp4" type="video/mp4"/>
           </video>
           <div className="carousel-caption d-none d-md-block">
@@ -23,7 +23,7 @@ const Carousel = () => {
         {/* ... Add Second slides */}
         <div className="carousel-item">
           <div className="view">
-            <video className="video-intro" autoplay loop muted>
+            <video className="video-intro" autoPlay loop muted>
               <source src="https://mdbootstrap.com/img/video/forest.mp4" type="video/mp4"/>
             </video>
             {/* <div className="mask rgba-black-light d-flex justify-content-center align-items-center">

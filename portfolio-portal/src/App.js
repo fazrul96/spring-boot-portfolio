@@ -3,33 +3,41 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Carousel from './components/Carousel';
 import Footer from './components/Footer';
-import Portfolio from './components/section/Portfolio'; // Fixed typo in import statement
+import Portfolio from './components/section/Portfolio';
 import Project from './components/section/Project';
 import Experience from './components/section/Experience';
 import Education from './components/section/Education';
 import Certification from './components/section/Certification';
-import Skills from './components/section/Skill'; // Fixed typo in import statement
+import Skills from './components/section/Skill';
 import Contact from './components/section/Contact';
-import { fetchExperiences, fetchEducations, fetchProjects} from './services/ApiServices';
-function App() {
+import ApiService from './hooks/ApiService';
+
+const App = () => {
   const [experiences, setExperiences] = useState([]);
   const [educations, setEducations] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [skills, setSkills] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
       try {
-        const experiencesData = await fetchExperiences();
-        const educationsData = await fetchEducations();
-        const projectsData = await fetchProjects();
+        const apiService = new ApiService(process.env.REACT_APP_BASE_URL);
+
+        const experiencesData = await apiService.fetchExperiences();
+        const educationsData = await apiService.fetchEducations();
+        const projectsData = await apiService.fetchProjects();
+        const skillsData = await apiService.fetchSkills();
 
         setExperiences(experiencesData);
         setEducations(educationsData);
         setProjects(projectsData);
+        setSkills(skillsData);
       } catch (error) {
-        console.error('Error fetching experiences:', error);
+        console.error('Error fetching data:', error);
+        setError(error);
       }
-    }
+    };
 
     fetchData();
   }, []);
@@ -46,14 +54,15 @@ function App() {
           <Experience experiences={experiences} />
           <Education educations={educations} />
           <Certification />
-          <Skills />
+          <Skills skills={skills} />
+          {error && <p className="error-message">Error fetching data: {error.message}</p>}
           <Contact />
         </div>
       </main>
-      
+
       <Footer />
     </div>
   );
-}
+};
 
 export default App;

@@ -24,10 +24,10 @@ const Project = ({ projects }) => {
         <h1 className="text-center" style={{ fontWeight: 'bold', fontSize: 100 }}>Projects</h1>
         <div className="project-list">
           <div className="row mb-4">
-            {projects.map((project) => (
-                <article className="col-4 col-xs-12 work-item">
+            {projects.map((project, index) => (
+                <article className="col-4 col-xs-12 work-item" key={index}>
                   <div className="card">
-                    <div key={project.id} className="project-item">
+                    <div className="project-item">
                       <img src={project.img} alt={project.description} className="card-img-top" />
                       <div className="card-body" style={{ height: 200 }}>
                         <h5 className="card-title">
@@ -48,8 +48,8 @@ const Project = ({ projects }) => {
             <div className="col-12">
               <h3 className="text-center font-weight-bold mt-5">Preview</h3>
             </div>
-            {videoProjects.map((project) => (
-              <div className="col-12 d-flex justify-content-center align-items-center">
+            {videoProjects.map((project, index) => (
+              <div className="col-12 d-flex justify-content-center align-items-center" key={index}>
                 <video controls width="480" height="270" loop>
                   <source src={project.path} type="video/mp4" />
                   Your browser does not support the video tag.

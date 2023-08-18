@@ -7,8 +7,8 @@ const Education = ({ educations }) => {
       <section id="education">
         <h1 className="text-center" style={{ fontWeight: 'bold', fontSize: 100 }}>Education</h1>
         <div className="row">
-          {educations.map((education) => (
-            <div className="col-md-12" key={education.id}>
+          {educations.map((education, index) => (
+            <div className="col-md-12" key={index}>
               <article className="work-item">
                 <ul>
                   <li style={{ textAlign: 'left' }}>

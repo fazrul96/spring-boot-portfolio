@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const Certification = () => {
+const Certification = ({ certifications }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleTouchStart = () => {
+    setIsFlipped(!isFlipped);
+  };
+
   return (
     <div>
       <hr className="mb-3" />
@@ -20,7 +26,7 @@ const Certification = () => {
                 <div className="view">
                   <div className="mask rgba-black-light d-flex justify-content-center align-items-center">
                     <div className="col-xs-12 col-sm-6 col-md-6">
-                      <div className="image-flip" ontouchstart="this.classList.toggle('hover');">
+                      <div className={`image-flip ${isFlipped ? 'hover' : ''}`} onTouchStart={handleTouchStart}>
                         <div className="mainflip">
                           <div className="frontside">
                             <div className="card">
@@ -52,7 +58,7 @@ const Certification = () => {
                       </div>
                     </div>
                     <div className="col-xs-12 col-sm-6 col-md-6">
-                      <div className="image-flip" ontouchstart="this.classList.toggle('hover');">
+                    <div className={`image-flip ${isFlipped ? 'hover' : ''}`} onTouchStart={handleTouchStart}>
                         <div className="mainflip">
                           <div className="frontside">
                             <div className="card">

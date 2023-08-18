@@ -1,4 +1,5 @@
 import React from 'react';
+import resume from '../../../src/assets/img/resume.png';
 
 const Portfolio = () => {
   return (
@@ -36,8 +37,8 @@ const Portfolio = () => {
               </button>
             </div>
             <div className="modal-body">
-              <p><a href="images/resume.PNG" download="FazrulRomli">Download Resume</a></p>
-              <img className="img-fluid" src="images/resume.PNG" alt="Resume" />
+              <p><a href={resume} download="FazrulRomli">Download Resume</a></p>
+              <img className="img-fluid" src={resume} alt="Resume" />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
