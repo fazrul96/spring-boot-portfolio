@@ -1,30 +1,31 @@
 import React from 'react';
 import resume from '../../../src/assets/img/resume.png';
+import {Col, Container, Image, Row} from 'react-bootstrap';
 
 const Portfolio = () => {
   return (
-    <section id="portfolio">
-      <div className="container">
-        <div className="text-center">
-          <h1 className="font-weight-bold">Hello, I'm Fazrul Romli</h1>
-          <p>Welcome to my Portfolio Page</p>
-        </div>
-        <div className="row">
-          <div className="col-md-8 offset-md-2">
-            <p className="text-justify">
-              This portfolio showcases my skills and accomplishments as a Software Developer. With 4+ years of experience, I specialize in Laravel framework and enjoy working on web development projects. I'm constantly updating and improving my projects for future reference.
+    <Container>
+      <hr className="mb-3" />
+      <section id="portfolio" className="portfolio-section">
+      <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>About</h1>
+        <p className="portfolio-subheading">Welcome to my Portfolio Page</p>
+        <p className="portfolio-description">
+          I am a Software Developer with 4+ years of experience, specializing in the Laravel framework and web development projects. I constantly update and improve my projects for future reference.
+          As a highly skilled and innovative professional, I excel at prioritizing tasks, resolving technical issues, and delivering exceptional results. Feel free to explore my project collection and contact me if you have any questions or need assistance.
+        </p>
+      <Row>
+          <Col xs={6} md={4}>
+              <Image src="cypress-mochasome.png" thumbnail/>
+              {/* <Image src="cypress-mochasome.png" style={{width: '350px', height: '200px', objectFit: 'scale-down'}}/> */}
+          </Col>
+          <Col xs={6} md={4}>
+            <p className="portfolio-description">
+              I am a Software Developer with 4+ years of experience, specializing in the Laravel framework and web development projects. I constantly update and improve my projects for future reference.
+              As a highly skilled and innovative professional, I excel at prioritizing tasks, resolving technical issues, and delivering exceptional results. Feel free to explore my project collection and contact me if you have any questions or need assistance.
             </p>
-            <p className="text-justify">
-              I'm a highly skilled and innovative web design and development professional. I excel at prioritizing tasks, resolving technical issues, and delivering exceptional results. Feel free to explore my project collection and contact me if you have any questions or need assistance.
-            </p>
-            <ul className="actions justify-content-center">
-              <li style={{ textAlign: 'left' }}>
-                <a className="button" data-toggle="modal" data-target="#resume">Learn More</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+          </Col>
+      </Row>
+      <a className="portfolio-button" data-toggle="modal" data-target="#resume">Learn More</a>
 
       {/* Resume Modal */}
       <div className="modal fade" id="resume" tabIndex="-1" role="dialog">
@@ -37,8 +38,10 @@ const Portfolio = () => {
               </button>
             </div>
             <div className="modal-body">
-              <p><a href={resume} download="FazrulRomli">Download Resume</a></p>
-              <img className="img-fluid" src={resume} alt="Resume" />
+              <p className="resume-download">
+                <a href={resume} download="FazrulRomliResume.pdf">Download Resume</a>
+              </p>
+              <img className="img-fluid resume-image" src={resume} alt="Resume" />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -46,7 +49,8 @@ const Portfolio = () => {
           </div>
         </div>
       </div>
-    </section>
+      </section>
+    </Container>
   );
 };
 

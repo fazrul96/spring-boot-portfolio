@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Col, Container, Row, Image} from 'react-bootstrap';
 
 const Certification = ({ certifications }) => {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -8,10 +9,11 @@ const Certification = ({ certifications }) => {
   };
 
   return (
-    <div>
+    <Container>
       <hr className="mb-3" />
       <section id="certification">
-        <h1 className="text-center" style={{ fontWeight: 'bold', fontSize: 100 }}>Certification</h1>
+      <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>Certification</h1>
+      <p className="certification-subheading">Here are my certifications</p>
         <div className="row wow fadeIn">
           <div id="carousel-tool-1z" className="carousel slide carousel-fade" data-ride="carousel">
             {/* Indicators */}
@@ -36,7 +38,7 @@ const Certification = ({ certifications }) => {
                                   <a href={certification.reference}>{certification.title}</a>
                                 </div>
                                 <div className="card-body text-center">
-                                  <img src={certification.logo} alt={certification.name} className="card-img-top" />
+                                  <Image src={certification.logo} alt={certification.name} style={{width: '250px', height: '200px', objectFit: 'scale-down'}}/>
                                   <p className="card-text text-muted">{certification.name}</p>
                                   <p className="card-text text-muted">Issued: {certification.issued_date}</p>
                                   <p className="card-text text-muted">Credential ID: {certification.cred_id}</p>
@@ -80,7 +82,7 @@ const Certification = ({ certifications }) => {
           </div>
         </div>
       </section>
-    </div>
+    </Container>
   );
 };
 

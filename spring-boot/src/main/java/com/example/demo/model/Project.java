@@ -1,5 +1,6 @@
 package com.example.demo.models;
 
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Project {
@@ -23,7 +24,10 @@ public class Project {
     @JsonProperty("footer")
     private String footer;
 
-    public Project(int id, String title, String description, String status, String reference, String img, String footer) {
+    @JsonProperty("items")
+    private List<ProjectItem> items;
+
+    public Project(int id, String title, String description, String status, String reference, String img, String footer, List<ProjectItem> items) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -31,9 +35,9 @@ public class Project {
         this.reference = reference;
         this.img = img;
         this.footer = footer;
+        this.items = items;
     }
 
-    // Getters and setters
     public int getId() {
         return id;
     }
