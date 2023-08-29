@@ -1,6 +1,17 @@
 import React from 'react';
 
 const Navbar = () => {
+  const navLinks = [
+    { href: '#', text: 'Home' },
+    { href: '#portfolio', text: 'Portfolio' },
+    { href: '#project', text: 'Project' },
+    { href: '#experience', text: 'Experience' },
+    { href: '#education', text: 'Education' },
+    { href: '#certification', text: 'Certification' },
+    { href: '#skills', text: 'Skills' },
+    { href: '#contact', text: 'Contact' }
+  ];
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
       <div className="container">
@@ -10,33 +21,15 @@ const Navbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <a className="nav-link" href="#">Home</a>
+        <ul className="navbar-nav mr-auto">
+          {navLinks.map((link, index) => (
+            <li className="nav-item" key={index}>
+              <a className="nav-link" href={link.href}>
+                {link.text}
+              </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#portfolio">Portfolio</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#project">Project</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#experience">Experience</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#education">Education</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#certification">Certification</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#skills">Skills</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#contact">Contact</a>
-            </li>
-          </ul>
-    
+          ))}
+        </ul>
           <ul className="navbar-nav">
             <li className="nav-item">
               <a href="https://www.linkedin.com/in/fazrul-romli-79138415b/" className="nav-link" target="_blank">

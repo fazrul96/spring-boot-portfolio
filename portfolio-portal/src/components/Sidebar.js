@@ -2,7 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Image } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faBriefcase, faFileAlt, faChartLine, faGraduationCap, faCertificate, faTools, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { 
+  faHome, 
+  faBriefcase, 
+  faFileAlt, 
+  faChartLine, 
+  faGraduationCap, 
+  faCertificate, 
+  faTools, 
+  faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = () => {
   const circularImageStyle = {
@@ -11,6 +19,17 @@ const Sidebar = () => {
     objectFit: 'cover', // To ensure the image covers the entire circle
     borderRadius: '50%', // To make it a circle
   };
+
+  const navLinks = [
+    { to: '#', icon: faHome, text: 'Home' },
+    { to: '#portfolio', icon: faFileAlt, text: 'Portfolio' },
+    { to: '#projects', icon: faBriefcase, text: 'Project' },
+    { to: '#experiences', icon: faChartLine, text: 'Experience' },
+    { to: '#educations', icon: faGraduationCap, text: 'Education' },
+    { to: '#certifications', icon: faCertificate, text: 'Certification' },
+    { to: '#Skills', icon: faTools, text: 'Skill' },
+    { to: '#contacts', icon: faEnvelope, text: 'Contact' }
+  ];
 
   return (
     <nav id="sidebar">
@@ -23,54 +42,14 @@ const Sidebar = () => {
         <h1>Fazrul Romli</h1>
       </div>
       <ul className="list-unstyled components">
-        <li className="nav-item">
-          <Link className="nav-link" to="#">
-            <FontAwesomeIcon icon={faHome} className="mr-2" />
-            Home
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="#portfolio">
-            <FontAwesomeIcon icon={faFileAlt} className="mr-2" />
-            Portfolio
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="#projects">
-            <FontAwesomeIcon icon={faBriefcase} className="mr-2" />
-            Project
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="#experiences">
-            <FontAwesomeIcon icon={faChartLine} className="mr-2" />
-            Experience
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="#educations">
-            <FontAwesomeIcon icon={faGraduationCap} className="mr-2" />
-            Education
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="#certifications">
-            <FontAwesomeIcon icon={faCertificate} className="mr-2" />
-            Certification
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="#Skills">
-            <FontAwesomeIcon icon={faTools} className="mr-2" />
-            Skill
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="#contacts">
-            <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
-            Contact
-          </Link>
-        </li>
+        {navLinks.map((link, index) => (
+          <li className="nav-item" key={index}>
+            <Link className="nav-link" to={link.to}>
+              <FontAwesomeIcon icon={link.icon} className="mr-2" />
+              {link.text}
+            </Link>
+          </li>
+        ))}
       </ul>
       <div className="social-media text-center mt-4">
         <a href="https://www.linkedin.com/your-linkedin-profile" target="_blank" rel="noopener noreferrer">
