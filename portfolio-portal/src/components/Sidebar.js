@@ -1,6 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Image } from 'react-bootstrap';
+
+import {
+  CDBSidebar,
+  CDBSidebarHeader,
+  CDBSidebarMenuItem,
+  CDBSidebarSubMenu,
+  CDBSidebarContent,
+  CDBSidebarMenu,
+  CDBSidebarFooter,
+  CDBBadge,
+  CDBIcon,
+} from 'cdbreact';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faHome, 
@@ -10,7 +21,11 @@ import {
   faGraduationCap, 
   faCertificate, 
   faTools, 
-  faEnvelope } from '@fortawesome/free-solid-svg-icons';
+  faEnvelope, 
+  faPaperPlane
+} from '@fortawesome/free-solid-svg-icons';
+
+import { Image } from 'react-bootstrap';
 
 const Sidebar = () => {
   const circularImageStyle = {
@@ -20,37 +35,62 @@ const Sidebar = () => {
     borderRadius: '50%', // To make it a circle
   };
 
-  const navLinks = [
-    { to: '#', icon: faHome, text: 'Home' },
-    { to: '#portfolio', icon: faFileAlt, text: 'Portfolio' },
-    { to: '#projects', icon: faBriefcase, text: 'Project' },
-    { to: '#experiences', icon: faChartLine, text: 'Experience' },
-    { to: '#educations', icon: faGraduationCap, text: 'Education' },
-    { to: '#certifications', icon: faCertificate, text: 'Certification' },
-    { to: '#Skills', icon: faTools, text: 'Skill' },
-    { to: '#contacts', icon: faEnvelope, text: 'Contact' }
+  const menuItems = [
+    { to: '#portfolio', icon: "th-large", text: "Dashboard", hasBadge: true, badgeValue: 6, type: "menu"},
+    { to: '#projects', icon: faBriefcase, text: "Project", iconType: "solid", type: "submenu" },
+    { to: '#experiences', icon: faFileAlt, text: "Experience", iconType: "solid", type: "submenu" },
+    { to: '#educations', icon: faGraduationCap, text: "Education", iconType: "solid", type: "submenu" },
+    { to: '#certifications', icon: faCertificate, text: "Certification", iconType: "solid", type: "submenu" },
+    { to: '#skills', icon: faTools, text: "Skill", iconType: "solid", type: "submenu" },
+    { to: '#contacts', icon: faEnvelope, text: "Contact", iconType: "solid", type: "submenu" },
+    { 
+      href: 'http://localhost:8080/swagger-ui/index.html', 
+      icon: "th-large", 
+      text: 'OpenAPI', 
+      target: '_blank',
+      type: "menu"
+    },
+    { 
+      href: 'http://localhost:8080/swagger-ui/index.html', 
+      icon: "th-large", 
+      text: 'Article', 
+      target: '_blank', hasBadge: true, badgeValue: 1, type: "menu"
+    }
   ];
 
   return (
-    <nav id="sidebar">
-      <div className="sidebar-header text-center">
-        <div className="logo-container">
-          <Image src="cypress-mochasome.png" roundedCircle style={circularImageStyle} />
+    <CDBSidebar textColor="#fff" backgroundColor="#333">
+      <CDBSidebarHeader prefix={<CDBIcon icon="bars" size="lg" />}>
+        <div className="container" style={{ display: 'flex', alignItems: 'center' }}>
+          <Image 
+          src="https://seeklogo.com/images/B/butterfly-logo-0A00378822-seeklogo.com.png"
+          alt="logo"
+          style={{ width: '30px' }} />
+          {/* <Image src="cypress-mochasome.png" roundedCircle style={circularImageStyle} /> */}
+          <h6 className="ms-2">Fazrul Romli ™</h6>
         </div>
-      </div>
-      <div className="sidebar text-center">
-        <h1>Fazrul Romli</h1>
-      </div>
-      <ul className="list-unstyled components">
-        {navLinks.map((link, index) => (
-          <li className="nav-item" key={index}>
-            <Link className="nav-link" to={link.to}>
-              <FontAwesomeIcon icon={link.icon} className="mr-2" />
-              {link.text}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      </CDBSidebarHeader>
+      
+      <CDBSidebarContent>
+        <CDBSidebarMenu>
+          {menuItems.map((menuItem, index) => (
+            <CDBSidebarMenuItem
+            key={index}
+            to={menuItem.to}
+            target={menuItem.target || '_self'}
+            icon={menuItem.icon}
+            iconType={menuItem.iconType || "regular"}
+            suffix={menuItem.hasBadge ? <CDBBadge color="danger" size="medium" borderType="pill">{menuItem.badgeValue}</CDBBadge> : null}
+            >
+              {menuItem.type === 'submenu' && (
+                <FontAwesomeIcon icon={menuItem.icon} className="mr-2" />
+              )}
+
+              {menuItem.text}
+            </CDBSidebarMenuItem>
+          ))}
+        </CDBSidebarMenu>
+      </CDBSidebarContent>
       <div className="social-media text-center mt-4">
         <a href="https://www.linkedin.com/your-linkedin-profile" target="_blank" rel="noopener noreferrer">
           <i className="fab fa-linkedin fa-2x mr-3"></i>
@@ -59,10 +99,15 @@ const Sidebar = () => {
           <i className="fab fa-twitter fa-2x"></i>
         </a>
       </div>
-      <div className="sidebar-footer text-center mt-4">
-        <p>&copy;  Copyright Fazrul Romli @ 2023. All rights reserved.</p>
-      </div>
-    </nav>
+      <CDBSidebarFooter style={{ textAlign: 'center' }}>
+        <div
+          className="sidebar-btn-wrapper"
+          style={{ padding: '20px 5px'}}
+        >
+          Copyright Fazrul Romli @ 2023. All rights reserved.
+        </div>
+      </CDBSidebarFooter>
+    </CDBSidebar>
   );
 };
 

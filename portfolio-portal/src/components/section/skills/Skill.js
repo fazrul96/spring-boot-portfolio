@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import {Col, Container, Image, Row, Carousel} from 'react-bootstrap';
+import { Container, Carousel } from 'react-bootstrap';
+import SkillLists from '../../../components/section/skills/SkillLists';
 
 const Skills = ({ skills }) => {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -14,16 +15,7 @@ const Skills = ({ skills }) => {
       <section id="skills">
         <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>Skill</h1>
         <p className="skills-subheading">Here are some of the tools and technologies I have experience with:</p>
-        <Row>
-          {skills.map((skill, index) => (
-            <Col md={12} key={index}>
-              <h3 className="font-weight-bold" style={{ textAlign: 'left' }}>{skill.title}</h3>
-                <ul className="list-unstyled" style={{ textAlign: 'left' }}>
-                  {skill.name}
-                </ul>
-            </Col>
-          ))}
-        </Row>
+        <SkillLists skills={ skills }/>
         <hr className="mb-3" />
         <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>Tool</h1>
         <Carousel>
