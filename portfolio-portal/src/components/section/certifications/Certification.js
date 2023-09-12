@@ -10,7 +10,6 @@ const Certification = ({ certifications }) => {
 
   return (
     <Container>
-      <hr className="mb-3" />
       <section id="certification">
       <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>Certification</h1>
       <p className="certification-subheading">Here are my certifications</p>
@@ -82,6 +81,7 @@ const Certification = ({ certifications }) => {
           </div>
         </div>
       </section>
+      <hr className="mb-3" />
     </Container>
   );
 };

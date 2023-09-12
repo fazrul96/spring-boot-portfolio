@@ -4,14 +4,13 @@ import {Col, Container, Row, Image} from 'react-bootstrap';
 const Contact = () => {
   return (
     <Container>
-      <hr className="mb-3" />
       <section id="contact">
         <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>Contact</h1>
         <p className="contact-subheading">If you have any inquiries, please feel free to contact me:</p>
         <div className="row justify-content-center">
           <div className="col-md-4">
             <div className="card text-center">
-              <div className="card-body">
+              <div className="card-body" style={{ height: '250px' }}>
                 <i className="fas fa-map-marker-alt fa-5x mb-4"></i>
                 <h5 className="card-title">Location</h5>
                 <p className="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
@@ -20,7 +19,7 @@ const Contact = () => {
           </div>
           <div className="col-md-4">
             <div className="card text-center">
-              <div className="card-body">
+              <div className="card-body" style={{ height: '250px' }}>
                 <i className="fas fa-envelope fa-5x mb-4"></i>
                 <h5 className="card-title">Email</h5>
                 <p className="card-text">For any inquiries, send an email to:</p>
@@ -30,7 +29,7 @@ const Contact = () => {
           </div>
           <div className="col-md-4">
             <div className="card text-center">
-              <div className="card-body">
+              <div className="card-body" style={{ height: '250px' }}>
                 <i className="fas fa-comments fa-5x mb-4"></i>
                 <h5 className="card-title">Social Media</h5>
                 <p className="card-text">Connect with me on social media:</p>
@@ -50,6 +49,7 @@ const Contact = () => {
           </div>
         </div>
       </section>
+      <hr className="mb-3" />
     </Container>
   );
 };

@@ -61,14 +61,14 @@ const SwiperElements = ({projects}) => {
                 <SwiperSlide key={index}>
                     <Card>
                         <div className="project-item">
-                        <Card.Img
+                        {/* <Card.Img
                             className="card-img-top"
                             variant="top"
                             src={project.img}
                             alt={project.description}
-                            style={{ width: '350px', height: '200px', objectFit: 'scale-down' }}
-                        />
-                        <Card.Body>
+                            style={{objectFit: 'scale-down' }}
+                        /> */}
+                        <Card.Body style={{ height: '200px' }}>
                             <Card.Title>
                             <a href={project.reference} target="_blank" rel="noopener noreferrer">
                                 {project.title}

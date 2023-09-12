@@ -66,7 +66,7 @@ const Sidebar = () => {
           src="https://seeklogo.com/images/B/butterfly-logo-0A00378822-seeklogo.com.png"
           alt="logo"
           style={{ width: '30px' }} />
-          {/* <Image src="cypress-mochasome.png" roundedCircle style={circularImageStyle} /> */}
+          {/* <Image src={cypressImage} roundedCircle style={circularImageStyle} /> */}
           <h6 className="ms-2">Fazrul Romli ™</h6>
         </div>
       </CDBSidebarHeader>

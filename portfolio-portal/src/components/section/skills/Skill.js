@@ -11,7 +11,6 @@ const Skills = ({ skills }) => {
 
   return (
     <Container>
-      <hr className="mb-3" />
       <section id="skills">
         <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>Skill</h1>
         <p className="skills-subheading">Here are some of the tools and technologies I have experience with:</p>
@@ -253,6 +252,7 @@ const Skills = ({ skills }) => {
           </Carousel.Item>
         </Carousel>
       </section>
+      <hr className="mb-3" />
     </Container>
   );
 };

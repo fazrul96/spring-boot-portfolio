@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+
 import './App.css';
+
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Carousel from './components/Carousel';
@@ -53,14 +55,12 @@ const App = () => {
     <Router>
       <Container fluid>
         <Row>
-          <Col md={2}>
+          <Col md={2} className="p-0">
             <Sidebar />
           </Col>
-          <Col md={10}>
-            <main>
+          <Col md={10} className="p-0">
+              {/* <Swiper /> */}
               {/* <Carousel /> */}
-              <Swiper />
-
               <Portfolio />
               <Project projects={projects} id="projects" />
               <Experience experiences={experiences} id="experiences" />
@@ -69,8 +69,6 @@ const App = () => {
               <Skills skills={skills} id="skills"/>
               {error && <p className="error-message">Error fetching data: {error.message}</p>}
               <Contact />
-            </main>
-            <Footer />
           </Col>
         </Row>
       </Container>

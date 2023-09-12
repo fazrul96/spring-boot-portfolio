@@ -1,4 +1,5 @@
 import {Col, Container, Image, Row} from 'react-bootstrap';
+import cypressImage from '../../../assets/img/cypress-mochasome.png';
 
 function Shape() {
     const circularImageStyle = {
@@ -15,10 +16,10 @@ function Shape() {
                 <Image src="logo192.png" rounded style={circularImageStyle} />
             </Col>
             <Col xs={6} md={4}>
-                <Image src="cypress-mochasome.png" roundedCircle style={circularImageStyle} />
+                <Image src={cypressImage} roundedCircle style={circularImageStyle} />
             </Col>
             <Col xs={6} md={4}>
-                <Image src="cypress-mochasome.png" thumbnail />
+                <Image src={cypressImage} thumbnail />
             </Col>
         </Row>
   </Container>
