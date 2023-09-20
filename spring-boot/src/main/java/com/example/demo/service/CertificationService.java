@@ -1,6 +1,6 @@
-package com.example.demo.services;
+package com.example.demo.service;
 
-import com.example.demo.models.Certification;
+import com.example.demo.model.Certification;
 
 import java.util.List;
 

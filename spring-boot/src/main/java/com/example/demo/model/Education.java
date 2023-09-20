@@ -1,16 +1,16 @@
-package com.example.demo.models;
+package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Education {
     private int id;
-    
+
     @JsonProperty("name")
     private String name;
-    
+
     @JsonProperty("module")
     private String module;
-    
+
     @JsonProperty("year")
     private String year;
 

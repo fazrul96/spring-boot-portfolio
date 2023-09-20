@@ -1,6 +1,6 @@
-package com.example.demo.services;
+package com.example.demo.service;
 
-import com.example.demo.models.Education;
+import com.example.demo.model.Education;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,17 +18,17 @@ public class EducationServiceImpl implements EducationService {
         List<Education> educations = new ArrayList<>();
 
         String[][] educationData = {
-            {
-                "National University of Malaysia (UKM)",
-                "Bachelor of Software Engineering (Information Systems)",
-                "2015 - 2019"
-            },
-            {
-                "Another University",
-                "Another Degree",
-                "Start Year - End Year"
-            }
-            // Add more education data here if needed
+                {
+                        "National University of Malaysia (UKM)",
+                        "Bachelor of Software Engineering (Information Systems)",
+                        "2015 - 2019"
+                },
+                {
+                        "Another University",
+                        "Another Degree",
+                        "Start Year - End Year"
+                }
+                // Add more education data here if needed
         };
 
         // Loop through the education data and create Education instances

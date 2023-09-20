@@ -1,6 +1,6 @@
-package com.example.demo.services;
+package com.example.demo.service;
 
-import com.example.demo.models.Project;
+import com.example.demo.model.Project;
 
 import java.util.List;
 

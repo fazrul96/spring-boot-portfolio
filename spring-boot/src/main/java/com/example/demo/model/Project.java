@@ -1,33 +1,34 @@
-package com.example.demo.models;
+package com.example.demo.model;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Project {
     private int id;
-    
+
     @JsonProperty("title")
     private String title;
-    
+
     @JsonProperty("description")
     private String description;
-    
+
     @JsonProperty("status")
     private String status;
-    
+
     @JsonProperty("reference")
     private String reference;
-    
+
     @JsonProperty("img")
     private String img;
-    
+
     @JsonProperty("footer")
     private String footer;
 
     @JsonProperty("items")
     private List<ProjectItem> items;
 
-    public Project(int id, String title, String description, String status, String reference, String img, String footer, List<ProjectItem> items) {
+    public Project(int id, String title, String description, String status, String reference, String img, String footer,
+            List<ProjectItem> items) {
         this.id = id;
         this.title = title;
         this.description = description;

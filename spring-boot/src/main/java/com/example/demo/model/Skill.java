@@ -1,10 +1,10 @@
-package com.example.demo.models;
+package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Skill {
     private int id;
-    
+
     @JsonProperty("title")
     private String title;
 

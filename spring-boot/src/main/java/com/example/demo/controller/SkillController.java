@@ -1,8 +1,8 @@
-package com.example.demo.controllers;
+package com.example.demo.controller;
 
-import com.example.demo.models.Skill;
-import com.example.demo.services.SkillService;
-import com.example.demo.services.AppConfig;
+import com.example.demo.model.Skill;
+import com.example.demo.service.SkillService;
+import com.example.demo.service.AppConfig;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

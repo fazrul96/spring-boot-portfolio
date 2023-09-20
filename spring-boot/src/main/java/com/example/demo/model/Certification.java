@@ -1,10 +1,10 @@
-package com.example.demo.models;
+package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Certification {
     private int id;
-    
+
     @JsonProperty("title")
     private String title;
 
@@ -19,11 +19,12 @@ public class Certification {
 
     @JsonProperty("reference")
     private String reference;
-    
+
     @JsonProperty("logo")
     private String logo;
 
-    public Certification(int id, String title, String name, String issued_date, String cred_id, String reference, String logo) {
+    public Certification(int id, String title, String name, String issued_date, String cred_id, String reference,
+            String logo) {
         this.id = id;
         this.title = title;
         this.name = name;

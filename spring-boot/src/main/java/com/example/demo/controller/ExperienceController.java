@@ -1,8 +1,8 @@
-package com.example.demo.controllers;
+package com.example.demo.controller;
 
-import com.example.demo.models.Experience;
-import com.example.demo.services.ExperienceService;
-import com.example.demo.services.AppConfig;
+import com.example.demo.model.Experience;
+import com.example.demo.service.ExperienceService;
+import com.example.demo.service.AppConfig;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

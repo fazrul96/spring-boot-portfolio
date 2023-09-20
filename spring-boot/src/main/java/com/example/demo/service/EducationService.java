@@ -1,6 +1,6 @@
-package com.example.demo.services;
+package com.example.demo.service;
 
-import com.example.demo.models.Education;
+import com.example.demo.model.Education;
 
 import java.util.List;
 
