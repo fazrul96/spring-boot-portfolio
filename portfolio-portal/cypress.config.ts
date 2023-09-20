@@ -101,8 +101,11 @@ const e2eSettings = {
     "cypress/e2e/**/*.js",
     "cypress/e2e/scan/*.ts",
     "cypress/e2e/**/*.feature",
-    "cypress/support/step_definitions/**/*.ts",
+    // "cypress/support/step_definitions/**/*.ts",
     "support/commands.ts"
+  ],
+  excludeSpecPattern: [
+    "cypress/support/step_definitions/**/*.ts",
   ],
   projectId: "i5qkmg",
   viewportWidth: 1440,

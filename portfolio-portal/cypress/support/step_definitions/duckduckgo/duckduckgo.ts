@@ -45,13 +45,3 @@ Given("a random Jira ID is generated", () => {
   const randomIndex = Math.floor(Math.random() * randomJiraIDs.length);
   cy.wrap(randomJiraIDs[randomIndex]).as('randomJiraID');
 });
-
-Then("a random Jira ID is generated", () => {
-  // Ensure that the random Jira ID is generated and stored
-  if (!randomJiraID) {
-    throw new Error("Random Jira ID not generated.");
-  }
-  
-  // Use the randomJiraID variable in your test, for example:
-  cy.log(`Random Jira ID: ${randomJiraID}`);
-});
