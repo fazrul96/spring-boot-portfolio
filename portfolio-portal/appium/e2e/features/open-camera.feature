@@ -1,7 +1,22 @@
-Feature: Snapshot Camera Test
+Feature: Snapshot Camera and Share
 
-@SmokeTest
-Scenario: Taking a photo and sharing it via Gmail
+Background:
   Given I am on the camera app
   When I take a photo
-  And I share it via Gmail
+
+@SmokeTest
+Scenario: Taking a photo and sharing it via file service
+  And I share it via "<fileService>"
+
+  Examples:
+  | fileService   |
+  | Gmail         |
+  | Drive         |
+
+@SanityTest
+Scenario: Taking a photo and sharing it via invalid file service
+  And I share it via "<fileService>"
+
+  Examples:
+  | fileService     |
+  | Whatsapp        |

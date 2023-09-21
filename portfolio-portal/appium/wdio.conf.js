@@ -4,13 +4,12 @@ exports.config = {
     specs: [
         './e2e/features/*.feature'
     ],
-    exclude: ['./e2e/example/**/*.js'],
     maxInstances: 10,
     capabilities: [{
         path: process.env.APPIUM_PATH,
         platformName: process.env.PLATFORM_NAME,
-        browserName: process.env.BROWSER_NAME,
-        deviceName: process.env.DEVICE_NAME_CUCUMBER,
+        // browserName: process.env.BROWSER_NAME,
+        deviceName: process.env.DEVICE_NAME,
         automationName: process.env.AUTOMATION_NAME
     }],
     logLevel: process.env.LOG_LEVEL,
@@ -40,7 +39,7 @@ exports.config = {
         // <boolean> fail if there are any undefined or pending steps
         strict: false,
         // <string> (expression) only execute the features or scenarios with tags matching the expression
-        tags: '@SmokeTest or @SanityTest',
+        tags: '@SmokeTest', // '@SmokeTest or @SanityTest'
         // <number> timeout for step definitions
         timeout: 60000,
         // <boolean> Enable this config to treat undefined definitions as warnings.

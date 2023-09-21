@@ -1,4 +1,4 @@
-import { Given, When, Then } from '@wdio/cucumber-framework';
+import { Before, After, Given, When } from '@wdio/cucumber-framework';
 // import { expect, $ } from '@wdio/globals';
 import { remote } from 'webdriverio';
 import { config } from '../../support/config';
@@ -20,16 +20,17 @@ const customWdOpts = {
 const scenario = {
     tagRememberPhotoLocations: true, // remember photo locations?
     preciseLocation: true, // true = precise, false = approximate
-    accessDevice: 1, // 0 While using the app, 1 Only this time, Default Dont allow
-    shareOption: 'gmail' // gmail, googleDrive, whatsapp
+    accessDevice: 1 // 0 While using the app, 1 Only this time, Default Dont allow
 };
 
 let driver: any, cameraPage: any;
 
-Given(/^I am on the camera app$/, async () => {
+Before(async function () {
     driver = await remote(customWdOpts);
     cameraPage = new CameraPage(driver);
+});
 
+Given(/^I am on the camera app$/, async () => {
     await driver.startActivity(customCapabilities.appPackage, customCapabilities.appActivity);
     await cameraPage.validateTitle();
     await cameraPage.clickTagCheckbox(scenario.tagRememberPhotoLocations);
@@ -40,7 +41,7 @@ When(/^I take a photo$/, async function () {
     await cameraPage.clickCaptureBtn();
 });
 
-When(/^I share it via Gmail$/, async function () {
-    await cameraPage.clickGalleryBtn(); // Assuming this leads to the share option
-    await cameraPage.clickShareGalleryBtn('gmail'); // Add parameter to your clickShareGalleryBtn method
+When(/^I share it via "([^"]*)"$/, async function (fileService: string) {
+    await cameraPage.clickGalleryBtn();
+    await cameraPage.clickShareGalleryBtn(fileService);
 });

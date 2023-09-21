@@ -85,21 +85,11 @@ class CameraPage {
         await shareGalleryBtn.click();
 
         switch (shareOption) {
-            case 'gmail':
-                const gmailBtn: any = await this.driver.$('//android.widget.TextView[@resource-id="android:id/text1" and @text="Gmail"]');
-                await gmailBtn.click();
+            case 'Gmail':
+            case 'Drive':
+                const shareBtn: any = await this.driver.$(`//android.widget.TextView[@resource-id="android:id/text1" and @text="${shareOption}"]`);
+                await shareBtn.click();
                 break;
-
-            case 'googleDrive':
-                const googleDriveBtn: any = await this.driver.$('//android.widget.TextView[@resource-id="android:id/text1" and @text="Drive"]');
-                await googleDriveBtn.click();
-                break;
-
-            case 'whatsapp':
-                const whatsappBtn: any = await this.driver.$('//android.widget.TextView[@resource-id="android:id/text1" and @text="Whatsapp"]');
-                await whatsappBtn.click();
-                break;
-
             default:
                 console.error('Invalid share option:', shareOption);
                 break;
