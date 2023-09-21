@@ -20,7 +20,11 @@ exports.config = {
     connectionRetryCount: 3,
     services: ['appium'],
     framework: 'cucumber',
-    reporters: ['spec'],
+    reporters: ['spec', ['allure', {
+        outputDir: './allure/allure-results',
+        disableWebdriverStepsReporting: false,
+        disableWebdriverScreenshotsReporting: false,
+    }]],
     cucumberOpts: {
         // <string[]> (file/dir) require files before executing features
         require: ['./support/step_definitions/*.steps.ts'],

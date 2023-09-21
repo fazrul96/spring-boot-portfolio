@@ -8,6 +8,9 @@
 # env
 .env
 
+# allure-report and allure-results
+/appium/allure
+
 # testing
 /coverage
 
