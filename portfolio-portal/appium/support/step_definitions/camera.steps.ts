@@ -1,6 +1,8 @@
 import { Before, After, Given, When } from '@wdio/cucumber-framework';
+
 // import { expect, $ } from '@wdio/globals';
 import { remote } from 'webdriverio';
+import allureReporter from '@wdio/allure-reporter';
 import { config } from '../../support/config';
 import CameraPage from '../../page-objects/cameraPage';
 
@@ -31,6 +33,8 @@ Before(async function () {
 });
 
 Given(/^I am on the camera app$/, async () => {
+    allureReporter.addStory('I am on the camera app');
+
     await driver.startActivity(customCapabilities.appPackage, customCapabilities.appActivity);
     await cameraPage.validateTitle();
     await cameraPage.clickTagCheckbox(scenario.tagRememberPhotoLocations);
@@ -38,10 +42,18 @@ Given(/^I am on the camera app$/, async () => {
 });
 
 When(/^I take a photo$/, async function () {
+    allureReporter.addStory('I take a photo');
     await cameraPage.clickCaptureBtn();
 });
 
 When(/^I share it via "([^"]*)"$/, async function (fileService: string) {
+    allureReporter.addStory('I share it via ' + fileService);
+    await cameraPage.clickCaptureBtn();
     await cameraPage.clickGalleryBtn();
     await cameraPage.clickShareGalleryBtn(fileService);
+});
+
+After(async function () {
+    allureReporter.addStory('Delete the session');
+    await driver.deleteSession();
 });
