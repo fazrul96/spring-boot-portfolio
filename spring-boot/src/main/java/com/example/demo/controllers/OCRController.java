@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping(path = "${app.apiPath}")
 public class OCRController {
     public static List<String> results = new ArrayList<>();
     public static File[] files;

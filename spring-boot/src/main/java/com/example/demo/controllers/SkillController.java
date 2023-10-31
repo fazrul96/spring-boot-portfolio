@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/getSkills")
+@RequestMapping(path = "${app.apiPath}")
 public class SkillController {
     private final SkillService skillService;
     private final AppConfig appConfig;
@@ -22,7 +22,7 @@ public class SkillController {
     }
 
     @CrossOrigin(origins = "${app.basePath}")
-    @GetMapping
+    @GetMapping(path = "getSkills")
     public List<Skill> getSkills() {
         return skillService.getSkills();
     }

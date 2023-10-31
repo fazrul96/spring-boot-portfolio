@@ -28,10 +28,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
+	// jacoco
 	testImplementation 'junit:junit:4.13.2'
 //	testImplementation 'org.testng:testng:7.1.0'
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.0.3'
+	// tesseract
 	implementation 'net.sourceforge.tess4j:tess4j:5.8.0'
+	// metrics: micrometer + prometheus
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 }
 
 configurations {

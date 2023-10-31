@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/getCertifications")
+@RequestMapping(path = "${app.apiPath}")
 public class CertificationController {
     private final CertificationService certificationService;
     private final AppConfig appConfig;
@@ -22,7 +22,7 @@ public class CertificationController {
     }
 
     @CrossOrigin(origins = "${app.basePath}")
-    @GetMapping
+    @GetMapping(path = "getCertifications")
     public List<Certification> getCertifications() {
         return certificationService.getCertifications();
     }

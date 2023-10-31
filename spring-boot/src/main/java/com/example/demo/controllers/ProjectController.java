@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/getProjects")
+@RequestMapping(path = "${app.apiPath}")
 public class ProjectController {
     private final ProjectService projectService;
     private final AppConfig appConfig;
@@ -22,7 +22,7 @@ public class ProjectController {
     }
 
     @CrossOrigin(origins = "${app.basePath}")
-    @GetMapping
+    @GetMapping(path = "getProjects")
     public List<Project> getProjects() {
         return projectService.getProjects();
     }

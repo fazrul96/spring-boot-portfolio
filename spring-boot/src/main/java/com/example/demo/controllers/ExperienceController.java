@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping(path = "${app.apiPath}")
 public class ExperienceController {
     private final ExperienceService experienceService;
     private final AppConfig appConfig;

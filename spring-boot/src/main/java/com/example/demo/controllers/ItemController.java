@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(path = "${app.apiPath}")
 public class ItemController {
     @CrossOrigin(origins = "${app.basePath}")
-    @GetMapping("/items")
+    @GetMapping("items")
     public List<Item> getItems() {
         List<Item> items = new ArrayList<>();
         items.add(new Item(1L, "Item 1"));
