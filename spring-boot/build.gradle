@@ -3,6 +3,11 @@ plugins {
 	id 'org.springframework.boot' version '3.1.2'
 	id 'io.spring.dependency-management' version '1.1.2'
 	id 'jacoco'
+//	id 'checkstyle' // enforce coding style and standards
+//	id 'com.github.spotbugs' version '5.3.0' // analysis tool for identifying potential issues
+//	id 'findbugs' // analysis tool for identifying potential issues
+//	id 'pmd' // source code analyze
+//	id 'org.sonarqube' // continuous inspection of code quality
 }
 
 group = 'com.example'
@@ -24,10 +29,15 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation 'junit:junit:4.13.2'
-	testImplementation 'org.testng:testng:7.1.0'
+//	testImplementation 'org.testng:testng:7.1.0'
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.0.3'
 	implementation 'net.sourceforge.tess4j:tess4j:5.8.0'
 }
+
+configurations {
+	all*.exclude group: 'commons-logging', module: 'commons-logging'
+}
+
 // Reference https://docs.gradle.org/current/userguide/jacoco_plugin.html
 jacoco {
 	toolVersion = "0.8.9"
@@ -35,26 +45,21 @@ jacoco {
 }
 
 test {
-	//	useJUnit()
-	finalizedBy jacocoTestReport // report is always generated after tests run
-	jacoco {
-		destinationFile = layout.buildDirectory.file('jacoco/jacocoTest.exec').get().asFile
-		classDumpDir = layout.buildDirectory.dir('jacoco/classpathdumps').get().asFile
-	}
+	finalizedBy jacocoTestReport
 }
 
 jacocoTestReport {
-	dependsOn test // tests are required to run before generating the report
 	reports {
 		xml.required = false
 		csv.required = false
-		html.outputLocation = layout.buildDirectory.dir('jacocoHtml') // Recommended
-//		html.required = true
+		html.required = true
+//		html.outputLocation = layout.buildDirectory.dir('reports/tests/test/jacocoHtml') // custom location
 	}
 }
 
 jacocoTestCoverageVerification {
 	violationRules {
+		// This rule specifies a minimum code coverage requirement of 50%.
 		rule {
 			limit {
 				minimum = 0.5
@@ -76,6 +81,5 @@ jacocoTestCoverageVerification {
 }
 
 tasks.named('test') {
-//	useJUnitPlatform()
 	finalizedBy jacocoTestReport
 }
