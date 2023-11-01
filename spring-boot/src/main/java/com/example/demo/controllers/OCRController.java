@@ -1,60 +1,75 @@
 package com.example.demo.controllers;
 
-import net.sourceforge.tess4j.Tesseract;
-import org.apache.commons.io.FileUtils;
+import com.example.demo.OCRProcessor;
+import com.example.demo.ZipHandler;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping(path = "${app.apiPath}")
 public class OCRController {
-    public static List<String> results = new ArrayList<>();
-    public static File[] files;
-    @CrossOrigin(origins = "${app.basePath}")
-    @GetMapping(path = "processOCR")
-    public String processOCR() throws Exception {
-        List<String>  ocrResult = Collections.singletonList(performOCR());
-        return ocrResult.toString();
+    private String baseDirectory;
+    private String outputDirectory;
+    private String ocrResult;
+    private Path sourcePath;
+    private Path targetPath;
+    private static final Logger logger = LoggerFactory.getLogger(OCRController.class);
+
+    @Autowired
+    public OCRController() {
+        // base directory path
+        this.baseDirectory = "src/test/resources/examples/";
+        this.outputDirectory = this.baseDirectory + "tif/out/";
+        // zip source and target
+        this.sourcePath = Paths.get(this.baseDirectory + "zip/449215.zip");
+        this.targetPath = Paths.get(this.outputDirectory);
     }
 
-    private String performOCR() throws Exception {
-        String pathDir = "src/test/resources/examples/";
-        String inputDir = pathDir + "tif/";
-        String outputDir = pathDir + "tif/out/";
+    @CrossOrigin(origins = "${app.basePath}")
+    @GetMapping(path = "getOcrResult")
+    private String getOcrResult() throws Exception {
+        unzipFiles();
+        return processOCR();
+    }
 
-        files = new File(inputDir).listFiles();
-        results = new ArrayList<>();
+    @GetMapping(path = "processOCR")
+    private String processOCR() {
+        OCRProcessor ocrProcessor = new OCRProcessor();
 
-        for (File image : files) {
-            if (image.isFile() && image.length() > 0) {
-                byte[] data = FileUtils.readFileToByteArray(image);
-                String fileName = image.getName();
-                String outputFileName = fileName.substring(0, fileName.lastIndexOf('.')) + ".tif";
-                File outputFile = new File(outputDir + outputFileName);
-
-                FileUtils.writeByteArrayToFile(outputFile, data);
-
-                BufferedImage bufferedImage = ImageIO.read(image);
-                ImageIO.write(bufferedImage, "png", new File(pathDir + "out.png"));
-
-                Tesseract tesseract = new Tesseract();
-                tesseract.setDatapath("src/test/resources/tessdata");
-
-                String text = tesseract.doOCR(outputFile);
-                results.add(text);
-            }
+        try {
+            logger.info("Starting OCR process. Base Directory: {}, Output Directory: {}", baseDirectory, outputDirectory);
+            ocrResult = ocrProcessor.processImagesInDirectory(baseDirectory, outputDirectory);
+            logger.info("OCR process completed successfully. Result: {}", ocrResult);
+            return ocrResult;
+        } catch (Exception e) {
+            logger.error("Error during OCR process: " + e.getMessage(), e);
+            return "OCR process failed";
         }
+    }
 
-        return results.toString();
+    @GetMapping(path = "unzipFiles")
+    private String unzipFiles() {
+        ZipHandler zipHandler = new ZipHandler();
+
+        try {
+            logger.info("Starting unzip file process. Source: {}, Target: {}", sourcePath, targetPath);
+            zipHandler.unzipFiles(sourcePath, targetPath);
+            logger.info("Unzip file process completed successfully.");
+            return "Unzip process completed";
+        } catch (IOException e) {
+            logger.error("Error during unzip file process: " + e.getMessage(), e);
+            return "Unzip process failed";
+        }
     }
 }
