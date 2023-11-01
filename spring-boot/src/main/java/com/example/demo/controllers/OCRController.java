@@ -3,6 +3,9 @@ package com.example.demo.controllers;
 import com.example.demo.OCRProcessor;
 import com.example.demo.ZipHandler;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,12 +40,22 @@ public class OCRController {
     }
 
     @CrossOrigin(origins = "${app.basePath}")
+    @Operation(summary = "ProcessOCR")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved ocr results"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping(path = "getOcrResult")
     private String getOcrResult() throws Exception {
         unzipFiles();
         return processOCR();
     }
 
+    @Operation(summary = "ProcessOCR")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully processOCR"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping(path = "processOCR")
     private String processOCR() {
         OCRProcessor ocrProcessor = new OCRProcessor();
@@ -58,6 +71,11 @@ public class OCRController {
         }
     }
 
+    @Operation(summary = "UnzipFiles")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully unzipFiles"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping(path = "unzipFiles")
     private String unzipFiles() {
         ZipHandler zipHandler = new ZipHandler();

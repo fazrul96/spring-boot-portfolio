@@ -33,6 +33,8 @@ dependencies {
 	implementation 'org.springframework:spring-context'
 	implementation 'org.springframework:spring-context-support'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	// swagger
+	implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.6.11'
 	// jacoco
 	testImplementation 'junit:junit:4.13.2'
 //	testImplementation 'org.testng:testng:7.1.0'

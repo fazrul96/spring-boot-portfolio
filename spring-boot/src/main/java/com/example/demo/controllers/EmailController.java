@@ -1,12 +1,12 @@
 package com.example.demo.controllers;
 
 import com.example.demo.services.EmailService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.context.Context;
@@ -18,20 +18,32 @@ public class EmailController {
     @Autowired
     private EmailService emailService;
 
+    @Operation(summary = "Send an email")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Email sent successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PostMapping("/sendEmail")
     public String sendEmail() throws MessagingException {
-        String to = "recipient@example.com";
-        String from = "sender@example.com";
-        String subject = "LinkedIn Introduction";
-        String text = "I wanted to introduce myself to you on LinkedIn and share a few of my recent projects.";
+        String recipientEmail = "recipient@example.com";
+        String senderEmail = "sender@example.com";
+        String emailSubject = "LinkedIn Introduction";
+        String emailMessage = "I wanted to introduce myself to you on LinkedIn and share a few of my recent projects.";
         String linkedInProfileLink = "https://www.linkedin.com/in/your-profile-link";
 
-        Context context = new Context(); // Create a new Context
-        context.setVariable("message", text);
-        context.setVariable("linkedInProfileLink", linkedInProfileLink);
+        Context emailContext = new Context();
+        emailContext.setVariable("message", emailMessage);
+        emailContext.setVariable("linkedInProfileLink", linkedInProfileLink);
 
-        emailService.sendEmail(to, from, subject, "email-template", context);
-        logger.info("Email sent successfully to: {}", to);
+        emailService.sendEmail(recipientEmail, senderEmail, emailSubject, "email-template", emailContext);
+
+        logger.info("Email sent successfully to: {}", recipientEmail);
         return "Email sent successfully!";
+    }
+
+    @GetMapping("/status/{id}")
+    public String getEmailStatus(@RequestParam String emailId) {
+        return "Email status: Delivered";
     }
 }
