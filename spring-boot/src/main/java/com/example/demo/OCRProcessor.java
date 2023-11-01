@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+@SuppressWarnings("deprecation")
 public class OCRProcessor {
     private static final Logger logger = LoggerFactory.getLogger(OCRProcessor.class);
 
@@ -44,7 +44,9 @@ public class OCRProcessor {
 
                 Tesseract tesseract = new Tesseract();
                 tesseract.setDatapath("src/test/resources/tessdata");
-
+//                tesseract.setLanguage("custom_language");
+                tesseract.setLanguage("eng");
+                tesseract.setTessVariable("tessedit_char_whitelist", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
                 String text = tesseract.doOCR(outputFile);
 
                 logger.info("OCR result for {}: {}", fileName, text);
