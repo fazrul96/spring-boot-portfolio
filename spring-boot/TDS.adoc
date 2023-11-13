@@ -1,0 +1,89 @@
+= TDS Spring Boot
+:toc:
+:sectnums:
+
+// variables
+:site: SSF
+:acq-fds: SPRING BOOT
+:acq-name: Spring Boot
+:project: spring-boot
+:version: 1.0.0
+:source_type: test-export
+:technique: Dynamic Mechanical Testing
+:atdd: dynamic_mechanical_testing.atdd
+:atdd-ver: 1.0
+
+== Project Information
+
+[%headers,cols="1,1"]
+|===
+|Project |Project version
+
+|{project}
+|{version}
+|===
+
+== References
+
+[%header,cols="1,2,1"]
+|===
+|Reference Index
+|Document title
+|Service Now #
+
+|REF001
+|ACQ URS {acq-name} v1.0
+|link:https://roche.service-now.com/...[STRY0000000]
+
+|REF002
+|ACQ FDS {acq-name} Converter v1.0
+|link:https://roche.service-now.com/...[STRY0000000]
+|===
+
+== TDS_CONV_{acq-fds}_{site}_001: Implementation
+
+The converter is implemented in
+link:https://code.roche.com/instrument-integration/ptd-ii-animl_converter/plugin/{project}[{project}]
+GitLab project.
+
+It is able to convert the following format:
+
+[%header,cols="1,2,1"]
+|===
+|Type
+|Description
+|Software Version
+
+|{source_type}
+|.csv file created using the {acq-name} export feature
+|Version 4.06
+|===
+
+== Project Features
+
+[feature]
+== OCR (Optical Recognition Character)
+
+This feature involves Optical Character Recognition (OCR) technology, which extracts text from images. It is used for text extraction and processing in your project.
+
+[feature]
+== Zip and Multiple Image
+
+This feature allows you to handle multiple image files and compress them into a zip archive. It simplifies the management of image assets in your project.
+
+[feature]
+== Email (Mailtrap.io)
+
+You have integrated email functionality using Mailtrap.io, a service for testing email delivery in a development environment. This feature ensures that email communication within your project is thoroughly tested and reliable.
+
+[feature]
+== Unit Test
+
+Unit testing is an integral part of your project to ensure the quality and correctness of your code. You are using Jacoco, a code coverage analysis tool, to measure the effectiveness of your unit tests and maintain high code quality.
+
+[feature]
+== Swagger Documentation and Testing
+
+You have implemented Swagger to document and test your API endpoints. Swagger provides an interactive documentation platform for your project's APIs, making it easier for developers to understand and test the endpoints.
+
+You can include detailed information about the endpoints, request parameters, and responses in your Swagger documentation. Additionally, Swagger enables API testing directly through its user interface, simplifying the testing process.
