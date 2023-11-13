@@ -45,92 +45,91 @@ const ProjectLists = ({projects}) => {
 
   return (
   <Container>
+    <Swiper
+        style={{ marginBottom: '20px' }}
+        modules={[Navigation, Pagination, Scrollbar, A11y]}
+        spaceBetween={30}
+        slidesPerView={3}
+        pagination={{ clickable: true }}
+        onSwiper={(swiper) => console.log(swiper)}
+        onSlideChange={() => console.log('slide change')}
+        autoplay={{
+            delay: 1000, // Delay between slides in milliseconds (3 seconds in this example)
+            disableOnInteraction: false, // Set to false if you want autoplay to continue even when a user interacts with the Swiper
+        }}
+    >
+    </Swiper>
+    {projects.map((project, index) => (
+      <SwiperSlide key={index}>
+        <Card>
+            <div className="project-item">
+              {/* <Card.Img
+                className="card-img-top"
+                variant="top"
+                src={project.img}gj
+                alt={project.description}
+                style={{objectFit: 'scale-down' }}
+                /> */}
+            </div>
+            
+            <Card.Body style={{ height: '200px' }}>
+                <Card.Title>
+                <a href={project.reference} target="_blank" rel="noopener noreferrer">
+                    {project.title}
+                </a>
+                </Card.Title>
+                <Card.Text>{project.status}</Card.Text>
+                <Row>
+                <Col md={5}>
+                    <ul className="list-unstyled">
+                    {/* {project.items.map((item, indexItem) => ( */}
+                    {/* {project.items.slice(0, Math.ceil(project.items.length / 2)).map((item, indexItem) => (
+                        <li key={indexItem} style={{ textAlign: 'left' }}>
+                        <a href={item.reference} target="_blank" rel="noopener noreferrer">
+                            {item.title}
+                        </a>
+                        </li>
+                    ))} */}
+                    </ul>
+                </Col>
+                <Col md={6}>
+                    <ul className="list-unstyled">
+                        {/* {project.items.slice(Math.ceil(project.items.length / 2)).map((item, indexItem) => (
+                        <li key={indexItem} style={{ textAlign: 'left' }}>
+                            <a href={item.reference} target="_blank" rel="noopener noreferrer">
+                            {item.title}
+                            </a>
+                            <span className="favorite-star" style={{ color: 'gold', marginLeft: '10px' }}>
+                            {((index === 0 && indexItem === 0) || (index === 4 && indexItem === 0)) && <FontAwesomeIcon icon={faStar} />}
+                            </span>
+                        </li>
+                        ))} */}
+                    </ul>
+                </Col>
+                </Row>
+            </Card.Body>
+            <div className="card-footer">
+                <Button variant="primary" onClick={() => handleShow(index)}>
+                More Details
+                </Button>
+                {/* <ProjectModals/> */}
+            </div>
+        </Card>
+      </SwiperSlide>
+    ))}
+    <Card>
+      <Card.Body>
+          <Card.Title>
+              Preview
+          </Card.Title>
+          <Card.Text>
+              {videoProjects.map((project, index) => (
+                  <CDBIframe src={project.path} key={index}  />
+              ))}
+          </Card.Text>
+      </Card.Body>
+    </Card>
   </Container>
-//    <Container>
-//        <Swiper
-//            style={{ marginBottom: '20px' }}
-//            modules={[Navigation, Pagination, Scrollbar, A11y]}
-//            spaceBetween={30}
-//            slidesPerView={3}
-//            pagination={{ clickable: true }}
-//            onSwiper={(swiper) => console.log(swiper)}
-//            onSlideChange={() => console.log('slide change')}
-//            autoplay={{
-//                delay: 3000, // Delay between slides in milliseconds (3 seconds in this example)
-//                disableOnInteraction: false, // Set to false if you want autoplay to continue even when a user interacts with the Swiper
-//            }}
-//        >
-//            {projects.map((project, index) => (
-//                <SwiperSlide key={index}>
-//                    <Card>
-//                        <div className="project-item">
-//                            {/* <Card.Img
-//                                className="card-img-top"
-//                                variant="top"
-//                                src={project.img}
-//                                alt={project.description}
-//                                style={{objectFit: 'scale-down' }}
-//                            /> */}
-//                            <Card.Body style={{ height: '200px' }}>
-//                                <Card.Title>
-//                                <a href={project.reference} target="_blank" rel="noopener noreferrer">
-//                                    {project.title}
-//                                </a>
-//                                </Card.Title>
-//                                <Card.Text>{project.status}</Card.Text>
-//                                <Row>
-//                                <Col md={5}>
-//                                    <ul className="list-unstyled">
-//                                    {/* {project.items.map((item, indexItem) => ( */}
-//                                    {project.items.slice(0, Math.ceil(project.items.length / 2)).map((item, indexItem) => (
-//                                        <li key={indexItem} style={{ textAlign: 'left' }}>
-//                                        <a href={item.reference} target="_blank" rel="noopener noreferrer">
-//                                            {item.title}
-//                                        </a>
-//                                        </li>
-//                                    ))}
-//                                    </ul>
-//                                </Col>
-//                                <Col md={6}>
-//                                    <ul className="list-unstyled">
-//                                        {project.items.slice(Math.ceil(project.items.length / 2)).map((item, indexItem) => (
-//                                        <li key={indexItem} style={{ textAlign: 'left' }}>
-//                                            <a href={item.reference} target="_blank" rel="noopener noreferrer">
-//                                            {item.title}
-//                                            </a>
-//                                            <span className="favorite-star" style={{ color: 'gold', marginLeft: '10px' }}>
-//                                            {((index === 0 && indexItem === 0) || (index === 4 && indexItem === 0)) && <FontAwesomeIcon icon={faStar} />}
-//                                            </span>
-//                                        </li>
-//                                        ))}
-//                                    </ul>
-//                                </Col>
-//                                </Row>
-//                            </Card.Body>
-//                            <div className="card-footer">
-//                                <Button variant="primary" onClick={() => handleShow(index)}>
-//                                More Details
-//                                </Button>
-//                                {/* <ProjectModals/> */}
-//                            </div>
-//                        </div>
-//                    </Card>
-//                </SwiperSlide>
-//            ))}
-//        </Swiper>
-//        <Card>
-//            <Card.Body>
-//                <Card.Title>
-//                    Preview
-//                </Card.Title>
-//                <Card.Text>
-//                    {videoProjects.map((project, index) => (
-//                        <CDBIframe src={project.path} key={index}  />
-//                    ))}
-//                </Card.Text>
-//            </Card.Body>
-//        </Card>
-//    </Container>
   );
 };
 

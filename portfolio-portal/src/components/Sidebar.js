@@ -27,6 +27,7 @@ import {
 
 import { Image } from 'react-bootstrap';
 
+import profileImage from '../../../portfolio-portal/src/assets/img/profile-img.jpg';
 const Sidebar = () => {
   const circularImageStyle = {
     width: '150px', // Adjust this to your desired size
@@ -41,7 +42,7 @@ const Sidebar = () => {
     { to: '#experiences', icon: faFileAlt, text: "Experience", iconType: "solid", type: "submenu" },
     { to: '#educations', icon: faGraduationCap, text: "Education", iconType: "solid", type: "submenu" },
     { to: '#certifications', icon: faCertificate, text: "Certification", iconType: "solid", type: "submenu" },
-    { to: '#skills', icon: faTools, text: "Skill", iconType: "solid", type: "submenu" },
+    { to: '#skills', icon: faTools, text: "Skill & Tools", iconType: "solid", type: "submenu" },
     { to: '#contacts', icon: faEnvelope, text: "Contact", iconType: "solid", type: "submenu" },
     { 
       href: 'http://localhost:8080/swagger-ui/index.html', 
@@ -51,11 +52,15 @@ const Sidebar = () => {
       type: "menu"
     },
     { 
-      href: 'http://localhost:8080/swagger-ui/index.html', 
+      href: 'https://mfbr.medium.com/kali-linux-beginner-guide-installation-window-bf12d6ced470', 
       icon: "th-large", 
-      text: 'Article', 
-      target: '_blank', hasBadge: true, badgeValue: 1, type: "menu"
-    }
+      text: 'Medium', 
+      target: '_blank', 
+      hasBadge: true, 
+      badgeValue: 1, 
+      type: "menu"
+    },
+    { to: '#kalilinux', icon: faTools, text: "KALI Linux", iconType: "solid", type: "submenu" },
   ];
 
   return (
@@ -66,8 +71,11 @@ const Sidebar = () => {
           src="https://seeklogo.com/images/B/butterfly-logo-0A00378822-seeklogo.com.png"
           alt="logo"
           style={{ width: '30px' }} />
-          {/* <Image src={cypressImage} roundedCircle style={circularImageStyle} /> */}
           <h6 className="ms-2">Fazrul Romli ™</h6>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Image src={profileImage} roundedCircle style={circularImageStyle} />
         </div>
       </CDBSidebarHeader>
       

@@ -49,7 +49,6 @@ const Contact = () => {
           </div>
         </div>
       </section>
-      <hr className="mb-3" />
     </Container>
   );
 };
