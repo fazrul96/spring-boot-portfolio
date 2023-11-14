@@ -1,17 +1,25 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
-import ExperineceLists from '../../../components/section/experiences/ExperienceLists';
+import { Box, Grid } from '@mui/material';
+import ExperienceCard from '../../../components/section/experiences/ExperienceCard';
 
 const Experience = ({ experiences }) => {
   return (
-    <Container>
-      <section id="experience">
-        <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>Experience</h1>
-        <p className="portfolio-subheading">Here are my previous experiences</p>
-        <ExperineceLists experiences={experiences} id="experiences" />
-      </section>
-      <hr className="mb-3" />
-    </Container>
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <section id="experience">
+            <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>
+              Experience
+            </h1>
+            <p className="portfolio-subheading">Here are my previous experiences</p>
+            {/* Map through experiences and render ExperienceCard for each */}
+            {experiences.map((experience, index) => (
+              <ExperienceCard key={index} experience={experience} />
+            ))}
+          </section>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 
