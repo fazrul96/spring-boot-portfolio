@@ -4,8 +4,8 @@ pipelines:
   default:
     - step:
         name: Sync Repositories
-        script: # Testing4
-          - git clone git@github.com:${GITHUB_USERNAME}/spring-boot-portfolio.git
+        script: # Testing5
+          - git clone git@github.com:"${GITHUB_USERNAME}"/spring-boot-portfolio.git
           - cd spring-boot-portfolio
           - git config user.name "${GITHUB_USERNAME}"
           - git config user.email "${USER_EMAIL}"
