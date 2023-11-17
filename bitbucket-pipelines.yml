@@ -4,7 +4,7 @@ pipelines:
   default:
     - step:
         name: Sync Repositories
-        script: # Testing
+        script: # Testing3
           - git clone https://github.com/fazrul96/spring-boot-portfolio.git
           - cd spring-boot-portfolio
           - git config user.name fazrul96
