@@ -5,11 +5,12 @@ pipelines:
     - step:
         name: Sync Repositories
         script: # Testing
-          - git clone https://github.com/${GITHUB_USERNAME}/spring-boot-portfolio.git
+          - git clone https://github.com/fazrul96/spring-boot-portfolio.git
           - cd spring-boot-portfolio
-          - git config user.name "${GITHUB_USERNAME}"
+          - git config user.name fazrul96
           - git config user.email "${USER_EMAIL}"
           - git remote set-url origin "https://${USERNAME}@bitbucket.org/fazrulromli/spring-boot-portfolio.git"
+          #- git remote set-url origin https://${GITHUB_USERNAME}:${GITHUB_TOKEN}github.com/${GITHUB_USERNAME}spring-boot-portfolio.git"
           - git pull bitbucket dev
           - git push origin HEAD:$BITBUCKET_BRANCH
 
