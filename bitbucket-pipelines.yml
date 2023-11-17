@@ -4,14 +4,24 @@ pipelines:
   default:
     - step:
         name: Sync Repositories
-        script: # Testing8
+        script:
           - git clone https://github.com/"${GITHUB_USERNAME}"/spring-boot-portfolio.git
           - cd spring-boot-portfolio
           - git config user.name "${GITHUB_USERNAME}"
           - git config user.email "${USER_EMAIL}"
           - git remote set-url origin "https://${USERNAME}@bitbucket.org/${USERNAME}/spring-boot-portfolio.git"
           - git remote -v
-          - git pull "https://${USERNAME}@bitbucket.org/${USERNAME}/spring-boot-portfolio.git""
+          - git pull "https://${USERNAME}@bitbucket.org/${USERNAME}/spring-boot-portfolio.git"
+          - git push origin HEAD:$BITBUCKET_BRANCH
+
+          - cd..
+
+          - git clone https://gitlab.com/"${GITLAB_USERNAME}"/spring-boot-portfolio.git
+          - cd spring-boot-portfolio
+          - git config user.name "${GITLAB_USERNAME}"
+          - git config user.email "${USER_EMAIL}"
+          - git remote set-url origin "https://${USERNAME}@bitbucket.org/${USERNAME}/spring-boot-portfolio.git"
+          - git pull "https://${USERNAME}@bitbucket.org/${USERNAME}/spring-boot-portfolio.git"
           - git push origin HEAD:$BITBUCKET_BRANCH
 #    - step:
 #        name: Cypress CI
