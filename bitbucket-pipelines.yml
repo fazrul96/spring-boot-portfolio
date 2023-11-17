@@ -1,0 +1,49 @@
+image: node:14
+
+pipelines:
+  default:
+    - step:
+        name: Sync Repositories
+        script: # Testing
+          - git clone https://github.com/fazrul96/spring-boot-portfolio.git
+          - cd spring-boot-portfolio
+          - git config user.name fazrul96
+          - git config user.email "${USER_EMAIL}"
+          - git remote set-url origin "https://${USERNAME}@bitbucket.org/fazrulromli/spring-boot-portfolio.git"
+          #- git remote set-url origin https://${GITHUB_USERNAME}:${GITHUB_TOKEN}github.com/${GITHUB_USERNAME}spring-boot-portfolio.git"
+          - git pull bitbucket dev
+          - git push origin HEAD:$BITBUCKET_BRANCH
+
+#    - step:
+#        name: Cypress CI
+#        caches:
+#          - node
+#        script:
+#          - npm install
+#          - apt-get update
+#          - apt-get -y install libgtk2.0-0
+#          - apt-get -y install libgtk-3-0
+#          - apt-get -y install libgbm-dev
+#          - apt-get -y install libnotify-dev
+#          - apt-get -y install libgconf-2-4
+#          - apt-get -y install libnss3
+#          - apt-get -y install libxss1
+#          - apt-get -y install libasound2
+#          - apt-get -y install libxtst6
+#          - apt-get -y install xauth
+#          - apt-get -y install xvfb
+
+          # Set up any required environment variables (secrets)
+          # - export CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}
+
+          # Run Cypress tests
+          # - npx cypress run --spec "cypress/e2e/agent/scan.cy.ts" --record --key $CYPRESS_RECORD_KEY
+
+#        artifacts:
+#          - cypress/videos/**
+#          - cypress/screenshots/**
+#          - cypress/mochawesome-report/**
+
+definitions:
+  caches:
+    node: /usr/local/bin/npm

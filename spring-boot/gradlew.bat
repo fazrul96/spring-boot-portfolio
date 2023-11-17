@@ -52,6 +52,8 @@ echo location of your Java installation.
 goto fail
 
 :findJavaFromJavaHome
+@REM set JAVA_HOME=C:\Program Files\BellSoft\LibericaJDK-17
+@REM set JAVA_HOME=C:/Program Files/Java/jdk-20
 set JAVA_HOME=%JAVA_HOME:"=%
 set JAVA_EXE=%JAVA_HOME%/bin/java.exe
 

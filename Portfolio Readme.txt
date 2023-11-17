@@ -21,3 +21,10 @@ Open terminal run this command
 
 Tutorial
 https://spring.io/guides/tutorials/react-and-spring-data-rest/
+
+Run docker image
+docker build -t portfolio-protal-app:latest .
+docker run --name portfolio-protal-app -p 3000:3000 portfolio-protal-app:latest
+
+docker build -t spring-boot-app:latest .
+docker run --name spring-boot-app  -p 8080:8080 spring-boot-app:latest
