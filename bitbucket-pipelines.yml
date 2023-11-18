@@ -5,8 +5,9 @@ pipelines:
     feature/*:
       - step:
           name: Sync Repositories
-          clone:
-            skip-ssl-verify: true
+          deployment: Test Pipelines
+#          clone:
+#            skip-ssl-verify: true
           script:
             - git clone https://github.com/$GITHUB_USERNAME/spring-boot-portfolio.git
             - cd spring-boot-portfolio
