@@ -14,6 +14,7 @@ pipelines:
             - git config user.email $USER_EMAIL
             # Set Github remote URL
             - git remote set-url origin https://github.com/$GITHUB_USERNAME/spring-boot-portfolio.git
+            - git reset --hard origin/$BITBUCKET_BRANCH
             # Pull changes from Bitbucket repository
             - git pull --allow-unrelated-histories https://${USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/fazrulromli/spring-boot-portfolio.git
             # Push changes to Github repository
