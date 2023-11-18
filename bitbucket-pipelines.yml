@@ -1,9 +1,17 @@
 image: node:14
 
 pipelines:
+  branches:
+    feature/*:
+      - step:
+          name: Build testing branch
+          script:
+            - echo "Hello, testing!"
   default:
     - step:
         name: Sync Repositories
+        clone:
+          skip-ssl-verify: true
         script:
           - git clone https://github.com/$GITHUB_USERNAME/spring-boot-portfolio.git
           - cd spring-boot-portfolio
