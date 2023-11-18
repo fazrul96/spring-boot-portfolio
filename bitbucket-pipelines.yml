@@ -4,14 +4,20 @@ pipelines:
   branches:
     feature/*:
       - step:
-          name: Build testing branch
+          name: Sync Repositories
+          clone:
+            skip-ssl-verify: true
           script:
-            - echo "Hello, testing!"
+            - git clone https://github.com/$GITHUB_USERNAME/spring-boot-portfolio.git
+            - cd spring-boot-portfolio
+            - git config user.name $GITHUB_USERNAME
+            - git config user.email $USER_EMAIL
+            - git remote https://github.com/$GITHUB_USERNAME/spring-boot-portfolio.git
+            - git pull https://${USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/${USERNAME}/spring-boot-portfolio.git
+            - git push origin HEAD:$BITBUCKET_BRANCH
   default:
     - step:
         name: Sync Repositories
-        clone:
-          skip-ssl-verify: true
         script:
           - git clone https://github.com/$GITHUB_USERNAME/spring-boot-portfolio.git
           - cd spring-boot-portfolio
