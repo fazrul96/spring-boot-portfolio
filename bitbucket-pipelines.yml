@@ -17,7 +17,7 @@ pipelines:
             # Pull changes from Bitbucket repository
             #- git pull https://${USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/fazrulromli/spring-boot-portfolio.git
             # Fetch changes and merge seperately
-            - git fetch https://${USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/${USERNAME}/spring-boot-portfolio.git
+            - git fetch https://${USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/fazrulromli/spring-boot-portfolio.git
             - git merge FETCH_HEAD
             # Push changes to Github repository
             - git push origin HEAD:$BITBUCKET_BRANCH
