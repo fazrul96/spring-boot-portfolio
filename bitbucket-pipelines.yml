@@ -11,7 +11,7 @@ pipelines:
           - git config user.email "${USER_EMAIL}"
           - git remote set-url origin "https://${USERNAME}@bitbucket.org/${USERNAME}/spring-boot-portfolio.git"
           - git remote -v
-          - git pull origin
+          - git pull "https://${USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/${USERNAME}/spring-boot-portfolio.git"
           - git push origin HEAD:$BITBUCKET_BRANCH
 
           - cd..
@@ -21,7 +21,7 @@ pipelines:
           - git config user.name "${GITLAB_USERNAME}"
           - git config user.email "${USER_EMAIL}"
           - git remote set-url origin "https://${USERNAME}@bitbucket.org/${USERNAME}/spring-boot-portfolio.git"
-          - git pull "https://${USERNAME}@bitbucket.org/${USERNAME}/spring-boot-portfolio.git"
+          - git pull "https://${USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/${USERNAME}/spring-boot-portfolio.git"
           - git push origin HEAD:$BITBUCKET_BRANCH
 #    - step:
 #        name: Cypress CI
