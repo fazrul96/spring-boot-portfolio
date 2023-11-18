@@ -13,16 +13,6 @@ pipelines:
           - git remote -v
           - git pull origin https://fazrulromli@bitbucket.org/fazrulromli/spring-boot-portfolio.git
           - git push origin HEAD:$BITBUCKET_BRANCH
-
-          - cd..
-
-          - git clone https://gitlab.com/$GITLAB_USERNAME/spring-boot-portfolio.git
-          - cd spring-boot-portfolio
-          - git config user.name $GITHUB_USERNAME
-          - git config user.email $USER_EMAIL
-          - git remote set-url origin https://$USERNAME@bitbucket.org/$USERNAME/spring-boot-portfolio.git
-          - git pull origin https://fazrulromli@bitbucket.org/fazrulromli/spring-boot-portfolio.git
-          - git push origin HEAD:$BITBUCKET_BRANCH
 definitions:
   caches:
     node: /usr/local/bin/npm
