@@ -11,7 +11,7 @@ pipelines:
           - git config user.email "${USER_EMAIL}"
           - git remote set-url origin "https://${USERNAME}@bitbucket.org/${USERNAME}/spring-boot-portfolio.git"
           - git remote -v
-          - git pull "https://${USERNAME}@bitbucket.org/${USERNAME}/spring-boot-portfolio.git"
+          - git pull origin HEAD:$BITBUCKET_BRANCH
           - git push origin HEAD:$BITBUCKET_BRANCH
 
           - cd..
