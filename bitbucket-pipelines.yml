@@ -9,8 +9,7 @@ pipelines:
           - cd spring-boot-portfolio
           - git config user.name $GITHUB_USERNAME
           - git config user.email $USER_EMAIL
-          - git remote set-url origin https://fazrulromli@bitbucket.org/fazrulromli/spring-boot-portfolio.git
-          - git remote -v
+          - git remote set-url origin https://${USERNAME}@bitbucket.org/${USERNAME}/spring-boot-portfolio.git
           - git pull
           - git push origin HEAD:$BITBUCKET_BRANCH
 definitions:
