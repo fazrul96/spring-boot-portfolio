@@ -17,7 +17,7 @@ pipelines:
             # Pull changes from Bitbucket repository
             - git pull https://${USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/fazrulromli/spring-boot-portfolio.git
             # Push changes to Github repository
-            - git push origin HEAD:$GITHUB_USERNAME
+            - git push origin
   default:
     - step:
         name: Sync Repositories
