@@ -13,7 +13,7 @@ pipelines:
           - git config user.email $USER_EMAIL
           - git remote set-url origin https://$USERNAME@bitbucket.org/$USERNAME/spring-boot-portfolio.git
           - git remote -v
-          - git pull "https://x-token-auth:ATCTT3xFfGN0UCkyPrxEyG0Rc0wBUdGo3Ku_MGaKBFNr2YYKS8CqbI94vQDWZupf3AfYT42ahkYQxkTkREp7RA7sTxi_NHRV2waj4QLLAejvv0VOU_wG-VFsmcC7fILqDIyK1CuaMA3p7yw0fn_0Wl-q_UmiDj3PR09zXCV-tnfSUSuPdX7Mx1I=6CF3C00B@bitbucket.org/fazrulromli/spring-boot-portfolio.git"
+          - git pull origin dev --allow-unrelated-histories
           - git push origin HEAD:$BITBUCKET_BRANCH
 
           - cd..
