@@ -25,7 +25,7 @@ pipelines:
             - rm -rf spring-boot-portfolio
 
             # Clone Gitlab repository
-            - git clone https://gitlab.com/$GITLAB_USERNAME/spring-boot-portfolio.git
+            - git clone https://gitlab.com/greda/spring-boot-portfolio.git
             - cd spring-boot-portfolio
             # Configure Git user
             - git config user.name $GITLAB_USERNAME
