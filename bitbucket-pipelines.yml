@@ -18,6 +18,21 @@ pipelines:
             - git pull https://${USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/fazrulromli/spring-boot-portfolio.git
             # Push changes to Github repository
             - git push origin HEAD:$BITBUCKET_BRANCH
+
+            - cd ..
+
+            # Clone Gitlab repository
+            - git clone https://gitlab.com/${GITLAB_USERNAME}/spring-boot-portfolio.git
+            - cd spring-boot-portfolio
+            # Configure Git user
+            - git config user.name "${GITLAB_USERNAME}"
+            - git config user.email "${USER_EMAIL}"
+            # Set Gitlab remote URL
+            - git remote set-url origin "https://gitlab-ci-token:${GITLAB_PERSONAL_ACCESS_TOKEN}@gitlab.com/${GITLAB_USERNAME}/spring-boot-portfolio.git"
+            # Pull changes from Bitbucket repository
+            - git pull https://${USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/fazrulromli/spring-boot-portfolio.git
+            # Push changes to Gitlab repository
+            - git push origin HEAD:$BITBUCKET_BRANCH
   default:
     - step:
         name: Sync Repositories
