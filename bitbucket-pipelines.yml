@@ -8,7 +8,7 @@ pipelines:
           script:
             # Clone Github repository
             - git clone https://github.com/$GITHUB_USERNAME/spring-boot-portfolio.git
-            - cd spring-boot-portfolio
+            - cd github-repo
             # Configure Git user
             - git config user.name $GITHUB_USERNAME
             - git config user.email $USER_EMAIL
@@ -23,7 +23,7 @@ pipelines:
 
             # Clone Gitlab repository
             - git clone https://gitlab.com/${GITLAB_USERNAME}/spring-boot-portfolio.git
-            - cd spring-boot-portfolio
+            - cd gitlab-repo
             # Configure Git user
             - git config user.name "${GITLAB_USERNAME}"
             - git config user.email "${USER_EMAIL}"
