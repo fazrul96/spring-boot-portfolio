@@ -21,9 +21,25 @@ public class Project {
     private String img;
     
     @JsonProperty("footer")
-    private String footer;
+    private String[] footer;
+//    private int id;
+//    private String category;
+//    private String title;
+//    private String status;
+//    private String link;
+//    private String image;
+//    private String[] tags;
+//    public ProjectServiceImpl(int id, String category, String title, String status, String link, String image, String[] tags) {
+//        this.id = id;
+//        this.category = category;
+//        this.title = title;
+//        this.status = status;
+//        this.link = link;
+//        this.image = image;
+//        this.tags = tags;
+//    }
 
-    public Project(int id, String title, String description, String status, String reference, String img, String footer) {
+    public Project(int id, String title, String description, String status, String reference, String img, String[] footer) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -82,11 +98,11 @@ public class Project {
         this.img = img;
     }
 
-    public String getFooter() {
+    public String[] getFooter() {
         return footer;
     }
 
-    public void setFooter(String footer) {
+    public void setFooter(String[] footer) {
         this.footer = footer;
     }
 }

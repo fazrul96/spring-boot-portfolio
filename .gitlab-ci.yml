@@ -1,0 +1,39 @@
+# Remove this CI since Jenkins CI already available
+stages:
+  - cypress
+
+cypress-run:
+  stage: cypress
+  only:
+    - main
+  script:
+    - echo "Checkout"
+    - apt-get update && apt-get install -y git
+    - git clone https://github.com/actions/checkout.git
+    - cd checkout
+    - git checkout v2
+    - cd ..
+    - echo "Set up Node.js"
+    - apt-get install -y curl
+    - curl -sL https://deb.nodesource.com/setup_14.x | bash -
+    - apt-get install -y nodejs
+    - echo "Node.js version:"
+    - node --version
+    - apt-get install -y npm
+    - echo "Npm version:"
+    - npm --version
+    - echo "Install dependencies"
+    - npm install
+    - echo "Install other dependencies"
+    - apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+
+    - echo "Run Cypress tests"
+    # - npx cypress run --spec "cypress/e2e/1-getting-started/todo.cy.js" --record --key $CYPRESS_RECORD_KEY
+
+    - echo "Publish Test Results"
+    - apt-get install -y zip
+    # - zip -r test-results.zip cypress/videos cypress/screenshots cypress/mochawesome-report
+
+    # This 2 lines not working, skip this lines
+    - echo "Uploading Test Results"
+    # - curl --request POST --form "file=@test-results.zip" --header "PRIVATE-TOKEN: $CI_JOB_TOKEN" https://gitlab.example.com/api/v4/projects/1234/jobs/$CI_JOB_ID/artifacts

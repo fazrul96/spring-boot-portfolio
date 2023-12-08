@@ -1,0 +1,57 @@
+# Remove this CI since Jenkins CI already available
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: cypress
+    jobs:
+      - job: cypress_run
+        displayName: 'Cypress Run'
+        steps:
+          - script: |
+              echo "Checkout"
+              apt-get update && apt-get install -y git
+              git clone https://github.com/actions/checkout.git
+              cd checkout
+              git checkout v2
+              cd ..
+            displayName: 'Checkout'
+
+          - script: |
+              echo "Set up Node.js"
+              apt-get install -y curl
+              curl -sL https://deb.nodesource.com/setup_14.x | bash -
+              apt-get install -y nodejs
+              echo "Node.js version:"
+              node --version
+              apt-get install -y npm
+              echo "Npm version:"
+              npm --version
+            displayName: 'Set up Node.js'
+
+          - script: |
+              echo "Install dependencies"
+              npm install
+              echo "Install other dependencies"
+              sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+            displayName: 'Install Dependencies'
+
+        # - script: |
+        #     echo "Run Cypress tests"
+        #     npx cypress run --spec "cypress/e2e/1-getting-started/todo.cy.js" --record --key $(CYPRESS_RECORD_KEY)
+        #   displayName: 'Run Cypress Tests'
+
+        # - script: |
+        #     echo "Publish Test Results"
+        #     sudo apt-get install -y zip
+        #     zip -r $(Build.ArtifactStagingDirectory)/test-results.zip cypress/videos cypress/screenshots cypress/mochawesome-report
+        #   displayName: 'Publish Test Results'
+
+        # - task: PublishPipelineArtifact@1
+        #   inputs:
+        #     targetPath: '$(Build.ArtifactStagingDirectory)/test-results.zip'
+        #     artifact: 'CypressTestResults'
+        #   displayName: 'Publish Artifact: CypressTestResults'
