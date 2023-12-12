@@ -26,6 +26,8 @@ The primary purpose of this portfolio is to serve as a living demonstration of m
 
 - **Reporting with Mochasome**: Highlight the comprehensive test execution reporting using [Mochasome], providing detailed insights into test outcomes.
 
+- **Allure Reports for Appium**: Implement Allure reports for the Appium tests, offering visually appealing and insightful reports for mobile application testing.
+
 - **CI/CD Integration**: Showcase integration with my preferred CI/CD system for continuous integration and delivery, underscoring my commitment to automated testing on every code change.
 
 ## Additional Features for Learning and Enhancement:
