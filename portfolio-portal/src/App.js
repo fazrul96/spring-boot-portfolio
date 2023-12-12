@@ -29,7 +29,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiService = new ApiService(process.env.REACT_APP_BASE_URL);
+        const apiService = new ApiService(process.env.REACT_APP_BASE_URL + process.env.REACT_APP_API_URL);
 
         const experiencesData = await apiService.fetchExperiences();
         const educationsData = await apiService.fetchEducations();

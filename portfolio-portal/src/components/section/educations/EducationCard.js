@@ -17,6 +17,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const EducationCard = ({ education }) => {
   return (
+  <Grid item xs={12} md={12}>
     <Card style={{ marginBottom: '20px' }}>
       <CardActionArea>
         <CardMedia
@@ -42,6 +43,7 @@ const EducationCard = ({ education }) => {
         </Button>
       </CardActions>
     </Card>
+  </Grid>
   );
 };
 

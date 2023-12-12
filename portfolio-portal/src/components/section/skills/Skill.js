@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Carousel } from 'react-bootstrap';
+import { Box, Grid } from '@mui/material';
 import SkillLists from '../../../components/section/skills/SkillLists';
+import SkillCard from '../../../components/section/skills/SkillCard';
 
 const Skills = ({ skills }) => {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -10,7 +12,22 @@ const Skills = ({ skills }) => {
   };
 
   return (
-    <Container>
+  <Box sx={{ flexGrow: 1 }}>
+    <section id="skills">
+      {/*
+      <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>
+        Skill
+      </h1>
+      <p className="portfolio-subheading">Here are my previous experiences</p> */}
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+        {skills.map((skill, index) => (
+          <Grid item xs={12} md={6} key={index}>
+            <SkillCard skill={skill} />
+          </Grid>
+        ))}
+      </Grid>
+    </section>
+
       <section id="skills">
         <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>Skill</h1>
         <p className="skills-subheading">Here are some of the tools and technologies I have experience with:</p>
@@ -177,7 +194,7 @@ const Skills = ({ skills }) => {
                           Microsoft Visual Studio
                         </div>
                         <div className="card-body text-center">
-                          
+
                           <p className="card-text"><span style={{ color: 'gray' }}>Computer Program</span></p>
                         </div>
                         <div className="card-footer text-center">
@@ -197,7 +214,7 @@ const Skills = ({ skills }) => {
                           Brackets
                         </div>
                         <div className="card-body text-center">
-                          
+
                           <p className="card-text"><span style={{ color: 'gray' }}>System Software</span></p>
                         </div>
                         <div className="card-footer text-center">
@@ -252,8 +269,7 @@ const Skills = ({ skills }) => {
           </Carousel.Item>
         </Carousel>
       </section>
-      <hr className="mb-3" />
-    </Container>
+  </Box>
   );
 };
 

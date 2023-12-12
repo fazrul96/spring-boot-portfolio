@@ -1,9 +1,10 @@
 import React from 'react';
+import { Box, Grid } from '@mui/material';
 import {Col, Container, Row, Image} from 'react-bootstrap';
 
 const Contact = () => {
   return (
-    <Container>
+    <Box sx={{ flexGrow: 1 }}>
       <section id="contact">
         <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>Contact</h1>
         <p className="contact-subheading">If you have any inquiries, please feel free to contact me:</p>
@@ -49,7 +50,7 @@ const Contact = () => {
           </div>
         </div>
       </section>
-    </Container>
+    </Box>
   );
 };
 

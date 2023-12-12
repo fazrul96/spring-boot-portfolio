@@ -23,11 +23,11 @@ public class EducationServiceImpl implements EducationService {
                 "Bachelor of Software Engineering (Information Systems)",
                 "2015 - 2019"
             },
-            {
-                "Another University",
-                "Another Degree",
-                "Start Year - End Year"
-            }
+//            {
+//                "Another University",
+//                "Another Degree",
+//                "Start Year - End Year"
+//            }
             // Add more education data here if needed
         };
 
