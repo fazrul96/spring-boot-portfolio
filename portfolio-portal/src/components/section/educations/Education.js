@@ -9,14 +9,17 @@ const Education = ({ educations }) => {
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <section id="education">
+            {/*
             <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>
               Education
             </h1>
             <p className="portfolio-subheading">Here are my previous educations</p>
-            {/* Map through experiences and render ExperienceCard for each */}
-            {educations.map((education, index) => (
-              <EducationCard key={index} education={education} />
-            ))}
+            */}
+            <Grid container spacing={2} justifyContent="center" alignItems="center">
+                {educations.map((education, index) => (
+                  <EducationCard key={index} education={education} />
+                ))}
+            </Grid>
           </section>
         </Grid>
       </Grid>

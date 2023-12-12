@@ -11,8 +11,7 @@ const Certification = ({ certifications }) => {
                 Certification
               </h1>
               <p className="portfolio-subheading">Here are my previous certifications</p> */}
-              {/* Map through experiences and render CertificationCard for each */}
-              <Grid container spacing={2}>
+              <Grid container spacing={2} justifyContent="center" alignItems="center">
                 {certifications.map((certification, index) => (
                   <Grid item xs={12} md={6} key={index}>
                     <CertificationCard certification={certification} />

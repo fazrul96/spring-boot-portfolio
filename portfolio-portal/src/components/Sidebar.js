@@ -25,9 +25,12 @@ import ContactIcon from '@mui/icons-material/ContactMail';
 import OpenAPIIcon from '@mui/icons-material/Api';
 import MediumIcon from '@mui/icons-material/Book';
 
+import { Sidebar, Menu, MenuItem, SubMenu  } from 'react-pro-sidebar';
+import { Link } from 'react-router-dom';
+
 const drawerWidth = 240;
 
-export default function ClippedDrawer() {
+const ClippedDrawer = () => {
   const icons = [
     <DashboardIcon />,
     <ProjectIcon />,
@@ -46,7 +49,7 @@ export default function ClippedDrawer() {
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundImage: `linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url("${'https://wallpapercave.com/wp/wp2708351.jpg'}")`, backgroundSize: 'cover' }}>
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
-            Clipped drawer
+            Portfolio
           </Typography>
         </Toolbar>
       </AppBar>
@@ -93,3 +96,5 @@ export default function ClippedDrawer() {
     </Box>
   );
 }
+
+export default ClippedDrawer;
