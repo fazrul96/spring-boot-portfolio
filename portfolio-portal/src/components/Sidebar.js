@@ -26,11 +26,31 @@ import OpenAPIIcon from '@mui/icons-material/Api';
 import MediumIcon from '@mui/icons-material/Book';
 
 import { Sidebar, Menu, MenuItem, SubMenu  } from 'react-pro-sidebar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
 const ClippedDrawer = () => {
+    const navigate = useNavigate();
+
+    const sidebarItems = [
+      { text: 'OpenAPI', url: 'http://localhost:8080/swagger-ui/index.html#/' },
+      { text: 'Medium', url: 'https://medium.com/@mfbr' },
+    ];
+
+    const handleItemClick = (text) => {
+      const selectedItem = sidebarItems.find((item) => item.text === text);
+
+      if (selectedItem) {
+        window.open(selectedItem.url, '_blank');
+      } else if (text === 'Component') {
+        navigate('/component');
+      } else {
+        // Handle the case when the item is not found, maybe navigate to a default route
+        navigate('/');
+      }
+    };
+
   const icons = [
     <DashboardIcon />,
     <ProjectIcon />,
@@ -64,9 +84,10 @@ const ClippedDrawer = () => {
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
           <List>
-            {['Dashboard', 'Project', 'Experience', 'Education', 'Certification', 'Skills & Tools', 'Contact'].map((text, index) => (
+          {/* {['Dashboard', 'Project', 'Experience', 'Education', 'Certification', 'Skills & Tools', 'Contact'].map((text, index) => ( */}
+            {['Dashboard', 'Component'].map((text, index) => (
               <ListItem key={text} disablePadding>
-                <ListItemButton>
+                <ListItemButton onClick={() => handleItemClick(text)}>
                   <ListItemIcon>
                     {icons[index]}
                   </ListItemIcon>
@@ -79,9 +100,10 @@ const ClippedDrawer = () => {
           <List>
             {['OpenAPI', 'Medium'].map((text, index) => (
               <ListItem key={text} disablePadding>
-                <ListItemButton>
+                <ListItemButton onClick={() => handleItemClick(text)}>
                   <ListItemIcon>
-                    {icons[index + 7]} {/* Adjust index to match the starting position for the second list */}
+                    {/* Assuming you have an array of icons, adjust the index accordingly */}
+                    {icons[index + 7]}
                   </ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItemButton>

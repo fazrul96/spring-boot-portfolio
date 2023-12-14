@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Container, Row, Col } from 'react-bootstrap';
 import './App.css';
 
 import Navbar from './components/Navbar';
@@ -16,7 +16,29 @@ import Certification from './components/section/certifications/Certification';
 import Skills from './components/section/skills/Skill';
 import Contact from './components/section/Contact';
 import ApiService from './hooks/ApiService';
-import { Container, Row, Col } from 'react-bootstrap';
+
+//import HomePage from './pages/HomePage';
+import MediumPage from './pages/MediumPage';
+import OpenApiPage from './pages/OpenApiPage';
+import ComponentPage from './pages/ComponentPage';
+
+const HomePage = ({ projects, experiences, educations, certifications, skills, error }) => {
+  return (
+    <>
+      {/* Add the content for the Home page here */}
+      {/* <Swiper /> */}
+      {/* <Carousel /> */}
+      <Portfolio />
+      <Project projects={projects} id="projects" />
+      <Experience experiences={experiences} id="experiences" />
+      <Education educations={educations} id="educations"/>
+      <Certification certifications={certifications} id="certifications"/>
+      <Skills skills={skills} id="skills"/>
+      {error && <p className="error-message">Error fetching data: {error.message}</p>}
+      <Contact />
+    </>
+  );
+};
 
 const App = () => {
   const [experiences, setExperiences] = useState([]);
@@ -59,16 +81,10 @@ const App = () => {
             <Sidebar />
           </Col>
           <Col md={10} className="p-0">
-              {/* <Swiper /> */}
-              {/* <Carousel /> */}
-              <Portfolio />
-              <Project projects={projects} id="projects" />
-              <Experience experiences={experiences} id="experiences" />
-              <Education educations={educations} id="educations"/>
-              <Certification certifications={certifications} id="certifications"/>
-              <Skills skills={skills} id="skills"/>
-              {error && <p className="error-message">Error fetching data: {error.message}</p>}
-              <Contact />
+            <Routes>
+              <Route path="/" element={<HomePage projects={projects} experiences={experiences} educations={educations} certifications={certifications} skills={skills} error={error} />} />
+              <Route path="/component" element={<ComponentPage />} />
+            </Routes>
           </Col>
         </Row>
       </Container>

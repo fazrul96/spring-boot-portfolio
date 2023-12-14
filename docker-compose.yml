@@ -1,10 +1,22 @@
 version: '3'
 services:
-  web:
+  springboot:
+    build:
+      context: ./spring-boot
+    ports:
+      - "8080:8080"
+    command: ./gradlew bootrun
+    networks:
+      - portfolio-network
+  react:
     build:
       context: ./portfolio-portal
     ports:
       - "3000:3000"
     volumes:
-      - .:/app
+        - .:/app
     command: npm start
+    networks:
+      - portfolio-network
+    depends_on:
+      - springboot
