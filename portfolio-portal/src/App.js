@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import './App.css';
 
+// Components
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
-import Carousel from './components/Carousel';
-import Swiper from './components/Swiper';
 import Footer from './components/Footer';
+
+// Sections
 import Portfolio from './components/section/portfolios/Portfolio';
 import Project from './components/section/projects/Project';
 import Experience from './components/section/experiences/Experience';
@@ -15,19 +16,19 @@ import Education from './components/section/educations/Education';
 import Certification from './components/section/certifications/Certification';
 import Skills from './components/section/skills/Skill';
 import Contact from './components/section/Contact';
-import ApiService from './hooks/ApiService';
 
-//import HomePage from './pages/HomePage';
-import MediumPage from './pages/MediumPage';
+// Pages
 import OpenApiPage from './pages/OpenApiPage';
+import MediumPage from './pages/MediumPage';
 import ComponentPage from './pages/ComponentPage';
+
+// Hooks
+import ApiService from './hooks/ApiService';
 
 const HomePage = ({ projects, experiences, educations, certifications, skills, error }) => {
   return (
     <>
       {/* Add the content for the Home page here */}
-      {/* <Swiper /> */}
-      {/* <Carousel /> */}
       <Portfolio />
       <Project projects={projects} id="projects" />
       <Experience experiences={experiences} id="experiences" />
@@ -75,7 +76,7 @@ const App = () => {
 
   return (
     <Router>
-      <Container fluid>
+      <Container fluid className="p-0">
         <Row>
           <Col md={2} className="p-0">
             <Sidebar />

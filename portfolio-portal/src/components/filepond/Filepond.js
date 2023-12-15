@@ -56,35 +56,33 @@ class Filepond extends Component {
 
   render() {
     return (
-      <div className="App">
-        <FilePond
-          ref={(ref) => (this.pond = ref)}
-          files={this.state.files}
-          allowMultiple={true}
-          server={{
-            // fake server to simulate loading a 'local' server file and processing a file
-            process: (fieldName, file, metadata, load) => {
-              // simulates uploading a file
-              setTimeout(() => {
-                load(Date.now());
-              }, 1500);
-            },
-            load: (source, load) => {
-              // simulates loading a file from the server
-              fetch(source)
-                .then((res) => res.blob())
-                .then(load);
-            },
-          }}
-          oninit={() => this.handleInit()}
-          onupdatefiles={(fileItems) => {
-            // Set currently active file objects to this.state
-            this.setState({
-              files: fileItems.map((fileItem) => fileItem.file),
-            });
-          }}
-        ></FilePond>
-      </div>
+    <FilePond
+      ref={(ref) => (this.pond = ref)}
+      files={this.state.files}
+      allowMultiple={true}
+      server={{
+        // fake server to simulate loading a 'local' server file and processing a file
+        process: (fieldName, file, metadata, load) => {
+          // simulates uploading a file
+          setTimeout(() => {
+            load(Date.now());
+          }, 1500);
+        },
+        load: (source, load) => {
+          // simulates loading a file from the server
+          fetch(source)
+            .then((res) => res.blob())
+            .then(load);
+        },
+      }}
+      oninit={() => this.handleInit()}
+      onupdatefiles={(fileItems) => {
+        // Set currently active file objects to this.state
+        this.setState({
+          files: fileItems.map((fileItem) => fileItem.file),
+        });
+      }}
+    ></FilePond>
     );
   }
 }

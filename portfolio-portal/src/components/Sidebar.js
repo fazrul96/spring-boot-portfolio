@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 
+// MUI Material
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
@@ -8,70 +10,60 @@ import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import BookIcon from '@mui/icons-material/Book';
+
+// MUI Icons
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ProjectIcon from '@mui/icons-material/Build';
-import ExperienceIcon from '@mui/icons-material/Work';
-import EducationIcon from '@mui/icons-material/School';
-import CertificationIcon from '@mui/icons-material/VerifiedUser';
-import SkillsIcon from '@mui/icons-material/BuildCircle';
-import ContactIcon from '@mui/icons-material/ContactMail';
 import OpenAPIIcon from '@mui/icons-material/Api';
 import MediumIcon from '@mui/icons-material/Book';
 
-import { Sidebar, Menu, MenuItem, SubMenu  } from 'react-pro-sidebar';
-import { Link, useNavigate } from 'react-router-dom';
-
 const drawerWidth = 240;
 
+const SidebarItem = ({ text, icon, onClick }) => (
+  <ListItemButton onClick={onClick} disablePadding>
+    <ListItemIcon>{icon}</ListItemIcon>
+    <ListItemText primary={text} />
+  </ListItemButton>
+);
+
 const ClippedDrawer = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const sidebarItems = [
-      { text: 'Test', url: '' },
-    ];
+  const handleItemClick = (text) => {
+    if (text === 'OpenAPI') {
+      navigate('/openapi');
+    } else if (text === 'Medium') {
+      navigate('/medium');
+    } else if (text === 'Component') {
+      navigate('/component');
+    } else {
+      navigate('/');
+    }
+  };
 
-    const handleItemClick = (text) => {
-      const selectedItem = sidebarItems.find((item) => item.text === text);
-
-      if (selectedItem) {
-        window.open(selectedItem.url, '_blank');
-      } else if (text === 'OpenAPI') {
-        navigate('/openapi');
-      } else if (text === 'Medium') {
-        navigate('/medium');
-      } else if (text === 'Component') {
-        navigate('/component');
-      } else {
-        // Handle the case when the item is not found, maybe navigate to a default route
-        navigate('/');
-      }
-    };
-
-  const icons = [
-    <DashboardIcon />,
-    <ProjectIcon />,
-    <ExperienceIcon />,
-    <EducationIcon />,
-    <CertificationIcon />,
-    <SkillsIcon />,
-    <ContactIcon />,
-    <OpenAPIIcon />,
-    <MediumIcon />,
+  const sidebarItems = [
+    { text: 'Dashboard', icon: <DashboardIcon /> },
+    { text: 'Component', icon: <ProjectIcon /> },
+    { text: 'OpenAPI', icon: <OpenAPIIcon /> },
+    { text: 'Medium', icon: <MediumIcon /> },
   ];
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundImage: `linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url("${'https://wallpapercave.com/wp/wp2708351.jpg'}")`, backgroundSize: 'cover' }}>
+      <AppBar
+        position="fixed"
+        sx={{
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url("${'https://wallpapercave.com/wp/wp2708351.jpg'}")`,
+          backgroundSize: 'cover',
+        }}
+      >
         <Toolbar>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div" onClick={() => handleItemClick('Portfolio')}>
             Portfolio
           </Typography>
         </Toolbar>
@@ -81,38 +73,27 @@ const ClippedDrawer = () => {
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box', backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 1)), url("${'https://wallpapercave.com/wp/wp2708351.jpg'}")`, backgroundSize: 'cover' },
+          [`& .MuiDrawer-paper`]: {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 1)), url("${'https://wallpapercave.com/wp/wp2708351.jpg'}")`,
+            backgroundSize: 'cover',
+          },
         }}
       >
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
           <List>
-          {/* {['Dashboard', 'Project', 'Experience', 'Education', 'Certification', 'Skills & Tools', 'Contact'].map((text, index) => ( */}
-            {['Dashboard', 'Component'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton onClick={() => handleItemClick(text)}>
-                  <ListItemIcon>
-                    {icons[index]}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
+            {sidebarItems.map((item) => (
+              <SidebarItem
+                key={item.text}
+                text={item.text}
+                icon={item.icon}
+                onClick={() => handleItemClick(item.text)}
+              />
             ))}
           </List>
           <Divider />
-          <List>
-            {['OpenAPI', 'Medium'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton onClick={() => handleItemClick(text)}>
-                  <ListItemIcon>
-                    {/* Assuming you have an array of icons, adjust the index accordingly */}
-                    {icons[index + 7]}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
         </Box>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -120,6 +101,6 @@ const ClippedDrawer = () => {
       </Box>
     </Box>
   );
-}
+};
 
 export default ClippedDrawer;
