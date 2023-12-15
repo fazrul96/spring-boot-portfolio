@@ -1,0 +1,21 @@
+build:
+  docker:
+    springboot: spring-boot/Dockerfile
+    react: portfolio-portal/Dockerfile
+  config:
+    RAILS_ENV: development
+
+release:
+  command:
+    - ./deployment-tasks.sh
+  image: worker  # Update this if the image is different
+
+run:
+  web: bundle exec puma -C config/puma.rb
+  worker: python myworker.py
+  asset-syncer:
+    command:
+      - python asset-syncer.py
+    image: worker  # Update this if the image is different
+  springboot: java -jar demo-0.0.1-SNAPSHOT.jar
+  react: npm start

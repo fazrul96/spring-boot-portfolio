@@ -18,28 +18,13 @@ import Skills from './components/section/skills/Skill';
 import Contact from './components/section/Contact';
 
 // Pages
+import HomePage from './pages/HomePage';
 import OpenApiPage from './pages/OpenApiPage';
 import MediumPage from './pages/MediumPage';
 import ComponentPage from './pages/ComponentPage';
 
 // Hooks
 import ApiService from './hooks/ApiService';
-
-const HomePage = ({ projects, experiences, educations, certifications, skills, error }) => {
-  return (
-    <>
-      {/* Add the content for the Home page here */}
-      <Portfolio />
-      <Project projects={projects} id="projects" />
-      <Experience experiences={experiences} id="experiences" />
-      <Education educations={educations} id="educations"/>
-      <Certification certifications={certifications} id="certifications"/>
-      <Skills skills={skills} id="skills"/>
-      {error && <p className="error-message">Error fetching data: {error.message}</p>}
-      <Contact />
-    </>
-  );
-};
 
 const App = () => {
   const [experiences, setExperiences] = useState([]);
@@ -63,7 +48,7 @@ const App = () => {
         setExperiences(experiencesData);
         setEducations(educationsData);
         setCertifications(certificationsData);
-        setProjects(projectsData); 
+        setProjects(projectsData);
         setSkills(skillsData);
       } catch (error) {
         console.error('Error fetching data:', error);

@@ -3,7 +3,9 @@ import { Box, Grid } from '@mui/material';
 import MediumContent from './MediumContent';
 
 const MediumPage = () => {
-  const mediumUrl = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40mfbr";
+  const mediumUsername = process.env.REACT_APP_MEDIUM_USERNAME;
+  const mediumUrl = `https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40${mediumUsername}`;
+
   const [profile, setProfile] = useState({
     name: 'Fazrul Romli',
     profileImage: '',

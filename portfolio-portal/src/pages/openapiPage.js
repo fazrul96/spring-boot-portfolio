@@ -1,7 +1,8 @@
 import React from 'react';
 
-const SwaggerPage = () => {
-  const swaggerUrl = 'http://localhost:8080/swagger-ui.html'; // Replace with your Swagger UI URL
+const OpenApiPage = () => {
+  const baseUrl = process.env.REACT_APP_BASE_URL;
+  const swaggerUrl = `${baseUrl}/swagger-ui.html`;
 
   return (
     <div style={{ width: '100%', height: '100vh' }}>
@@ -16,4 +17,4 @@ const SwaggerPage = () => {
   );
 };
 
-export default SwaggerPage;
+export default OpenApiPage;

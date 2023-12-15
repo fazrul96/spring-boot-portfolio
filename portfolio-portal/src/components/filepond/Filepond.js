@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-
-// Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
 
 // Import FilePond styles
