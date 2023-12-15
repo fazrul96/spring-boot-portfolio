@@ -1,12 +1,19 @@
 import React from 'react';
 
-const OpenApiPage = () => {
+const SwaggerPage = () => {
+  const swaggerUrl = 'http://localhost:8080/swagger-ui.html'; // Replace with your Swagger UI URL
+
   return (
-    <div>
-      <h1>OpenAPI Page</h1>
-      {/* Add content specific to the OpenAPI page */}
+    <div style={{ width: '100%', height: '100vh' }}>
+      <iframe
+        title="Swagger UI"
+        src={swaggerUrl}
+        width="100%"
+        height="100%"
+        frameBorder="0"
+      />
     </div>
   );
 };
 
-export default OpenApiPage;
+export default SwaggerPage;

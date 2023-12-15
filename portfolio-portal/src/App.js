@@ -84,6 +84,8 @@ const App = () => {
             <Routes>
               <Route path="/" element={<HomePage projects={projects} experiences={experiences} educations={educations} certifications={certifications} skills={skills} error={error} />} />
               <Route path="/component" element={<ComponentPage />} />
+              <Route path="/openapi" element={<OpenApiPage />} />
+              <Route path="/medium" element={<MediumPage />} />
             </Routes>
           </Col>
         </Row>

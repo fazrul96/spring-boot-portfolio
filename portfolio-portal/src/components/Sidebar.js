@@ -34,8 +34,7 @@ const ClippedDrawer = () => {
     const navigate = useNavigate();
 
     const sidebarItems = [
-      { text: 'OpenAPI', url: 'http://localhost:8080/swagger-ui/index.html#/' },
-      { text: 'Medium', url: 'https://medium.com/@mfbr' },
+      { text: 'Test', url: '' },
     ];
 
     const handleItemClick = (text) => {
@@ -43,6 +42,10 @@ const ClippedDrawer = () => {
 
       if (selectedItem) {
         window.open(selectedItem.url, '_blank');
+      } else if (text === 'OpenAPI') {
+        navigate('/openapi');
+      } else if (text === 'Medium') {
+        navigate('/medium');
       } else if (text === 'Component') {
         navigate('/component');
       } else {
