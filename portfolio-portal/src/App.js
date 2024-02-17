@@ -19,9 +19,15 @@ import Contact from './components/section/Contact';
 
 // Pages
 import HomePage from './pages/HomePage';
+import ComponentPage from './pages/ComponentPage';
 import OpenApiPage from './pages/OpenApiPage';
 import MediumPage from './pages/MediumPage';
-import ComponentPage from './pages/ComponentPage';
+import ModulePage from './pages/ModulePage';
+import OCRPage from './pages/OCRPage';
+import CalendarPage from './pages/CalendarPage';
+import BlogPage from './pages/BlogPage';
+import BlogContent from './pages/BlogContent';
+import BlogDetailPage from './pages/BlogDetailPage';
 
 // Hooks
 import ApiService from './hooks/ApiService';
@@ -72,6 +78,12 @@ const App = () => {
               <Route path="/component" element={<ComponentPage />} />
               <Route path="/openapi" element={<OpenApiPage />} />
               <Route path="/medium" element={<MediumPage />} />
+              <Route path="/module" element={<ModulePage />} />
+              <Route path="/module/ocr" element={<OCRPage />} />
+              <Route path="/module/calendar" element={<CalendarPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:tog/chapter/:chapter" element={<BlogContent />} />
+              <Route path="/blog/:tog" element={<BlogDetailPage />} />
             </Routes>
           </Col>
         </Row>

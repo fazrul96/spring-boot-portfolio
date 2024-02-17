@@ -23,10 +23,10 @@ import MediumIcon from '@mui/icons-material/Book';
 const drawerWidth = 240;
 
 const SidebarItem = ({ text, icon, onClick }) => (
-  <ListItemButton onClick={onClick} disablePadding>
-    <ListItemIcon>{icon}</ListItemIcon>
-    <ListItemText primary={text} />
-  </ListItemButton>
+    <ListItemButton onClick={onClick} disablepadding="true">
+      <ListItemIcon>{icon}</ListItemIcon>
+      <ListItemText primary={text} />
+    </ListItemButton>
 );
 
 const ClippedDrawer = () => {
@@ -37,19 +37,32 @@ const ClippedDrawer = () => {
       navigate('/openapi');
     } else if (text === 'Medium') {
       navigate('/medium');
+      } else if (text === 'Module') {
+        navigate('/module');
     } else if (text === 'Component') {
       navigate('/component');
+    } else if (text === 'Webtoon') {
+      navigate('/blog');
+    } else if (text === 'Movie') {
+      navigate('/movie');
     } else {
       navigate('/');
     }
   };
 
-  const sidebarItems = [
-    { text: 'Dashboard', icon: <DashboardIcon /> },
-    { text: 'Component', icon: <ProjectIcon /> },
-    { text: 'OpenAPI', icon: <OpenAPIIcon /> },
-    { text: 'Medium', icon: <MediumIcon /> },
-  ];
+    const publicSidebarItems = [
+        { text: 'Dashboard', icon: <DashboardIcon /> },
+        { text: 'Component', icon: <ProjectIcon /> },
+        { text: 'Medium', icon: <MediumIcon /> },
+        { text: 'Module', icon: <MediumIcon /> },
+    ];
+
+    const privateSidebarItems = [
+      { text: 'GREDAVERSE', icon: '' },
+      { text: 'OpenAPI', icon: <OpenAPIIcon /> },
+      { text: 'Webtoon', icon: <MediumIcon /> },
+      { text: 'Movie', icon: <MediumIcon /> },
+    ];
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -84,7 +97,7 @@ const ClippedDrawer = () => {
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
           <List>
-            {sidebarItems.map((item) => (
+            {publicSidebarItems.map((item) => (
               <SidebarItem
                 key={item.text}
                 text={item.text}
@@ -94,6 +107,16 @@ const ClippedDrawer = () => {
             ))}
           </List>
           <Divider />
+            <List>
+              {privateSidebarItems.map((item) => (
+                <SidebarItem
+                  key={item.text}
+                  text={item.text}
+                  icon={item.icon}
+                  onClick={() => handleItemClick(item.text)}
+                />
+              ))}
+            </List>
         </Box>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

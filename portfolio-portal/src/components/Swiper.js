@@ -9,7 +9,6 @@ import 'swiper/css/scrollbar';
 const SwiperElements = () => {
   return (
     <Swiper
-      // install Swiper modules
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       spaceBetween={50}
       slidesPerView={1}

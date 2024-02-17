@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   CardActionArea,
@@ -13,73 +13,230 @@ import {
   Grid,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 import Carousel from '../components/Carousel';
 import Swiper from '../components/Swiper';
+import SwiperCube from '../components/SwiperCube';
+import SwiperVertical from '../components/SwiperVertical';
 import Filepond from '../components/filepond/Filepond';
 
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+
 const cardData = [
-  {
-    title: 'Filepond',
-    category: 'Upload',
-    image: 'https://wallpapercave.com/wp/wp2708351.jpg',
-    content: <Filepond />,
-    details: (
-        <Typography variant="body2" color="text.secondary">
+    {
+        title: 'Filepond',
+        category: 'Upload',
+        image: 'https://wallpapercave.com/wp/wp2708351.jpg',
+        content: <Filepond />,
+        details: (
+          <Typography variant="body2" color="text.secondary">
             FilePond is a JavaScript library that brings silky smooth drag n drop file uploading. These docs will help install, set up, modify, and extend FilePond.
-        </Typography>
-    ),
-  },
-  {
-    title: 'Swiper',
-    category: 'Carousel',
-    image: 'https://wallpapercave.com/wp/wp2708351.jpg',
-    content: <Swiper />,
-    details: (
-        <Typography variant="body2" color="text.secondary">
+          </Typography>
+        ),
+        markdown: (`
+              import React from 'react';
+              const MyComponent = () => {
+                return <div>Hello, World!</div>;
+              };
+              export default MyComponent;`
+        ),
+    },
+    {
+        title: 'Swiper',
+        category: 'Swiper',
+        image: 'https://wallpapercave.com/wp/wp2708351.jpg',
+        content: <Swiper />,
+        details: (
+          <Typography variant="body2" color="text.secondary">
             Swiper is the most modern free and open-source mobile touch slider with hardware accelerated transitions and amazing native behavior. Use it on websites, web apps, and mobile native/hybrid apps. Swiper, along with other great components, is a part of Framework7 and Ionic Framework - fully-featured frameworks for building iOS & Android apps.
-        </Typography>
-    )
-  },
-  {
-    title: 'Carousel',
-    category: 'Carousel',
-    image: 'https://wallpapercave.com/wp/wp2708351.jpg',
-    content: <Carousel />,
-    details: <></>,
-  },
+          </Typography>
+        ),
+        markdown: (`
+              import React from 'react';
+              const MyComponent = () => {
+                return <div>Hello, World!</div>;
+              };
+              export default MyComponent;`
+        ),
+    },
+    {
+        title: 'Carousel',
+        category: 'Swiper',
+        image: 'https://wallpapercave.com/wp/wp2708351.jpg',
+        content: <Carousel />,
+        details: (
+          <Typography variant="body2" color="text.secondary">
+            Swiper is the most modern free and open-source mobile touch slider with hardware accelerated transitions and amazing native behavior. Use it on websites, web apps, and mobile native/hybrid apps. Swiper, along with other great components, is a part of Framework7 and Ionic Framework - fully-featured frameworks for building iOS & Android apps.
+          </Typography>
+        ),
+        markdown: (`
+              import React from 'react';
+              const MyComponent = () => {
+                return <div>Hello, World!</div>;
+              };
+              export default MyComponent;`
+        ),
+    },
+    {
+          title: 'Vertical',
+          category: 'Swiper',
+          image: 'https://wallpapercave.com/wp/wp2708351.jpg',
+          content: <SwiperVertical />,
+          details: (
+              <Typography variant="body2" color="text.secondary">
+                Swiper is the most modern free and open-source mobile touch slider with hardware accelerated transitions and amazing native behavior. Use it on websites, web apps, and mobile native/hybrid apps. Swiper, along with other great components, is a part of Framework7 and Ionic Framework - fully-featured frameworks for building iOS & Android apps.
+              </Typography>
+          ),
+        markdown: (`
+              import React from 'react';
+              const MyComponent = () => {
+                return <div>Hello, World!</div>;
+              };
+              export default MyComponent;`
+        ),
+    },
+    {
+          title: 'Cube',
+          category: 'Swiper',
+          image: 'https://wallpapercave.com/wp/wp2708351.jpg',
+          content: <SwiperCube />,
+          details: (
+              <Typography variant="body2" color="text.secondary">
+                Swiper is the most modern free and open-source mobile touch slider with hardware accelerated transitions and amazing native behavior. Use it on websites, web apps, and mobile native/hybrid apps. Swiper, along with other great components, is a part of Framework7 and Ionic Framework - fully-featured frameworks for building iOS & Android apps.
+              </Typography>
+          ),
+        markdown: (`
+              import React from 'react';
+              const MyComponent = () => {
+                return <div>Hello, World!</div>;
+              };
+              export default MyComponent;`
+        ),
+    },
+    {
+          title: 'Fade',
+          category: 'Swiper',
+          image: 'https://wallpapercave.com/wp/wp2708351.jpg',
+          content: <Carousel />,
+          details: (
+              <Typography variant="body2" color="text.secondary">
+                Swiper is the most modern free and open-source mobile touch slider with hardware accelerated transitions and amazing native behavior. Use it on websites, web apps, and mobile native/hybrid apps. Swiper, along with other great components, is a part of Framework7 and Ionic Framework - fully-featured frameworks for building iOS & Android apps.
+              </Typography>
+          ),
+        markdown: (`
+              import React from 'react';
+              const MyComponent = () => {
+                return <div>Hello, World!</div>;
+              };
+              export default MyComponent;`
+        ),
+    },
+    {
+      title: 'Weather API',
+      category: '3rd Party API',
+      image: 'https://wallpapercave.com/wp/wp2708351.jpg',
+      content: <></>,
+      details: <></>,
+      markdown: (`
+          import React from 'react';
+          const MyComponent = () => {
+            return <div>Hello, World!</div>;
+          };
+          export default MyComponent;`
+      ),
+    },
+    {
+      title: 'Timezone API',
+      category: '3rd Party API',
+      image: 'https://wallpapercave.com/wp/wp2708351.jpg',
+      content: <></>,
+      details: <></>,
+      markdown: (`
+          import React from 'react';
+          const MyComponent = () => {
+            return <div>Hello, World!</div>;
+          };
+          export default MyComponent;`
+      ),
+    },
+    {
+      title: 'Other API',
+      category: '3rd Party API',
+      image: 'https://wallpapercave.com/wp/wp2708351.jpg',
+      content: <></>,
+      details: <></>,
+      markdown: (`
+          import React from 'react';
+          const MyComponent = () => {
+            return <div>Hello, World!</div>;
+          };
+          export default MyComponent;`
+      ),
+    },
 ];
 
-const CardComponent = ({ title, image, content, details }) => (
-  <Grid item xs={12} md={4}>
-    <Card style={{ marginTop: '10px' }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          image={image}
-          alt={`${title} Image`}
-          style={{ objectFit: 'cover', height: '200px' }}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {content}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel-content" id="panel-header">
-          <Typography>More Information</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          {details}
-        </AccordionDetails>
-      </Accordion>
-    </Card>
-  </Grid>
-);
+const CardComponent = ({ title, image, content, details, markdown }) => {
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = () => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    return(
+      <Grid item xs={12} md={4}>
+        <Card style={{ marginTop: '10px' }}>
+          <CardActionArea>
+            {/*
+            <CardMedia
+              component="img"
+              image={image}
+              alt={`${title} Image`}
+              style={{ objectFit: 'cover', height: '200px' }}
+            />
+            */}
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {title}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {content}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel-content" id="panel-header">
+              <Typography>More Information</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {details}
+                <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center' }}>
+                  <CopyToClipboard text={markdown} onCopy={handleCopy}>
+                    <button
+                      style={{
+                        padding: '8px 16px',
+                        fontSize: '14px',
+                        backgroundColor: '#007BFF',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {copied ? 'Copied!' : 'Copy'}
+                    </button>
+                  </CopyToClipboard>
+                </div>
+                <SyntaxHighlighter language="jsx" style={vs}>
+                  {markdown}
+                </SyntaxHighlighter>
+            </AccordionDetails>
+          </Accordion>
+        </Card>
+      </Grid>
+    );
+};
 
 const ComponentPage = () => {
   const categories = [...new Set(cardData.map((card) => card.category))];

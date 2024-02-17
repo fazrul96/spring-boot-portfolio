@@ -168,7 +168,7 @@ return(
             <Grid item xs>
                 <Typography sx={{ cursor: 'pointer' }} variant="body2">
                     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} aria-label="contacts">
-                      <ListItem disablePadding>
+                      <ListItem disablepadding="true">
                         <ListItemButton>
                           <ListItemIcon>
                             <StarIcon />
@@ -177,14 +177,14 @@ return(
                         </ListItemButton>
                       </ListItem>
 
-                      <ListItem disablePadding>
+                      <ListItem disablepadding="true">
                         <ListItemButton>
                           <ListItemText inset primary="Eric Hoffman" />
                         </ListItemButton>
                       </ListItem>
 
                       {details.map((detail, index) => (
-                        <ListItem key={index} disablePadding>
+                        <ListItem key={index} disablepadding="true">
                           <ListItemButton>
                           <ListItemText inset primary={`${detail.label}: ${detail.value}`} />
                           </ListItemButton>

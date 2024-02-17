@@ -30,7 +30,6 @@ const MediumPage = () => {
 
               setProfile(p => ({...p, profileUrl: link, profileImage: image}));
               setBlog({ items: blogs, isLoading: false, error: null });
-              console.info('blogs:', blogs);
           })
 
       } catch (error) {
