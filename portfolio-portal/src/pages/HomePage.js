@@ -1,4 +1,3 @@
-// HomePage.js
 import React from 'react';
 import Portfolio from './../components/section/portfolios/Portfolio';
 import Project from './../components/section/projects/Project';
@@ -14,10 +13,12 @@ const HomePage = ({ projects, experiences, educations, certifications, skills, e
       <Portfolio />
       <Project projects={projects} id="projects" />
       <Experience experiences={experiences} id="experiences" />
-      <Education educations={educations} id="educations" />
       <Certification certifications={certifications} id="certifications" />
+      {/*
       <Skills skills={skills} id="skills" />
+      <Education educations={educations} id="educations" />
       <Contact />
+      */}
       {error && <p className="error-message">Error fetching data: {error.message}</p>}
     </>
   );

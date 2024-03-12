@@ -43,6 +43,52 @@ const cardData = [
         ),
     },
     {
+      title: 'Weather API',
+      category: '3rd Party API',
+      image: 'https://wallpapercave.com/wp/wp2708351.jpg',
+      content: <></>,
+      details: <></>,
+      markdown: (`
+          import React from 'react';
+          const MyComponent = () => {
+            return <div>Hello, World!</div>;
+          };
+          export default MyComponent;`
+      ),
+    },
+    {
+      title: 'Timezone API',
+      category: '3rd Party API',
+      image: 'https://wallpapercave.com/wp/wp2708351.jpg',
+      content: <></>,
+      details: <></>,
+      markdown: (`
+          import React from 'react';
+          const MyComponent = () => {
+            return <div>Hello, World!</div>;
+          };
+          export default MyComponent;`
+      ),
+    },
+    {
+      title: 'Other API',
+      category: '3rd Party API',
+      image: 'https://wallpapercave.com/wp/wp2708351.jpg',
+      content: <></>,
+      details: <></>,
+      markdown: (`
+          import React from 'react';
+          const MyComponent = () => {
+            return <div>Hello, World!</div>;
+          };
+          export default MyComponent;`
+      ),
+    },
+];
+
+// fix swiper UI
+const fixSwiper = [
+    {
         title: 'Swiper',
         category: 'Swiper',
         image: 'https://wallpapercave.com/wp/wp2708351.jpg',
@@ -132,48 +178,6 @@ const cardData = [
               export default MyComponent;`
         ),
     },
-    {
-      title: 'Weather API',
-      category: '3rd Party API',
-      image: 'https://wallpapercave.com/wp/wp2708351.jpg',
-      content: <></>,
-      details: <></>,
-      markdown: (`
-          import React from 'react';
-          const MyComponent = () => {
-            return <div>Hello, World!</div>;
-          };
-          export default MyComponent;`
-      ),
-    },
-    {
-      title: 'Timezone API',
-      category: '3rd Party API',
-      image: 'https://wallpapercave.com/wp/wp2708351.jpg',
-      content: <></>,
-      details: <></>,
-      markdown: (`
-          import React from 'react';
-          const MyComponent = () => {
-            return <div>Hello, World!</div>;
-          };
-          export default MyComponent;`
-      ),
-    },
-    {
-      title: 'Other API',
-      category: '3rd Party API',
-      image: 'https://wallpapercave.com/wp/wp2708351.jpg',
-      content: <></>,
-      details: <></>,
-      markdown: (`
-          import React from 'react';
-          const MyComponent = () => {
-            return <div>Hello, World!</div>;
-          };
-          export default MyComponent;`
-      ),
-    },
 ];
 
 const CardComponent = ({ title, image, content, details, markdown }) => {
@@ -185,7 +189,7 @@ const CardComponent = ({ title, image, content, details, markdown }) => {
     };
 
     return(
-      <Grid item xs={12} md={4}>
+      <Grid item xs={12} md={6}>
         <Card style={{ marginTop: '10px' }}>
           <CardActionArea>
             {/*
@@ -242,7 +246,7 @@ const ComponentPage = () => {
   const categories = [...new Set(cardData.map((card) => card.category))];
 
   return (
-    <Box sx={{ flexGrow: 1, padding: 2 }} style={{ marginTop: '100px' }}>
+    <Box sx={{ flexGrow: 1, padding: 2 }} style={{ marginTop: '70px' }}>
       <Typography variant="h3" gutterBottom>
         Component Collection
       </Typography>

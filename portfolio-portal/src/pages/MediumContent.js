@@ -23,7 +23,7 @@ const MediumContent = ({ profile, blog }) => {
 
   return (
     <Grid item xs={12} md={4}>
-      <Card style={{ marginTop: '100px' }}>
+      <Card style={{ marginTop: '60px' }}>
         <CardActionArea>
           <CardMedia
             component="img"

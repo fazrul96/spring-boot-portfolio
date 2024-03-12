@@ -42,7 +42,7 @@ const MediumPage = () => {
   }, []);
 
   return (
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, padding: 2 }}>
           <section id="medium">
           <Grid container spacing={2} justifyContent="left" alignItems="center">
               <MediumContent profile={profile} blog={blog} />

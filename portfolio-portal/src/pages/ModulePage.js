@@ -16,7 +16,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Link } from 'react-router-dom';
 
 import OCRPage from '../pages/OCRPage';
-import CalendarPage from '../pages/CalendarPage';
+//import CalendarPage from '../pages/CalendarPage';
 
 const cardData = [
     {
@@ -35,7 +35,7 @@ const cardData = [
         title: 'Calendar',
         category: 'Module',
         image: 'https://wallpapercave.com/wp/wp2708351.jpg',
-        content: <CalendarPage />,
+        content: '', //<CalendarPage />
         tag: 'calendar',
         details: (
           <Typography variant="body2" color="text.secondary">
@@ -89,11 +89,11 @@ const CardComponent = ({ title, category, image, content, tag, details }) => {
     );
 };
 
-const ComponentPage = () => {
+const ModulePage = () => {
   const categories = [...new Set(cardData.map((card) => card.category))];
 
   return (
-    <Box sx={{ flexGrow: 1, padding: 2 }} style={{ marginTop: '100px' }}>
+    <Box sx={{ flexGrow: 1, padding: 2 }} style={{ marginTop: '70px' }}>
       <Typography variant="h3" gutterBottom>
         Module Collection
       </Typography>
@@ -139,4 +139,4 @@ const ComponentPage = () => {
   );
 };
 
-export default ComponentPage;
+export default ModulePage;
