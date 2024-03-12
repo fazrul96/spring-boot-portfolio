@@ -15,7 +15,14 @@ import {
   Chip,
   Stack, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText
 } from '@mui/material';
+
+import Tooltip from '@mui/material/Tooltip';
 import StarIcon from '@mui/icons-material/Star';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import EmailIcon from '@mui/icons-material/Email';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+
 import Paper from '@mui/material/Paper';
 import ButtonBase from '@mui/material/ButtonBase';
 import { styled } from '@mui/material/styles';
@@ -24,7 +31,11 @@ import Filepond from '../../../components/filepond/Filepond';
 import profileImage from '../../../assets/img/profile-img.jpg';
 import { UserCard } from 'react-ui-cards';
 
+// Auth0
+import { useAuth0 } from '@auth0/auth0-react';
+
 const PortfolioContent = () => {
+    const { isAuthenticated, user } = useAuth0();
     const details = [
         { label: 'Birthday', value: '16 May 1996' },
         { label: 'Website', value: 'https://portfolio.mfzrl.cyou/' },
@@ -36,32 +47,15 @@ const PortfolioContent = () => {
     ];
 
   return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-      >
-<Card style={{ marginBottom: '20px', marginTop: '100px'}}>
+  <Box
+    display="flex"
+    justifyContent="center"
+    alignItems="center"
+  >
+      <Card style={{ marginBottom: '20px', marginTop: '100px'}}>
         <CardActionArea>
-          <UserCard
-              float
-              href='https://github.com/fazrul96'
-              header={profileImage}
-              avatar={profileImage}
-              name='Fazrul Romli'
-              positionName='Software Developer'
-          />
-{/*
-          <CardMedia
-            component="img"
-            height="140"
-            image={'https://wallpapercave.com/wp/wp2708351.jpg'}
-            alt="Experience Image"
-          />
- */}
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-                {/* <Filepond /> */}
                 {/* <Image src={profileImage} thumbnail />
                     <Image src={profileImage} style={{width: '450px', height: '450px', objectFit: 'scale-down'}}/>
                 */}
@@ -79,7 +73,6 @@ const PortfolioContent = () => {
                           <i className="bi bi-chevron-right"></i> <strong>{detail.label}:</strong> <span>{detail.value}</span>
                       </li>
                   ))}
-
               </Typography>
             </Typography>
             <Typography variant="body2" color="text.secondary">
@@ -88,7 +81,7 @@ const PortfolioContent = () => {
           </CardContent>
         </CardActionArea>
       </Card>
-      </Box>
+  </Box>
   );
 };
 
@@ -115,15 +108,16 @@ const chipData = [
 ];
 
 const Img = styled('img')({
-    margin: 'auto',
-    display: 'block',
-    maxWidth: '100%',
-    maxHeight: '100%',
+  margin: 'auto',
+  display: 'block',
+  maxWidth: '100%',
+  maxHeight: '100%',
 });
 
-const ComplexGrid = () => {
-return(
+const Portfolio = () => {
+  return (
     <Paper
+      elevation={12}
       sx={{
         p: 2,
         margin: 'auto',
@@ -136,65 +130,80 @@ return(
           theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
       }}
     >
-      <Grid container spacing={2} >
+      <Grid container spacing={2}>
         <Grid item>
           <UserCard
               float
-              href='https://github.com/fazrul96'
               header={profileImage}
               avatar={profileImage}
               name='Fazrul Romli'
               positionName='Software Developer'
+              stats={[
+                  { value: (
+                      <Tooltip title="LinkedIn" arrow>
+                          <a href="https://www.linkedin.com/in/fazrul-romli-79138415b/"><LinkedInIcon /></a>
+                      </Tooltip>)},
+                  { value: (
+                      <Tooltip title="Github" arrow>
+                          <a href="https://github.com/fazrul96"><GitHubIcon /></a>
+                      </Tooltip>)},
+                  { value: (
+                      <Tooltip title="Email" arrow>
+                          <a href="mailto:fazrul51@gmail.com"><EmailIcon /></a>
+                      </Tooltip>)},
+                  { value: (
+                      <Tooltip title="Resume" arrow>
+                          <a className="portfolio-button" data-toggle="modal" data-target="#resume">
+                              <AssignmentIndIcon />
+                          </a>
+                      </Tooltip>)}
+              ]}
           />
-          {/*
-          <ButtonBase sx={{ width: 480, height: 480 }}>
-            <Img alt="complex" src={profileImage} />
-          </ButtonBase>
-          */}
         </Grid>
-        <Grid item xs={12} sm container s>
+        <Grid item xs={12} sm container>
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
               <Typography gutterBottom variant="subtitle1" component="div">
                 Welcome to My Web Portfolio!
               </Typography>
-              <Typography variant="body2" gutterBottom>
+              <Typography variant="body2" gutterBottom sx={{ fontFamily: 'Inter, sans-serif' }}>
                 <p> Greetings! I'm a versatile software developer with over 4+ years of hands-on experience. Proficient in both frontend and backend technologies. With a passion for crafting seamless digital experiences, I have a rich history of success in bringing ideas to life through code. </p>
                 <p> I'm a dynamic and innovative web design and development professional with over 4 years of experience across diverse industries. My expertise lies in delivering exceptional results by seamlessly combining technical prowess with superior analytical thinking skills. As a task-driven individual, I excel in prioritizing tasks, promptly identifying and resolving technical issues, and ensuring timely project completion.</p>
                 <p> Feel free to explore my project collection, and don't hesitate to reach out if you have any questions or need assistance. </p>
               </Typography>
             </Grid>
             {/*
+                <Grid item xs>
+                    <Typography sx={{ cursor: 'pointer' }} variant="body2">
+                        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} aria-label="contacts">
+                          <ListItem disablepadding="true">
+                            <ListItemButton>
+                              <ListItemIcon>
+                                <StarIcon />
+                              </ListItemIcon>
+                              <ListItemText primary="Chelsea Otakan" />
+                            </ListItemButton>
+                          </ListItem>
+
+                          <ListItem disablepadding="true">
+                            <ListItemButton>
+                              <ListItemText inset primary="Eric Hoffman" />
+                            </ListItemButton>
+                          </ListItem>
+
+                          {details.map((detail, index) => (
+                            <ListItem key={index} disablepadding="true">
+                              <ListItemButton>
+                              <ListItemText inset primary={`${detail.label}: ${detail.value}`} />
+                              </ListItemButton>
+                            </ListItem>
+                          ))}
+                        </List>
+                    </Typography>
+                </Grid>
+            */}
+            {/*
             <Grid item xs>
-                <Typography sx={{ cursor: 'pointer' }} variant="body2">
-                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} aria-label="contacts">
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemIcon>
-                            <StarIcon />
-                          </ListItemIcon>
-                          <ListItemText primary="Chelsea Otakan" />
-                        </ListItemButton>
-                      </ListItem>
-
-                      <ListItem disablePadding>
-                        <ListItemButton>
-                          <ListItemText inset primary="Eric Hoffman" />
-                        </ListItemButton>
-                      </ListItem>
-
-                      {details.map((detail, index) => (
-                        <ListItem key={index} disablePadding>
-                          <ListItemButton>
-                          <ListItemText inset primary={`${detail.label}: ${detail.value}`} />
-                          </ListItemButton>
-                        </ListItem>
-                      ))}
-                    </List>
-                  </Typography>
-              </Grid>
-              */}
-              <Grid item xs>
                 <Typography sx={{ cursor: 'pointer' }} variant="body2">
                     <Stack direction="row" spacing={1}>
                       {chipData.map((chip, index) => (
@@ -211,22 +220,18 @@ return(
                       ))}
                     </Stack>
                 </Typography>
-              </Grid>
-            <Grid item xs>
-              <Typography sx={{ cursor: 'pointer' }} variant="body2">
-                <a className="portfolio-button" data-toggle="modal" data-target="#resume">More details</a>
-              </Typography>
             </Grid>
+            */}
           </Grid>
           <Grid item>
             <Typography variant="subtitle1" component="div">
-              <StarIcon />
+              <StarIcon sx={{ color: 'gold' }} /> {/* or 'yellow' */}
             </Typography>
           </Grid>
         </Grid>
       </Grid>
     </Paper>
-)
-};
+  );
+}
 
-export default ComplexGrid;
+export default Portfolio;

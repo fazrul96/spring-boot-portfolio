@@ -18,7 +18,7 @@ const ProjectCarousel = ({ projects, direction = 'cube' }) => {
   const backgroundImage = '';//url(https://wallpapercave.com/wp/wp2708351.jpg)';
 
   return (
-  <Grid item xs={12} md={6}>
+  <Grid item xs={12} md={4}>
     <Swiper
       spaceBetween={30}
       centeredSlides={true}

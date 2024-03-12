@@ -36,6 +36,10 @@ class ApiService {
   async fetchSkills() {
     return this.fetchData('/getSkills');
   }
+
+  async fetchBlogs() {
+    return this.fetchData('/getBlogs');
+  }
 }
 
 export default ApiService;

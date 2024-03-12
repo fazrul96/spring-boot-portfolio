@@ -27,6 +27,7 @@ public class ExperienceServiceImpl implements ExperienceService {
             "Accenture Solutions Sdn. Bhd.",
             "Business & Integration Arch Analyst",
             "Dec 2022 - Present",
+            "https://cdnv2.dropr.io/image/7m-VCLUpSjG3z_tAei75rg/Iagvf8Qx/1200x630/sf/f78e1fde-bff5-4287-9476-9db5f6b6a1ef.jpg?cache_buster=39dfa55283318d31afe5a3ff4a0e3253e2045e43",
             createItemsForAccenture()
         );
     }
@@ -37,6 +38,7 @@ public class ExperienceServiceImpl implements ExperienceService {
             "The Lorry Online Sdn. Bhd.",
             "Back End Developer",
             "Nov 2020 - Nov 2022",
+            "https://images.glints.com/unsafe/glints-dashboard.s3.amazonaws.com/company-banner-pic/54769d664d4b90f2c2320644b49c20ff.jpeg",
             createItemsForTheLorry()
         );
     }
@@ -47,6 +49,7 @@ public class ExperienceServiceImpl implements ExperienceService {
             "BizAid Technologies Sdn. Bhd.",
             "Software Programmer",
             "Apr 2019 - Oct 2020",
+            "https://siva.jsstatic.com/my/5530/images/banner/5530_banner_0_770933.jpg",
             createItemsForBizAid()
         );
     }

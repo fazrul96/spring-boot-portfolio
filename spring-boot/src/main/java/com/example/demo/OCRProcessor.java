@@ -13,6 +13,10 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static net.sourceforge.tess4j.ITessAPI.TessPageSegMode.PSM_AUTO;
+import static net.sourceforge.tess4j.ITessAPI.TessPageSegMode.PSM_COUNT;
+
 @SuppressWarnings("deprecation")
 public class OCRProcessor {
     private static final Logger logger = LoggerFactory.getLogger(OCRProcessor.class);
@@ -57,5 +61,31 @@ public class OCRProcessor {
         logger.info("OCR processing completed for files in directory: {}", outputDirectory);
 
         return ocrResults.toString();
+    }
+
+    public String processImage(String baseDirectory) throws TesseractException {
+        try {
+            logger.info("Starting OCR processing for image: {}", baseDirectory);
+
+            long startTime = System.currentTimeMillis();
+            long endTime = System.currentTimeMillis();
+
+            Tesseract tesseract = new Tesseract();
+            tesseract.setDatapath("src/test/resources/tessdata");
+            tesseract.setLanguage("eng");
+            tesseract.setTessVariable("tessedit_char_whitelist", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+//            tesseract.setPageSegMode(PSM_AUTO);
+
+            String text = tesseract.doOCR(new File(baseDirectory));
+            String formattedResult = ComplexFormatter.formatAndReplaceSpecial(text);
+            ocrResults.add(formattedResult);
+
+            logger.info("OCR processing completed in {} milliseconds", (endTime - startTime));
+            logger.info("OCR processing completed for image: {}", ocrResults);
+            return ocrResults.toString();
+        } catch (TesseractException e) {
+            logger.error("Error during OCR processing: {}", e.getMessage(), e);
+            throw e;
+        }
     }
 }
