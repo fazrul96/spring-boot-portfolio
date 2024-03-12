@@ -19,7 +19,6 @@ const ExperienceTimelineItem = ({ list, title, description, chips }) => {
         <ul style={{  marginBottom: '20px' }}>
           <li>{description}</li>
         </ul>
-
         <Stack direction="row" spacing={0.5} style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
           {chips.map((chip) => (
             <Chip
