@@ -20,8 +20,12 @@ public class Project {
     @JsonProperty("img")
     private String img;
     
-    @JsonProperty("footer")
-    private String[] footer;
+    @JsonProperty("tag")
+    private String[] tag;
+
+    @JsonProperty("list")
+    private String[] list;
+
 //    private int id;
 //    private String category;
 //    private String title;
@@ -39,14 +43,15 @@ public class Project {
 //        this.tags = tags;
 //    }
 
-    public Project(int id, String title, String description, String status, String reference, String img, String[] footer) {
+    public Project(int id, String title, String description, String status, String reference, String img, String[] list, String[] tag) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.status = status;
         this.reference = reference;
         this.img = img;
-        this.footer = footer;
+        this.list = list;
+        this.tag = tag;
     }
 
     // Getters and setters
@@ -98,11 +103,19 @@ public class Project {
         this.img = img;
     }
 
-    public String[] getFooter() {
-        return footer;
+    public String[] getTag() {
+        return tag;
     }
 
-    public void setFooter(String[] footer) {
-        this.footer = footer;
+    public void setTag(String[] tag) {
+        this.tag = tag;
+    }
+
+    public String[] getList() {
+        return list;
+    }
+
+    public void setList(String[] list) {
+        this.list = list;
     }
 }

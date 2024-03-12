@@ -11,9 +11,15 @@ public class Experience {
     
     @JsonProperty("role")
     private String role;
+
+    @JsonProperty("tag")
+    private String tag;
     
     @JsonProperty("year")
     private String year;
+
+    @JsonProperty("duration")
+    private String duration;
 
     @JsonProperty("image")
     private String image;
@@ -21,15 +27,14 @@ public class Experience {
     @JsonProperty("items")
     private List<ExperienceItem> items;
 
-    public Experience(int id, String companyName, String role, String year, String image, List<ExperienceItem> items) {
+    public Experience(int id, String companyName, String role, String tag, String year, String duration, String image, List<ExperienceItem> items) {
         this.id = id;
         this.companyName = companyName;
         this.role = role;
+        this.tag = tag;
         this.year = year;
+        this.duration = duration;
         this.image = image;
         this.items = items;
     }
-
-    // Getters and setters
-    // ...
 }
