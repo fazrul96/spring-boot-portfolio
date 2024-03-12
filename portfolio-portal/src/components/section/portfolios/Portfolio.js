@@ -5,7 +5,7 @@ import Resume from '../../../components/section/portfolios/Resume';
 
 const Portfolio = () => {
   return (
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, padding: 2 }}>
             <section id="portfolio" className="portfolio-section">
                {/*
                 <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>About</h1>
@@ -15,10 +15,8 @@ const Portfolio = () => {
                   As a highly skilled and innovative professional, I excel at prioritizing tasks, resolving technical issues, and delivering exceptional results. Feel free to explore my project collection and contact me if you have any questions or need assistance.
                 </p>
                 */}
-                <Grid container spacing={2}>
-                    <PortfolioContent/>
-                    <Resume/>
-                </Grid>
+                <PortfolioContent/>
+                <Resume/>
             </section>
       </Box>
   );

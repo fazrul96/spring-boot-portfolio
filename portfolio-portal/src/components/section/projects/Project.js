@@ -5,28 +5,28 @@ import ProjectCarousel from '../../../components/section/projects/ProjectCarouse
 
 const Project = ({projects}) => {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-          <section id="projects">
-            {/*
-            <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>
-              Experience
-            </h1>
-            <p className="portfolio-subheading">Here are my previous projects</p> */}
-            {/* Map through projects and render ProjectCard for each */}
-            <Grid container spacing={2}>
-              {projects.map((project, index) => (
-                <Grid item xs={12} md={6} key={index}>
-                  <ProjectCard project={project} />
-                </Grid>
-              ))}
+    <Box sx={{ flexGrow: 1, padding: 2 }}>
+      <section id="projects">
+        {/*
+        <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>
+          Experience
+        </h1>
+        <p className="portfolio-subheading">Here are my previous projects</p> */}
+        {/* Map through projects and render ProjectCard for each */}
+        <Grid container spacing={2}>
+          {projects.map((project, index) => (
+            <Grid item xs={12} md={2} key={index}>
+              <ProjectCard project={project} />
             </Grid>
-          </section>
+          ))}
+        </Grid>
+      </section>
     </Box>
   );
 };
 
 const ProjectCustomCarousel = ({ projects }) => (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, padding: 2 }}>
         <section id="projects">
         <Grid container spacing={2} justifyContent="center" alignItems="center">
             <ProjectCarousel projects={projects} />
@@ -35,4 +35,4 @@ const ProjectCustomCarousel = ({ projects }) => (
     </Box>
 );
 
-export default ProjectCustomCarousel;
+export default Project;

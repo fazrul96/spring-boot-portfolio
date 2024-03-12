@@ -1,93 +1,198 @@
-import * as React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  AppBar,
+  Box,
+  Button,
+  CssBaseline,
+  Divider,
+  Drawer,
+  Modal,
+  Toolbar,
+  List,
+  ListItemButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  TextField,
+  Stack,
+  Alert
+} from '@mui/material';
 
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import AppBar from '@mui/material/AppBar';
-import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import BookIcon from '@mui/icons-material/Book';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ProjectIcon from '@mui/icons-material/Build';
-import ExperienceIcon from '@mui/icons-material/Work';
-import EducationIcon from '@mui/icons-material/School';
-import CertificationIcon from '@mui/icons-material/VerifiedUser';
-import SkillsIcon from '@mui/icons-material/BuildCircle';
-import ContactIcon from '@mui/icons-material/ContactMail';
 import OpenAPIIcon from '@mui/icons-material/Api';
 import MediumIcon from '@mui/icons-material/Book';
+import StarIcon from '@mui/icons-material/Star';
 
-import { Sidebar, Menu, MenuItem, SubMenu  } from 'react-pro-sidebar';
-import { Link } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const drawerWidth = 240;
 
-const ClippedDrawer = () => {
-  const icons = [
-    <DashboardIcon />,
-    <ProjectIcon />,
-    <ExperienceIcon />,
-    <EducationIcon />,
-    <CertificationIcon />,
-    <SkillsIcon />,
-    <ContactIcon />,
-    <OpenAPIIcon />,
-    <MediumIcon />,
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+const SidebarItem = ({ text, icon, onClick }) => (
+  <ListItemButton onClick={onClick}>
+    <ListItemIcon>{icon}</ListItemIcon>
+    <ListItemText primary={text} />
+  </ListItemButton>
+);
+
+const Sidebar = () => {
+  const navigate = useNavigate();
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  const handleItemClick = (text) => {
+    const routes = {
+      'Dashboard': '/',
+      'Component': '/component',
+      'Medium': '/medium',
+      'Module': '/module',
+      'OpenAPI': '/openapi',
+      'Pipeline': '/jenkins',
+      'Webtoon': '/blog',
+      'Movie': '/movie'
+    };
+    navigate(routes[text] || '/');
+  };
+
+  const publicSidebarItems = [
+    { text: 'Dashboard', icon: <DashboardIcon /> },
+    { text: 'Component', icon: <ProjectIcon /> },
+    { text: 'Medium', icon: <MediumIcon /> },
+    { text: 'Module', icon: <MediumIcon /> },
   ];
 
+  const privateSidebarItems = [
+    { text: 'GREDAVERSE', icon: '' },
+    { text: 'OpenAPI', icon: <OpenAPIIcon /> },
+    { text: 'Pipeline', icon: <OpenAPIIcon /> },
+    { text: 'Webtoon', icon: <MediumIcon /> },
+    { text: 'Movie', icon: <MediumIcon /> },
+  ];
+
+  const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundImage: `linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url("${'https://wallpapercave.com/wp/wp2708351.jpg'}")`, backgroundSize: 'cover' }}>
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            Portfolio
-          </Typography>
-        </Toolbar>
+      <AppBar position="fixed"
+          sx={{
+            zIndex: (theme) => theme.zIndex.drawer, // + 1,
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url("${'https://wallpapercave.com/wp/wp2708351.jpg'}")`,
+            backgroundSize: 'cover',
+          }}>
+          <Toolbar sx={{ justifyContent: 'space-between' }}>
+              <Typography variant="h6" noWrap onClick={() => handleItemClick('Portfolio')}>
+                Portfolio
+              </Typography>
+                {isAuthenticated ? (
+                  <div>
+                    <Button color="inherit">{user.name}</Button>
+                    <Button color="inherit" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+                      Logout
+                    </Button>
+                  </div>
+                ) : (
+                  <Button color="inherit" onClick={() => setShowLoginModal(true)}>Login</Button>
+                )}
+
+              <Modal
+                open={showLoginModal}
+                onClose={() => setShowLoginModal(false)}
+                aria-labelledby="login-modal-title"
+                aria-describedby="login-modal-description"
+              >
+                <Box sx={{ ...style, textAlign: 'center', padding: '2rem' }}>
+                  <img src="http://localhost:3000/static/media/profile-img.2d397386801f1e6e2fd7.jpg" alt="Your Logo" style={{ marginBottom: '1rem', width: '100px' }} />
+                  <Typography variant="h5" gutterBottom>
+                    Welcome to my Portfolio
+                  </Typography>
+                  <Typography variant="body1" paragraph>
+                    Please sign in to access the full application features.
+                      <List
+                        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+                        aria-label="contacts"
+                      >
+                        <ListItem>
+                          <ListItemButton>
+                            <ListItemIcon>
+                              <StarIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="OpenAPI" />
+                          </ListItemButton>
+                        </ListItem>
+                        <ListItem>
+                          <ListItemButton>
+                            <ListItemIcon>
+                              <StarIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Blog" />
+                          </ListItemButton>
+                        </ListItem>
+                      </List>
+                  </Typography>
+                  <FormControl fullWidth>
+                    <Button variant="contained" color="primary" onClick={() => loginWithRedirect()}>
+                      Sign In with Auth0
+                    </Button>
+                  </FormControl>
+                </Box>
+            </Modal>
+          </Toolbar>
       </AppBar>
       <Drawer
         variant="permanent"
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box', backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 1)), url("${'https://wallpapercave.com/wp/wp2708351.jpg'}")`, backgroundSize: 'cover' },
+          [`& .MuiDrawer-paper`]: {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 1)), url("${'https://wallpapercave.com/wp/wp2708351.jpg'}")`,
+            backgroundSize: 'cover',
+          },
         }}
       >
-        <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
           <List>
-            {['Dashboard', 'Project', 'Experience', 'Education', 'Certification', 'Skills & Tools', 'Contact'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {icons[index]}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
+            {publicSidebarItems.map((item) => (
+              <SidebarItem
+                key={item.text}
+                text={item.text}
+                icon={item.icon}
+                onClick={() => handleItemClick(item.text)}
+              />
             ))}
           </List>
-          <Divider />
-          <List>
-            {['OpenAPI', 'Medium'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {icons[index + 7]} {/* Adjust index to match the starting position for the second list */}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
+          {isAuthenticated && (
+            <>
+              <Divider />
+              <List>
+                {privateSidebarItems.map((item) => (
+                  <SidebarItem
+                    key={item.text}
+                    text={item.text}
+                    icon={item.icon}
+                    onClick={() => handleItemClick(item.text)}
+                  />
+                ))}
+              </List>
+            </>
+          )}
         </Box>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -95,6 +200,6 @@ const ClippedDrawer = () => {
       </Box>
     </Box>
   );
-}
+};
 
-export default ClippedDrawer;
+export default Sidebar;

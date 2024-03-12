@@ -7,12 +7,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -48,16 +50,17 @@ public class OCRController {
     @GetMapping(path = "getOcrResult")
     private String getOcrResult() throws Exception {
         unzipFiles();
-        return processOCR();
+        return processOCRInDirectory();
     }
 
-    @Operation(summary = "ProcessOCR")
+    @CrossOrigin(origins = "${app.basePath}")
+    @Operation(summary = "ProcessOCRInDirectory")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully processOCR"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @GetMapping(path = "processOCR")
-    private String processOCR() {
+    @GetMapping(path = "ProcessOCRInDirectory")
+    private String processOCRInDirectory() {
         OCRProcessor ocrProcessor = new OCRProcessor();
 
         try {
@@ -65,6 +68,38 @@ public class OCRController {
             ocrResult = ocrProcessor.processImagesInDirectory(baseDirectory, outputDirectory);
             logger.info("OCR process completed successfully. Result: {}", ocrResult);
             return ocrResult;
+        } catch (Exception e) {
+            logger.error("Error during OCR process: " + e.getMessage(), e);
+            return "OCR process failed";
+        }
+    }
+
+
+    @CrossOrigin(origins = "${app.basePath}")
+    @Operation(summary = "processOCR")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully processOCR"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @PostMapping(path = "processOCR")
+    public String processOCR(@RequestParam("file") MultipartFile file) {
+        OCRProcessor ocrProcessor = new OCRProcessor();
+
+        try {
+            System.out.println("Received file: " + file.getOriginalFilename());
+            logger.info("Starting OCR process");
+
+            // Save the uploaded file to a temporary location
+            Path tempFilePath = Files.createTempFile("uploadedImage", file.getOriginalFilename());
+            Files.write(tempFilePath, file.getBytes());
+
+            // Process the image
+            ocrResult = ocrProcessor.processImage(tempFilePath.toString());
+
+            String finalOcrResult = ocrResult.replaceAll("\\[\\s*", "").replaceAll("\\]", "");
+
+            logger.info("OCR process completed successfully. Result: {}", finalOcrResult);
+            return finalOcrResult;
         } catch (Exception e) {
             logger.error("Error during OCR process: " + e.getMessage(), e);
             return "OCR process failed";

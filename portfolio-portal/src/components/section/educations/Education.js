@@ -5,7 +5,7 @@ import EducationCard from '../../../components/section/educations/EducationCard'
 
 const Education = ({ educations }) => {
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, padding: 2 }}>
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <section id="education">
