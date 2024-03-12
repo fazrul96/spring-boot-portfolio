@@ -5,27 +5,27 @@ import ExperienceCarousel from '../../../components/section/experiences/Experien
 
 const Experience = ({ experiences }) => {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-          <section id="experience">
-            {/*
-            <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>
-              Experience
-            </h1>
-            <p className="portfolio-subheading">Here are my previous experiences</p> */}
-            <Grid container spacing={2} justifyContent="center" alignItems="center">
-              {experiences.map((experience, index) => (
-                <Grid item xs={12} md={4} key={index}>
-                  <ExperienceCard experience={experience} />
-                </Grid>
-              ))}
+    <Box sx={{ flexGrow: 1, padding: 2 }}>
+      <section id="experience">
+        {/*
+        <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>
+          Experience
+        </h1>
+        <p className="portfolio-subheading">Here are my previous experiences</p> */}
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          {experiences.map((experience, index) => (
+            <Grid item xs={12} md={4} key={index}>
+              <ExperienceCard experience={experience} />
             </Grid>
-          </section>
+          ))}
+        </Grid>
+      </section>
     </Box>
   );
 };
 
 const ExperienceCustomCarousel = ({ experiences }) => (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, padding: 2 }}>
         <section id="experience">
         <Grid container spacing={2} justifyContent="center" alignItems="center">
             <ExperienceCarousel experiences={experiences} />
@@ -34,4 +34,4 @@ const ExperienceCustomCarousel = ({ experiences }) => (
     </Box>
 );
 
-export default ExperienceCustomCarousel;
+export default Experience;

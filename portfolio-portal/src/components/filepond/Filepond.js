@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-
-// Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
 
 // Import FilePond styles
@@ -22,7 +20,7 @@ import 'filepond-plugin-image-edit/dist/filepond-plugin-image-edit.css';
 
 // Register the plugins
 registerPlugin(
-    FilePondPluginImageExifOrientation, 
+    FilePondPluginImageExifOrientation,
     FilePondPluginImagePreview,
     FilePondPluginFileValidateType,
     FilePondPluginImageCrop,
@@ -31,60 +29,31 @@ registerPlugin(
     FilePondPluginImageTransform
 );
 
-// Component
 class Filepond extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      // Set initial files, type 'local' means this is a file
-      // that has already been uploaded to the server (see docs)
-      files: [
-        {
-          source: "photo.jpeg",
-          options: {
-            type: "local",
-          },
-        },
-      ],
+      files: [],
     };
   }
 
   handleInit() {
-    console.log("FilePond instance has initialised", this.pond);
+    console.log("FilePond instance has initialised");
   }
 
   render() {
     return (
-      <div className="App">
-        <FilePond
-          ref={(ref) => (this.pond = ref)}
-          files={this.state.files}
-          allowMultiple={true}
-          server={{
-            // fake server to simulate loading a 'local' server file and processing a file
-            process: (fieldName, file, metadata, load) => {
-              // simulates uploading a file
-              setTimeout(() => {
-                load(Date.now());
-              }, 1500);
-            },
-            load: (source, load) => {
-              // simulates loading a file from the server
-              fetch(source)
-                .then((res) => res.blob())
-                .then(load);
-            },
-          }}
-          oninit={() => this.handleInit()}
-          onupdatefiles={(fileItems) => {
-            // Set currently active file objects to this.state
-            this.setState({
-              files: fileItems.map((fileItem) => fileItem.file),
-            });
-          }}
-        ></FilePond>
-      </div>
+      <FilePond
+        ref={(ref) => (this.pond = ref)}
+        files={this.state.files}
+        allowMultiple={true}
+        oninit={() => this.handleInit()}
+        onupdatefiles={(fileItems) => {
+          this.setState({
+            files: fileItems.map((fileItem) => fileItem.file),
+          });
+        }}
+      />
     );
   }
 }

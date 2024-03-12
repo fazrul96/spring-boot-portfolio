@@ -12,7 +12,7 @@ const Skills = ({ skills }) => {
   };
 
   return (
-  <Box sx={{ flexGrow: 1 }}>
+  <Box sx={{ flexGrow: 1, padding: 2 }}>
     <section id="skills">
       {/*
       <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>
@@ -29,11 +29,9 @@ const Skills = ({ skills }) => {
     </section>
 
       <section id="skills">
-        <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>Skill</h1>
         <p className="skills-subheading">Here are some of the tools and technologies I have experience with:</p>
         <SkillLists skills={ skills }/>
         <hr className="mb-3" />
-        <h1 className="text-justify" style={{ fontWeight: 'bold', fontSize: 100 }}>Tool</h1>
         <Carousel>
           <Carousel.Item interval={1000}>
             <div className="mask rgba-black-light d-flex justify-content-center align-items-center">
