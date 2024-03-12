@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Box, Grid } from '@mui/material';
 import BlogListPage from './BlogListPage';
 
-const BlogPage = () => {
+const BlogPage = ({blogs}) => {
   return (
       <Box sx={{ flexGrow: 1 }}>
           <section id="blog">
           <Grid container spacing={2} justifyContent="left" alignItems="center">
-              <BlogListPage />
+              <BlogListPage blogs={blogs} />
           </Grid>
           </section>
       </Box>
