@@ -16,6 +16,7 @@ const ExperienceTimelineItem = ({ list, title, description, chips }) => {
             {list}
           </Typography>
         </Typography>
+
         <ul style={{  marginBottom: '20px' }}>
           <li>{description}</li>
         </ul>
