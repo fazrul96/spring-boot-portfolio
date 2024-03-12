@@ -13,7 +13,7 @@ pipelines:
             - git config user.name $GITLAB_USERNAME
             - git config user.email $USER_EMAIL
             # Set Gitlab remote URL
-            - git remote set-url origin https://gitlab-ci-token:${GITLAB_PERSONAL_ACCESS_TOKEN}@gitlab.com/${GITLAB_USERNAME}/spring-boot-portfolio.git
+            - git remote set-url origin https://gitlab-ci-token:${GITLAB_PROJECT_ACCESS_TOKEN}@gitlab.com/${GITLAB_USERNAME}/spring-boot-portfolio.git
             # Pull changes from Bitbucket repository
             - git pull https://${USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/fazrulromli/spring-boot-portfolio.git
             # Push changes to Gitlab repository
