@@ -5,39 +5,30 @@ import {
   Typography
 } from '@mui/material';
 
-import FaceIcon from '@mui/icons-material/Face';
+import ScatterPlotIcon from '@mui/icons-material/ScatterPlot';
 
-const ExperienceTimelineItem = ({ title, duration, items, chips }) => {
+const ExperienceTimelineItem = ({ list, title, description, chips }) => {
   return (
     <>
         <Typography gutterBottom variant="h5" component="div">
           {title}
           <Typography variant="subtitle1" color="text.secondary" component="div">
-            {duration}
+            {list}
           </Typography>
         </Typography>
 
-        <ul style={{ paddingLeft: '20px', marginBottom: '20px' }}>
-          {items.map((item, indexItem) => (
-            <li key={indexItem} style={{ marginBottom: '10px' }}>
-              {item.title}
-              {item.description && (
-                <ul style={{ paddingLeft: '20px', marginBottom: '0' }}>
-                  <li>{item.description}</li>
-                </ul>
-              )}
-            </li>
-          ))}
+        <ul style={{  marginBottom: '20px' }}>
+          <li>{description}</li>
         </ul>
 
-        <Stack direction="row" spacing={1} style={{ marginBottom: '20px' }}>
+        <Stack direction="row" spacing={0.5} style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
           {chips.map((chip) => (
             <Chip
               size="small"
               key={chip.key}
               label={chip.label}
-              icon={<FaceIcon />}
-              style={{ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 1)), url("${'https://wallpapercave.com/wp/wp2708351.jpg'}")`, backgroundSize: 'cover' }}
+              icon={<ScatterPlotIcon />}
+              style={{ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 1))`, backgroundSize: 'cover' }}
             />
           ))}
         </Stack>

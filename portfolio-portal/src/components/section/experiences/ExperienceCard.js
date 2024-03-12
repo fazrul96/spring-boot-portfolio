@@ -25,7 +25,7 @@ const ExperienceCard = ({ experience }) => {
           <Typography gutterBottom variant="h5" component="div">
             {experience.companyName}
             <Typography gutterBottom variant="h6" component="div">
-                {experience.role}
+                <ExperienceCardModel experience={experience} />
             </Typography>
           </Typography>
           <Typography variant="body2" color="text.secondary">
@@ -33,11 +33,6 @@ const ExperienceCard = ({ experience }) => {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          <ExperienceCardModel experience={experience} />
-        </Button>
-      </CardActions>
       {/*<ExperienceCardAccordion experience={experience} />*/}
     </Card>
   );

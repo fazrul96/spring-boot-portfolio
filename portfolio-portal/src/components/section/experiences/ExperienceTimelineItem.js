@@ -5,39 +5,42 @@ import {
   Typography
 } from '@mui/material';
 
-import FaceIcon from '@mui/icons-material/Face';
+import ScatterPlotIcon from '@mui/icons-material/ScatterPlot';
 
-const ExperienceTimelineItem = ({ title, duration, items, chips }) => {
+const ExperienceTimelineItem = ({ title, year, duration, items, chips }) => {
   return (
     <>
         <Typography gutterBottom variant="h5" component="div">
           {title}
           <Typography variant="subtitle1" color="text.secondary" component="div">
-            {duration}
+            {year} ~ {duration}
           </Typography>
         </Typography>
 
-        <ul style={{ paddingLeft: '20px', marginBottom: '20px' }}>
-          {items.map((item, indexItem) => (
-            <li key={indexItem} style={{ marginBottom: '10px' }}>
-              {item.title}
-              {item.description && (
-                <ul style={{ paddingLeft: '20px', marginBottom: '0' }}>
-                  <li>{item.description}</li>
+        <ul style={{ paddingLeft: '0px', marginBottom: '20px' }}>
+            {items.map((item, indexItem) => (
+                <ul key={indexItem} style={{ marginBottom: '5px' }}>
+                  {item.title ? (
+                    <li style={{ fontWeight: 'bold', fontStyle: 'italic' }}>
+                      {item.title}
+                      {item.description && <br />}
+                    </li>
+                  ) : (
+                    <ul style={{ paddingLeft: '20px', marginBottom: '0' }}>
+                      <li>{item.description}</li>
+                    </ul>
+                  )}
                 </ul>
-              )}
-            </li>
-          ))}
+            ))}
         </ul>
-
-        <Stack direction="row" spacing={1} style={{ marginBottom: '20px' }}>
+        <Stack direction="row" spacing={0.5} style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center' }}>
           {chips.map((chip) => (
             <Chip
               size="small"
               key={chip.key}
               label={chip.label}
-              icon={<FaceIcon />}
-              style={{ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 1)), url("${'https://wallpapercave.com/wp/wp2708351.jpg'}")`, backgroundSize: 'cover' }}
+              icon={<ScatterPlotIcon />}
+              style={{ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.9))`, backgroundSize: 'cover' }}
             />
           ))}
         </Stack>
