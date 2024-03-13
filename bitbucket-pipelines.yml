@@ -36,7 +36,6 @@ pipelines:
           - git push origin HEAD:$BITBUCKET_BRANCH
 
           #- cd ..
-
           # Remove existing directory if it exists
           #- rm -rf spring-boot-portfolio
 
