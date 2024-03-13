@@ -15,7 +15,7 @@ pipelines:
             # Set Github remote URL
             - git remote set-url origin https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/${GITHUB_USERNAME}/spring-boot-portfolio.git
             # Pull changes from Bitbucket repository
-            - git pull origin  https://${USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/${BITBUCKET_USERNAME_REPOSITORIES}/spring-boot-portfolio.git
+            - git pull https://${USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/${BITBUCKET_USERNAME_REPOSITORIES}/spring-boot-portfolio.git
             # Push changes to Github repository
             - git push origin HEAD:$BITBUCKET_BRANCH
   default:
