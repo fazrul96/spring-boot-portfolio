@@ -1,37 +1,64 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   CardActionArea,
   CardMedia,
   CardContent,
-  CardActions,
+  Dialog, DialogContent, DialogTitle,
   Typography,
-  Button,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
   Grid,
   Chip,
-  Stack, Divider
+  Stack
 } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Timeline from '@mui/lab/Timeline';
-import TimelineItem from '@mui/lab/TimelineItem';
-import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import TimelineConnector from '@mui/lab/TimelineConnector';
-import TimelineContent from '@mui/lab/TimelineContent';
-import TimelineDot from '@mui/lab/TimelineDot';
-import FaceIcon from '@mui/icons-material/Face';
 
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import MobileStepper from '@mui/material/MobileStepper';
-import Paper from '@mui/material/Paper';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import ProjectTimelineItem from '../../../components/section/projects/ProjectTimelineItem';
+
+import Button from '@mui/material/Button';
+import DialogContentText from '@mui/material/DialogContentText';
+
+
+const CustomChip = ({ label, imgUrl }) => {
+  return (
+    <Chip
+      variant="outlined"
+      size="small"
+      label={label}
+      style={{
+        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 1))`,
+        backgroundSize: 'cover',
+      }}
+    />
+  );
+}
 
 const ProjectCard = ({ project }) => {
+    const tags = project.tag[0].split(", ");
+    const [open, setOpen] = React.useState(false);
+    const [scroll, setScroll] = React.useState('paper');
+
+    const handleClickOpen = (scrollType) => () => {
+      setOpen(true);
+      setScroll(scrollType);
+    };
+
+    const handleClose = () => {
+      setOpen(false);
+    };
+
+    const descriptionElementRef = React.useRef(null);
+    React.useEffect(() => {
+      if (open) {
+        const { current: descriptionElement } = descriptionElementRef;
+        if (descriptionElement !== null) {
+          descriptionElement.focus();
+        }
+      }
+    }, [open]);
+
   return (
-    <Card style={{ marginBottom: '20px' }}>
+  <React.Fragment>
+    <Card style={{ marginBottom: '20px' }} >
       <CardActionArea>
         <CardMedia
           component="img"
@@ -39,44 +66,53 @@ const ProjectCard = ({ project }) => {
           image={project.img || 'https://wallpapercave.com/wp/wp2708351.jpg'}
           alt="Project Image"
         />
-        <CardContent>
+        <CardContent onClick={handleClickOpen('paper')} sx={{backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.80)), url("${project.img}")`}}>
           <Typography gutterBottom variant="h5" component="div">
-            {project.description}
-            <Stack direction="row" spacing={1}>
-                <Chip
-                  variant="outlined"
-                  size="small"
-                  label={project.title}
-                  style={{
-                    backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 1)), url("${project.img}")`,
-                    backgroundSize: 'cover',
-                  }}
-                />
+            {project.title}
+            <Stack direction="row" spacing={0.5} style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+                {tags.map((tag, index) => (
+                    <CustomChip key={index} label={tag} imgUrl={project.img} />
+                ))}
             </Stack>
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {project.status}
-          </Typography>
+        <Typography variant="body2" color={project.status === 'Completed' ? 'green' : '#FFB81C'}>
+          {project.status}
+        </Typography>
         <Typography variant="body2" color="text.secondary">
-          {project.footer}
+          {project.list}
         </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-      {/*
-        <Button size="small" color="primary">
-          Share
-        </Button>
-      */}
-      </CardActions>
-      <Accordion style={{ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8)), url("${project.imageUrl || 'https://wallpapercave.com/wp/wp2708351.jpg'}")`, backgroundSize: 'cover' }}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel-content" id="panel-header">
-          <Typography>More Information</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-        </AccordionDetails>
-      </Accordion>
     </Card>
+    <Dialog
+        open={open}
+        onClose={handleClose}
+        scroll={scroll}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+        <DialogTitle id="scroll-dialog-title">Projects</DialogTitle>
+        <DialogContent dividers={scroll === 'paper'} sx={{ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8)), url("${'https://getwallpapers.com/wallpaper/full/7/d/c/1172966-free-download-developer-wallpaper-hd-2560x1440-cell-phone.jpg'}")`,
+                                                         backgroundSize: 'cover'}}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={10}>
+                <ProjectTimelineItem
+                  list={project.list}
+                  title={project.title}
+                  description={project.description}
+                  chips={[
+                    ...tags.map((tag, index) => ({
+                      key: index,
+                      label: tag,
+                      imgUrl: project.img
+                    })),
+                  ]}
+                />
+              </Grid>
+            </Grid>
+        </DialogContent>
+      </Dialog>
+  </React.Fragment>
   );
 };
 

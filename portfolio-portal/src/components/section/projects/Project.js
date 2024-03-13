@@ -15,7 +15,7 @@ const Project = ({projects}) => {
         {/* Map through projects and render ProjectCard for each */}
         <Grid container spacing={2}>
           {projects.map((project, index) => (
-            <Grid item xs={12} md={2} key={index}>
+            <Grid item xs={12} md={4} key={index}>
               <ProjectCard project={project} />
             </Grid>
           ))}
