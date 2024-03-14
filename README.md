@@ -1,4 +1,4 @@
-## Portfolio
+# Portfolio
 
 **Portfolio-AFN** (Automation Framework for Portfolio) is a dynamic and multifaceted automation framework tailored for showcasing my diverse skill set across various aspects of software development. This portfolio combines React for the frontend, Spring Boot for the backend, and leverages Cypress, Appium, and Jacoco for comprehensive automation and testing. This README provides an in-depth overview of its key features and functionalities, reflecting the breadth of my experience and continuous learning journey.
 
