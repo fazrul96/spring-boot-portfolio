@@ -1,11 +1,11 @@
 pipeline {
     agent any
 
-    parameters {
-        string(name: 'NODE_TLS_REJECT_UNAUTHORIZED', defaultValue: '0', description: 'Remove SSL verification')
-        string(name: 'CYPRESS_RECORD_KEY', defaultValue: '', description: '(Optional) Using cypress cloud will use the resource')
-        string(name: 'CYPRESS_BROWSER', defaultValue: 'chrome', description: 'Optional')
-    }
+    // parameters {
+    //     string(name: 'NODE_TLS_REJECT_UNAUTHORIZED', defaultValue: '0', description: 'Remove SSL verification')
+    //     string(name: 'CYPRESS_RECORD_KEY', defaultValue: '', description: 'Optional, if need to record, pass the record key')
+    //     string(name: 'CYPRESS_BROWSER', defaultValue: 'chrome', description: 'Optional')
+    // }
 
     environment {
         NODEJS_HOME = tool 'NodeJS' // This will automatically use the configured NodeJS tool
@@ -79,7 +79,8 @@ pipeline {
         stage('Cypress CI') {
             steps {
                 sh 'npm config set strict-ssl false'
-                withEnv(["NODE_TLS_REJECT_UNAUTHORIZED=${params.NODE_TLS_REJECT_UNAUTHORIZED}"]) {
+                // withEnv(["NODE_TLS_REJECT_UNAUTHORIZED=${params.NODE_TLS_REJECT_UNAUTHORIZED}"]) {
+                withEnv(["NODE_TLS_REJECT_UNAUTHORIZED= ${NODE_TLS_REJECT_UNAUTHORIZED}"]) {
                     sh 'npm install cypress --save-dev'
                     sh 'apt-get update'
                     sh 'apt-get -y install libgtk2.0-0'
@@ -96,20 +97,21 @@ pipeline {
 
                     sh "npx cypress install"
                     dir('portfolio-portal') {
-                        sh "npx cypress run --config-file cypress.config.ts ${params.CYPRESS_RECORD_KEY ? '--record --key ' + params.CYPRESS_RECORD_KEY : ''}"
+                        // sh "npx cypress run --config-file cypress.config.ts ${params.CYPRESS_RECORD_KEY ? '--record --key ' + params.CYPRESS_RECORD_KEY : ''}"
+                        sh "npx cypress run --config-file cypress.config.ts ${CYPRESS_RECORD_KEY ? '--record --key ' + CYPRESS_RECORD_KEY : ''}"
                     }
                 }
             }
         }
 
-        stage('Generate Report') {
-            steps {
-                dir('portfolio-portal') {
-                    sh 'npm run report:generate'
-                    junit 'cypress/reports/junit.xml'
-                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'cypress/reports', reportFiles: 'index.html', reportName: 'Cypress Test Report'])
-                }
-            }
-        }
+        // stage('Generate Report') {
+        //     steps {
+        //         dir('portfolio-portal') {
+        //             sh 'npm run report:generate'
+        //             junit 'cypress/reports/junit.xml'
+        //             publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'cypress/reports', reportFiles: 'index.html', reportName: 'Cypress Test Report'])
+        //         }
+        //     }
+        // }
     }
 }
