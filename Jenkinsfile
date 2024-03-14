@@ -28,6 +28,7 @@ pipeline {
                 // }
 
                 script {
+                    sh 'git config pull.rebase false'
                     checkout([
                         $class: 'GitSCM',
                         branches: [[name: "${GITHUB_BRANCH_NAME}"]],
@@ -40,6 +41,7 @@ pipeline {
                 }
 
                 script {
+                    sh 'git config pull.rebase false'
                     checkout([
                         $class: 'GitSCM',
                         branches: [[name: "${GITHUB_BRANCH_NAME}"]],
@@ -56,6 +58,7 @@ pipeline {
                 }
 
                 script {
+                    sh 'git config pull.rebase false'
                     checkout([
                         $class: 'GitSCM',
                         branches: [[name: "${GITHUB_BRANCH_NAME}"]],
