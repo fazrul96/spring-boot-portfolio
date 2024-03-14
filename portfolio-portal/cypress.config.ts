@@ -107,7 +107,7 @@ const e2eSettings = {
   excludeSpecPattern: [
     "cypress/support/step_definitions/**/*.ts",
   ],
-  projectId: "i5qkmg",
+  projectId: "j6ot66",
   viewportWidth: 1440,
   viewportHeight: 900,
   defaultCommandTimeout: 100000,
