@@ -3,6 +3,8 @@ pipeline {
 
     parameters {
         string(name: 'NODE_TLS_REJECT_UNAUTHORIZED', defaultValue: '0', description: 'Remove SSL verification')
+        string(name: 'CYPRESS_RECORD_KEY', defaultValue: '', description: '(Optional) Using cypress cloud will use the resource')
+        string(name: 'CYPRESS_BROWSER', defaultValue: 'chrome', description: 'Optional')
     }
 
     environment {
@@ -11,57 +13,62 @@ pipeline {
     }
 
     stages {
-        stage('Sync GitHub Repositories') {
+        stage('Sync VCS [Github-Gitlab-Azure]') {
             steps {
-                script {
-                    git branch: "${GITHUB_BRANCH_NAME}", credentialsId: 'GitHub Credentials', url: "https://github.com/${GITHUB_USERNAME}/spring-boot-portfolio.git"
-                    dir('spring-boot-portfolio') {
-                        sh "git config user.name ${GITHUB_USERNAME}"
-                        sh "git config user.email ${USER_EMAIL}"
-                        sh "git remote set-url origin https://${GITHUB_USERNAME}:${GITHUB_ACCESS_TOKEN}@github.com/${GITHUB_USERNAME}/spring-boot-portfolio.git"
-                        sh "git pull https://${BITBUCKET_USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/${BITBUCKET_USERNAME_LC}/spring-boot-portfolio.git"
-                        sh "git push origin HEAD:${GITHUB_BRANCH_NAME}"
-                    }
-                }
-            }
-        }
+                // Custom checkout if required specific requirement
+                // script {
+                //     git branch: "${GITHUB_BRANCH_NAME}", url: "https://github.com/${GITHUB_USERNAME}/spring-boot-portfolio.git"
+                //     dir('spring-boot-portfolio') {
+                //         sh "git config user.name ${GITHUB_USERNAME}"
+                //         sh "git config user.email ${USER_EMAIL}"
+                //         sh "git remote set-url origin https://${GITHUB_USERNAME}:${GITHUB_ACCESS_TOKEN}@github.com/${GITHUB_USERNAME}/spring-boot-portfolio.git"
+                //         sh "git pull https://${BITBUCKET_USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/${BITBUCKET_USERNAME_LC}/spring-boot-portfolio.git"
+                //         sh "git push origin HEAD:${GITHUB_BRANCH_NAME}"
+                //     }
+                // }
 
-        stage('Sync GitLab Repositories') {
-            steps {
                 script {
-                    // Clone GitLab repository
-                    git branch: "${GITHUB_BRANCH_NAME}", credentialsId: 'GitLab Credentials', url: "https://gitlab.com/${GITLAB_USERNAME}/spring-boot-portfolio.git"
-                    dir('spring-boot-portfolio') {
-                        // Configure Git user
-                        sh "git config user.name ${GITLAB_USERNAME}"
-                        sh "git config user.email ${USER_EMAIL}"
-                        // Set GitLab remote URL
-                        sh "git remote set-url origin https://gitlab-ci-token:${GITLAB_PERSONAL_ACCESS_TOKEN}@gitlab.com/${GITLAB_USERNAME}/spring-boot-portfolio.git"
-                        // Pull changes from GitLab repository
-                        sh "git pull"
-                        // Push changes to GitLab repository
-                        sh "git push origin HEAD:${GITHUB_BRANCH_NAME}"
-                    }
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: "${GITHUB_BRANCH_NAME}"]],
+                        userRemoteConfigs: [[url: "https://${GITHUB_USERNAME}:${GITHUB_ACCESS_TOKEN}@github.com/${GITHUB_USERNAME}/spring-boot-portfolio.git"]]
+                    ])
+                    sh "git config user.name ${GITHUB_USERNAME}"
+                    sh "git config user.email ${USER_EMAIL}"
+                    sh "git pull https://${BITBUCKET_USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/${BITBUCKET_USERNAME_LC}/spring-boot-portfolio.git"
+                    sh "git push origin HEAD:${GITHUB_BRANCH_NAME}"
                 }
-            }
-        }
 
-        stage('Sync Azure Repositories') {
-            steps {
                 script {
-                    // Clone Azure repository
-                    git branch: "${BRANCH_NAME}", credentialsId: 'Azure Credentials', url: "https://azure.com/${AZURE_USERNAME}/spring-boot-portfolio.git"
-                    dir('spring-boot-portfolio') {
-                        // Configure Git user
-                        sh "git config user.name ${AZURE_USERNAME}"
-                        sh "git config user.email ${USER_EMAIL}"
-                        // Set Azure remote URL
-                        sh "git remote set-url origin https://${AZURE_USERNAME}:${AZURE_PERSONAL_ACCESS_TOKEN}@azure.com/${AZURE_USERNAME}/spring-boot-portfolio.git"
-                        // Pull changes from Azure repository
-                        sh "git pull"
-                        // Push changes to Azure repository
-                        sh "git push origin HEAD:${GITHUB_BRANCH_NAME}"
-                    }
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: "${GITHUB_BRANCH_NAME}"]],
+                        extensions: [],
+                        userRemoteConfigs: [[
+                            credentialsId: 'Gitlab-Credentials',
+                            url: "https://${GITLAB_USERNAME}:${GITLAB_PERSONAL_ACCESS_TOKEN}@gitlab.com/${GITLAB_USERNAME}/spring-boot-portfolio.git"
+                        ]]
+                    ])
+                    sh "git config user.name ${GITLAB_USERNAME}"
+                    sh "git config user.email ${USER_EMAIL}"
+                    sh "git pull https://${BITBUCKET_USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/${BITBUCKET_USERNAME_LC}/spring-boot-portfolio.git"
+                    sh "git push origin ${GITHUB_BRANCH_NAME}"
+                }
+
+                script {
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: "${GITHUB_BRANCH_NAME}"]],
+                        extensions: [],
+                        userRemoteConfigs: [[
+                            credentialsId: 'Azure-Credentials',
+                            url: "https://${AZURE_USERNAME}:${AZURE_PERSONAL_ACCESS_TOKEN}@dev.azure.com/ACN-DevOpsMasters/ACN/_git/spring-boot-portfolio"
+                        ]]
+                    ])
+                    sh "git config user.name ${AZURE_USERNAME}"
+                    sh "git config user.email ${USER_EMAIL}"
+                    sh "git pull https://${BITBUCKET_USERNAME}:${BITBUCKET_APP_PASSWORD}@bitbucket.org/${BITBUCKET_USERNAME_LC}/spring-boot-portfolio.git"
+                    sh "git push origin ${GITHUB_BRANCH_NAME}"
                 }
             }
         }
@@ -86,20 +93,7 @@ pipeline {
 
                     sh "npx cypress install"
                     dir('portfolio-portal') {
-                        script {
-                            try {
-                                sh "./node_modules/.bin/tsc cypress.config.ts"
-                            } catch (compileErr) {
-                                echo "TypeScript compilation failed: ${compileErr}"
-                            }
-                        }
-                        script {
-                            try {
-                                sh "npx cypress run --config-file 'cypress.json' --spec 'cypress/e2e/scan/scan.cy.js' ${params.CYPRESS_RECORD_KEY ? '--record --key ' + params.CYPRESS_RECORD_KEY : ''}"
-                            } catch (testErr) {
-                                echo "Cypress tests execution failed: ${testErr}"
-                            }
-                        }
+                        sh "npx cypress run --config-file cypress.config.ts ${params.CYPRESS_RECORD_KEY ? '--record --key ' + params.CYPRESS_RECORD_KEY : ''}"
                     }
                 }
             }
@@ -108,15 +102,9 @@ pipeline {
         stage('Generate Report') {
             steps {
                 dir('portfolio-portal') {
-                    script {
-                        try {
-                            sh 'npm run report:generate'
-                            junit 'cypress/reports/junit.xml'
-                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'cypress/reports', reportFiles: 'index.html', reportName: 'Cypress Test Report'])
-                        } catch (compileErr) {
-                            echo "Report compilation failed: ${compileErr}"
-                        }
-                    }
+                    sh 'npm run report:generate'
+                    junit 'cypress/reports/junit.xml'
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'cypress/reports', reportFiles: 'index.html', reportName: 'Cypress Test Report'])
                 }
             }
         }
