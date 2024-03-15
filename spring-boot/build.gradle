@@ -64,7 +64,7 @@ sonar {
 	properties {
 		property "sonar.projectKey", "fazrulromli_spring-boot-portfolio_d1026bf4-2fd9-44e0-b6d3-f17a93359d39"
 		property "sonar.projectName", "Spring Boot Portfolio"
-		property "sonar.host.url", "http://localhost:9000"
+		property "sonar.host.url", "https://sonarqube-portfolio.mfzrl.cyou/"
 	}
 }
 
