@@ -13,11 +13,11 @@ pipeline {
     }
 
     stages {
-        // stage('SCM Checkout') {
-        //     steps {
-        //         checkout scm
-        //     }
-        // }
+        stage('SCM Checkout') {
+            steps {
+                checkout scm
+            }
+        }
 
         stage('Sync VCS') {
             steps {
@@ -86,7 +86,6 @@ pipeline {
             steps {
                 sh 'npm config set strict-ssl false'
                 withEnv(["NODE_TLS_REJECT_UNAUTHORIZED=${params.NODE_TLS_REJECT_UNAUTHORIZED}"]) {
-                // withEnv(["NODE_TLS_REJECT_UNAUTHORIZED= ${NODE_TLS_REJECT_UNAUTHORIZED}"]) {
                     dir('portfolio-portal') {
                         sh 'npm install cypress --save-dev'
                         sh 'apt-get update'
@@ -104,7 +103,6 @@ pipeline {
 
                         sh "npx cypress install"
                         sh "npx cypress run --config-file cypress.config.ts ${params.CYPRESS_RECORD_KEY ? '--record --key ' + params.CYPRESS_RECORD_KEY : ''}"
-                        // sh "npx cypress run --config-file cypress.config.ts ${CYPRESS_RECORD_KEY ? '--record --key ' + CYPRESS_RECORD_KEY : ''}"
                     }
                 }
             }
@@ -116,15 +114,14 @@ pipeline {
                     dir('spring-boot') {
                         sh "chmod +x gradlew"
                         sh "./gradlew build"
-                        withSonarQubeEnv('SonarQubeServer') {
-                            sh "./gradlew sonarqube -Dsonar.login=${SONARQUBE_TOKEN}"
+                        withSonarQubeEnv() {
+                            sh "./gradlew sonar -Dsonar.token=${SONARQUBE_TOKEN}"
                         }
                     }
                 }
             }
         }
 
-        // once fix sonarqube can link jacoco, already have built-in no need separate jacoco test
         stage('Unit Test') {
             steps {
                 dir('spring-boot') {
@@ -137,14 +134,14 @@ pipeline {
             }
         }
 
-        // stage('Generate Report') {
-        //     steps {
-        //         dir('portfolio-portal') {
-        //             sh 'npm run report:generate'
-        //             junit 'cypress/reports/junit.xml'
-        //             publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'cypress/reports', reportFiles: 'index.html', reportName: 'Cypress Test Report'])
-        //         }
-        //     }
-        // }
+        stage('Generate Report') {
+            steps {
+                dir('portfolio-portal') {
+                    sh 'npm run report:generate'
+                    junit 'cypress/reports/junit.xml'
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'cypress/reports', reportFiles: 'index.html', reportName: 'Cypress Test Report'])
+                }
+            }
+        }
     }
 }
