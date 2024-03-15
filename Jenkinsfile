@@ -113,10 +113,10 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    // withSonarQubeEnv('SonarQubeServer') {
-                    withSonarQubeEnv() {
-                        // sh "./gradlew sonarqube"
-                        sh "./gradlew sonar"
+                    withSonarQubeEnv('SonarQubeServer') {
+                    // withSonarQubeEnv() {
+                        sh "./gradlew sonarqube"
+                        // sh "./gradlew sonar"
                     }
                 }
             }
