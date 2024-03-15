@@ -38,6 +38,12 @@ const JenkinRedirect = () => {
   return null; // No need to render anything
 };
 
+const CypressRedirect = () => {
+  // Open the URL in a new tab
+  window.open(process.env.REACT_APP_CYPRESS_URL + process.env.REACT_APP_CYPRESS_PROJECT_ID, '_blank');
+  return null; // No need to render anything
+};
+
 const App = () => {
   const [experiences, setExperiences] = useState([]);
   const [educations, setEducations] = useState([]);
@@ -147,6 +153,7 @@ const App = () => {
                   <Route path="/storage" element={<StoragePage />} />
                   <Route path="/openapi" element={<OpenApiPage />} />
                   <Route path="/jenkins" element={<JenkinRedirect />} />
+                  <Route path="/cypress" element={<CypressRedirect />} />
                   <Route path="/blog" element={<BlogPage blogs={blogs} />} />
                   <Route path="/blog/:alias" element={<BlogDetailPage />} />
                   <Route path="/blog/:alias/chapter/:chapter" element={<BlogContent />} />

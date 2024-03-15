@@ -24,6 +24,7 @@ const SidebarDrawer = () => {
       { text: 'Storage', icon: <DashboardIcon />, route: '/storage' },
       { text: 'OpenAPI', icon: <OpenAPIIcon />, route: '/openapi' },
       { text: 'Pipeline', icon: <ProjectIcon />, route: '/jenkins' },
+      { text: 'Cypress', icon: <ProjectIcon />, route: '/cypress' },
       { text: 'Webtoon', icon: <MediumIcon />, route: '/blog' },
       { text: 'Movie', icon: <MediumIcon />, route: '/movie' },
     ];
