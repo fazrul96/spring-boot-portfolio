@@ -13,11 +13,11 @@ pipeline {
     }
 
     stages {
-        stage('SCM Checkout') {
-            steps {
-                checkout scm
-            }
-        }
+        // stage('SCM Checkout') {
+        //     steps {
+        //         checkout scm
+        //     }
+        // }
 
         stage('Sync VCS') {
             steps {
@@ -116,6 +116,10 @@ pipeline {
                     dir('spring-boot') {
                         sh "chmod +x gradlew"
                         sh "./gradlew build"
+                        withSonarQubeEnv('SonarQubeServer') {
+                            sh "./gradlew sonarqube -Dsonar.login=${SONARQUBE_TOKEN}"
+                        }
+
                         withSonarQubeEnv() {
                             sh "./gradlew sonar"
                         }
