@@ -87,22 +87,22 @@ pipeline {
                 sh 'npm config set strict-ssl false'
                 withEnv(["NODE_TLS_REJECT_UNAUTHORIZED=${params.NODE_TLS_REJECT_UNAUTHORIZED}"]) {
                 // withEnv(["NODE_TLS_REJECT_UNAUTHORIZED= ${NODE_TLS_REJECT_UNAUTHORIZED}"]) {
-                    sh 'npm install cypress --save-dev'
-                    sh 'apt-get update'
-                    sh 'apt-get -y install libgtk2.0-0'
-                    sh 'apt-get -y install libgtk-3-0'
-                    sh 'apt-get -y install libgbm-dev'
-                    sh 'apt-get -y install libnotify-dev'
-                    sh 'apt-get -y install libgconf-2-4'
-                    sh 'apt-get -y install libnss3'
-                    sh 'apt-get -y install libxss1'
-                    sh 'apt-get -y install libasound2'
-                    sh 'apt-get -y install libxtst6'
-                    sh 'apt-get -y install xauth'
-                    sh 'apt-get -y install xvfb'
-
-                    sh "npx cypress install"
                     dir('portfolio-portal') {
+                        sh 'npm install cypress --save-dev'
+                        sh 'apt-get update'
+                        sh 'apt-get -y install libgtk2.0-0'
+                        sh 'apt-get -y install libgtk-3-0'
+                        sh 'apt-get -y install libgbm-dev'
+                        sh 'apt-get -y install libnotify-dev'
+                        sh 'apt-get -y install libgconf-2-4'
+                        sh 'apt-get -y install libnss3'
+                        sh 'apt-get -y install libxss1'
+                        sh 'apt-get -y install libasound2'
+                        sh 'apt-get -y install libxtst6'
+                        sh 'apt-get -y install xauth'
+                        sh 'apt-get -y install xvfb'
+
+                        sh "npx cypress install"
                         sh "npx cypress run --config-file cypress.config.ts ${params.CYPRESS_RECORD_KEY ? '--record --key ' + params.CYPRESS_RECORD_KEY : ''}"
                         // sh "npx cypress run --config-file cypress.config.ts ${CYPRESS_RECORD_KEY ? '--record --key ' + CYPRESS_RECORD_KEY : ''}"
                     }
@@ -113,10 +113,10 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    withSonarQubeEnv('SonarQubeServer') {
-                    // withSonarQubeEnv() {
-                        sh "./gradlew sonarqube"
-                        // sh "./gradlew sonar"
+                    dir('spring-boot') {
+                        withSonarQubeEnv() {
+                            sh "./gradlew sonar"
+                        }
                     }
                 }
             }
@@ -125,11 +125,13 @@ pipeline {
         // once fix sonarqube can link jacoco, already have built-in no need separate jacoco test
         stage('Unit Test') {
             steps {
-                jacoco(
-                    execPattern: '**/build/jacoco/*.exec',
-                    classPattern: '**/build/classes/java/main',
-                    sourcePattern: '**/src/main'
-                )
+                dir('spring-boot') {
+                    jacoco(
+                        execPattern: '**/build/jacoco/*.exec',
+                        classPattern: '**/build/classes/java/main',
+                        sourcePattern: '**/src/main'
+                    )
+                }
             }
         }
 
