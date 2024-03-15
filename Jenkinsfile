@@ -114,6 +114,8 @@ pipeline {
             steps {
                 script {
                     dir('spring-boot') {
+                        sh "chmod +x gradlew"
+                        sh "./gradlew build"
                         withSonarQubeEnv() {
                             sh "./gradlew sonar"
                         }
