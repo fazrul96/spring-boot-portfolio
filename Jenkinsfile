@@ -108,7 +108,7 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+        stage('Code Analysis') {
             steps {
                 script {
                     dir('spring-boot') {
@@ -122,7 +122,7 @@ pipeline {
             }
         }
 
-        stage('Unit Test') {
+        stage('Unit Tests') {
             steps {
                 dir('spring-boot') {
                     jacoco(
@@ -138,8 +138,8 @@ pipeline {
             steps {
                 dir('portfolio-portal') {
                     sh 'npm run report:generate'
-                    junit 'cypress/reports/junit.xml'
-                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'cypress/reports', reportFiles: 'index.html', reportName: 'Cypress Test Report'])
+                    junit '*/cypress/results/junit.xml'
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: '*/cypress/results', reportFiles: '*/cypress/results/index.html', reportName: 'Cypress Test Report'])
                 }
             }
         }
