@@ -49,7 +49,7 @@ const ResponsiveAppBar = () => {
 
   const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const publicPages = ['Component', 'Medium', 'Module'];
-  const privatePages = ['Storage', 'OpenApi', 'Pipeline', 'Webtoon', 'Movie'];
+  const privatePages = ['Storage', 'OpenApi', 'Pipeline', 'Cypress', 'Webtoon', 'Movie'];
   const generalSettings = ['Profile', 'Settings'];
   const authenticatedSettings =  [user ? user.name : null, user ? user.email : null, 'Logout'];
   const nonAuthenticatedSettings = ['Login'];
