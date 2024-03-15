@@ -119,10 +119,6 @@ pipeline {
                         withSonarQubeEnv('SonarQubeServer') {
                             sh "./gradlew sonarqube -Dsonar.login=${SONARQUBE_TOKEN}"
                         }
-
-                        withSonarQubeEnv() {
-                            sh "./gradlew sonar"
-                        }
                     }
                 }
             }
