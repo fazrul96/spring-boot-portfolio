@@ -4,7 +4,7 @@ import MediumContent from './MediumContent';
 
 const MediumPage = () => {
   const mediumUsername = process.env.REACT_APP_MEDIUM_USERNAME;
-  const mediumUrl = `https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40${mediumUsername}`;
+  const mediumUrl = `https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40mfbr`;
 
   const [profile, setProfile] = useState({
     name: 'Fazrul Romli',
@@ -40,16 +40,19 @@ const MediumPage = () => {
 
     fetchData();
   }, []);
-
-  return (
+    return (
       <Box sx={{ flexGrow: 1, padding: 2 }}>
-          <section id="medium">
-          <Grid container spacing={2} justifyContent="left" alignItems="center">
-              <MediumContent profile={profile} blog={blog} />
-          </Grid>
-          </section>
+        <section id="medium">
+          {!blog.isLoading ? (
+            <Grid container spacing={2} justifyContent="left" alignItems="center">
+                <MediumContent profile={profile} blog={blog} />
+            </Grid>
+          ) : (
+            <p>Loading...</p>
+          )}
+        </section>
       </Box>
-  );
+    );
 };
 
 export default MediumPage;

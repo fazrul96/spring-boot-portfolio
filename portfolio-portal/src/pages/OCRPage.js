@@ -29,10 +29,11 @@ const OCRPage = () => {
         return;
       }
 
+      const baseUrl = process.env.REACT_APP_BASE_URL;
       const formData = new FormData();
       formData.append('file', file.file); // Use file.file to get the actual file object
 
-      const response = await fetch('http://localhost:8080/api/v1/processOCR', {
+      const response = await fetch(`${baseUrl}/api/v1/processOCR`, {
         method: 'POST',
         body: formData,
       });

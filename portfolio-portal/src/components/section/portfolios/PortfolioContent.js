@@ -191,13 +191,15 @@ const Portfolio = () => {
                             </ListItemButton>
                           </ListItem>
 
+                        <div>
                           {details.map((detail, index) => (
                             <ListItem key={index} disablepadding="true">
                               <ListItemButton>
-                              <ListItemText inset primary={`${detail.label}: ${detail.value}`} />
+                                <ListItemText inset primary={`${detail.label}: ${detail.value}`} />
                               </ListItemButton>
                             </ListItem>
                           ))}
+                        </div>
                         </List>
                     </Typography>
                 </Grid>

@@ -17,7 +17,6 @@ import ProjectTimelineItem from '../../../components/section/projects/ProjectTim
 import Button from '@mui/material/Button';
 import DialogContentText from '@mui/material/DialogContentText';
 
-
 const CustomChip = ({ label, imgUrl }) => {
   return (
     <Chip
@@ -33,7 +32,7 @@ const CustomChip = ({ label, imgUrl }) => {
 }
 
 const ProjectCard = ({ project }) => {
-    const tags = project.tag[0].split(", ");
+    const tags = project.tag.split("|");
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');
 

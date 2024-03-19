@@ -49,7 +49,7 @@ const ResponsiveAppBar = () => {
 
   const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const publicPages = ['Component', 'Medium', 'Module'];
-  const privatePages = ['Storage', 'OpenApi', 'Pipeline', 'Cypress', 'Webtoon', 'Movie'];
+  const privatePages = ['Storage', 'OpenApi', 'Webtoon'];
   const generalSettings = ['Profile', 'Settings'];
   const authenticatedSettings =  [user ? user.name : null, user ? user.email : null, 'Logout'];
   const nonAuthenticatedSettings = ['Login'];
@@ -213,63 +213,53 @@ const ResponsiveAppBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-                {
-                  generalSettings.map((setting, index) => {
-                    if (isAuthenticated) {
-                      if (index === 0) {
-                        return (
-                          <React.Fragment key={index}>
-                            <MenuItem key={`${setting}-${index}`} onClick={handleCloseUserMenu} component={Link} to={`/${setting}`} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                              <Typography textAlign="center" sx={{ fontWeight: 'bold' }}>{authenticatedSettings[0]}</Typography>
-                              <Typography textAlign="center" sx={{ color: 'green', marginTop: '4px' }}>{authenticatedSettings[1]}</Typography>
-                            </MenuItem>
-                            <Divider />
-                            <MenuItem key={`${setting}-${index + 1}`} onClick={handleCloseUserMenu} component={Link} to={`/`} >
-                              <Typography textAlign="center">{generalSettings[0]}</Typography>
-                            </MenuItem>
-                            <MenuItem key={`${setting}-${index + 2}`} onClick={handleCloseUserMenu} component={Link} to={`/profile`} >
-                              <Typography textAlign="center">{generalSettings[1]}</Typography>
-                            </MenuItem>
-                            <MenuItem key={`${setting}-${index + 3}`} onClick={handleCloseUserMenu} component={Link} to={`/settings`} >
-                              <Typography textAlign="center">{generalSettings[2]}</Typography>
-                            </MenuItem>
-                             <Divider key={`divider-${index + 1}`} />
-                            <MenuItem key={`${setting}-${index + 4}`} onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
-                              <Typography textAlign="center" style={{ color: 'red' }}>{authenticatedSettings[2]}</Typography>
-                            </MenuItem>
-
-                          </React.Fragment>
-                        );
-                      }
-                    } else {
-                      if (index === 0) {
-                        return (
-                          <React.Fragment key={index}>
-                            <MenuItem key={`${setting}-${index}`} onClick={() => setShowLoginModal(true)}>
-                              <Typography textAlign="center">{nonAuthenticatedSettings[0]}</Typography>
-                            </MenuItem>
-                            <Modal
-                                key={`modal-${index}`}
-                                open={showLoginModal}
-                                onClose={() => setShowLoginModal(false)}
-                                aria-labelledby="login-modal-title"
-                                aria-describedby="login-modal-description"
-                              >
-                                <Box sx={{ ...style, textAlign: 'center', padding: '2rem' }}>
-                                  <LoginAuth0 />
-                                  <FormControl fullWidth>
-                                    <Button variant="contained" color="primary" onClick={() => loginWithRedirect()}>
-                                      Sign In with Auth0
-                                    </Button>
-                                  </FormControl>
-                                </Box>
-                            </Modal>
-                          </React.Fragment>
-                        );
-                      }
-                    }
-                  })
+              {generalSettings.map((setting, index) => {
+                if (isAuthenticated) {
+                  if (index === 0) {
+                    return [
+                      <MenuItem key={`${setting}-${index}`} onClick={handleCloseUserMenu} component={Link} to={`/${setting}`} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <Typography textAlign="center" sx={{ fontWeight: 'bold' }}>{authenticatedSettings[0]}</Typography>
+                        <Typography textAlign="center" sx={{ color: 'green', marginTop: '4px' }}>{authenticatedSettings[1]}</Typography>
+                      </MenuItem>,
+                      <Divider key={`divider-${index}`} />,
+                      <MenuItem key={`${setting}-${index + 1}`} onClick={handleCloseUserMenu} component={Link} to={`/profile`} >
+                        <Typography textAlign="center">{generalSettings[0]}</Typography>
+                      </MenuItem>,
+                      <MenuItem key={`${setting}-${index + 2}`} onClick={handleCloseUserMenu} component={Link} to={`/settings`} >
+                        <Typography textAlign="center">{generalSettings[1]}</Typography>
+                      </MenuItem>,
+                      <Divider key={`divider-${index + 1}`} />,
+                      <MenuItem key={`${setting}-${index + 4}`} onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+                        <Typography textAlign="center" style={{ color: 'red' }}>{authenticatedSettings[2]}</Typography>
+                      </MenuItem>
+                    ];
+                  }
+                } else {
+                  if (index === 0) {
+                    return [
+                      <MenuItem key={`${setting}-${index}`} onClick={() => setShowLoginModal(true)}>
+                        <Typography textAlign="center">{nonAuthenticatedSettings[0]}</Typography>
+                      </MenuItem>,
+                      <Modal
+                        key={`modal-${index}`}
+                        open={showLoginModal}
+                        onClose={() => setShowLoginModal(false)}
+                        aria-labelledby="login-modal-title"
+                        aria-describedby="login-modal-description"
+                      >
+                        <Box sx={{ ...style, textAlign: 'center', padding: '2rem' }}>
+                          <LoginAuth0 />
+                          <FormControl fullWidth>
+                            <Button variant="contained" color="primary" onClick={() => loginWithRedirect()}>
+                              Sign In with Auth0
+                            </Button>
+                          </FormControl>
+                        </Box>
+                      </Modal>
+                    ];
+                  }
                 }
+              })}
             </Menu>
 
           </Box>

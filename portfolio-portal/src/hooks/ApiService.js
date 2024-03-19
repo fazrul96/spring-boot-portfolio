@@ -21,6 +21,10 @@ class ApiService {
     return this.fetchData('/getExperiences');
   }
 
+  async fetchExperienceItems() {
+    return this.fetchData('/getExperienceItems');
+  }
+
   async fetchEducations() {
     return this.fetchData('/getEducations');
   }

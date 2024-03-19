@@ -7,6 +7,9 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ProjectIcon from '@mui/icons-material/Build';
 import OpenAPIIcon from '@mui/icons-material/Api';
 import MediumIcon from '@mui/icons-material/Book';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import BackupIcon from '@mui/icons-material/Backup';
+import ViewModuleIcon from '@mui/icons-material/ViewModule';
 // Auth0
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -17,16 +20,13 @@ const SidebarDrawer = () => {
       { text: 'Dashboard', icon: <DashboardIcon />, route: '/' },
       { text: 'Component', icon: <ProjectIcon />, route: '/component' },
       { text: 'Medium', icon: <MediumIcon />, route: '/medium' },
-      { text: 'Module', icon: <MediumIcon />, route: '/module' },
+      { text: 'Module', icon: <ViewModuleIcon />, route: '/module' },
     ];
     const privateSidebarItems = [
-      { text: 'GREDAVERSE',  icon: '', route: '/' },
-      { text: 'Storage', icon: <DashboardIcon />, route: '/storage' },
+      { text: 'GREDAVERSE',  icon: '', route: '/space' },
+      { text: 'Storage', icon: <BackupIcon />, route: '/storage' },
       { text: 'OpenAPI', icon: <OpenAPIIcon />, route: '/openapi' },
-      { text: 'Pipeline', icon: <ProjectIcon />, route: '/jenkins' },
-      { text: 'Cypress', icon: <ProjectIcon />, route: '/cypress' },
-      { text: 'Webtoon', icon: <MediumIcon />, route: '/blog' },
-      { text: 'Movie', icon: <MediumIcon />, route: '/movie' },
+      { text: 'Webtoon', icon: <MenuBookIcon />, route: '/blog' },
     ];
     const handleItemClick = (route) => {
         navigate(route);
