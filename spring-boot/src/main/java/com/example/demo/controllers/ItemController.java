@@ -24,8 +24,8 @@ public class ItemController {
     @GetMapping("items")
     public List<Item> getItems() {
         List<Item> items = new ArrayList<>();
-        items.add(new Item(1L, "Item 1"));
-        items.add(new Item(2L, "Item 2"));
+//        items.add(new Item(1L, "Item 1"));
+//        items.add(new Item(2L, "Item 2"));
         return items;
     }
 }

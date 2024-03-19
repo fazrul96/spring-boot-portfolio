@@ -1,17 +1,37 @@
 package com.example.demo.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "experience_items")
 public class ExperienceItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @JsonProperty("id")
+    private String id;
+
     @JsonProperty("title")
     private String title;
 
     @JsonProperty("description")
     private String description;
 
-    public ExperienceItem(String title, String description) {
-        this.title = title;
-        this.description = description;
+    @ManyToOne
+    @JoinColumn(name = "experience_id")
+    private Experience experience;
+
+    public ExperienceItem() {
+        // Default constructor
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -28,5 +48,13 @@ public class ExperienceItem {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Experience getExperience() {
+        return experience;
+    }
+
+    public void setExperience(Experience experience) {
+        this.experience = experience;
     }
 }

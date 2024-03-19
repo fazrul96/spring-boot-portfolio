@@ -1,10 +1,16 @@
 package com.example.demo.models;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "items")
 public class Item {
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
     private String name;
 
-    public Item(Long id, String name) {
+    public Item(String id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -17,11 +23,11 @@ public class Item {
         this.name = name;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 }

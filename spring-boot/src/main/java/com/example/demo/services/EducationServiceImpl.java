@@ -1,42 +1,44 @@
 package com.example.demo.services;
 
 import com.example.demo.models.Education;
+import com.example.demo.repositories.EducationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EducationServiceImpl implements EducationService {
+    private final EducationRepository educationRepository;
+
+    @Autowired
+    public EducationServiceImpl(EducationRepository educationRepository) {
+        this.educationRepository = educationRepository;
+    }
 
     @Override
     public List<Education> getEducations() {
-        return createListOfEducations();
+        return educationRepository.findAll();
     }
 
-    private List<Education> createListOfEducations() {
-        List<Education> educations = new ArrayList<>();
+    @Override
+    public Education getEducationById(String id) {
+        Optional<Education> optionalEducation = educationRepository.findById(id);
+        return optionalEducation.orElse(null);
+    }
 
-        String[][] educationData = {
-            {
-                "National University of Malaysia (UKM)",
-                "Bachelor of Software Engineering (Information Systems)",
-                "2015 - 2019"
-            },
-//            {
-//                "Another University",
-//                "Another Degree",
-//                "Start Year - End Year"
-//            }
-            // Add more education data here if needed
-        };
+    public Education getEducationByName(String name) {
+        return educationRepository.findByName(name);
+    }
 
-        // Loop through the education data and create Education instances
-        for (int id = 1; id <= educationData.length; id++) {
-            String[] data = educationData[id - 1]; // Get education data for the current ID
-            educations.add(new Education(id, data[0], data[1], data[2]));
-        }
+    @Override
+    public Education saveEducation(Education education) {
+        return educationRepository.save(education);
+    }
 
-        return educations;
+    @Override
+    public void deleteEducation(String id) {
+        educationRepository.deleteById(id);
     }
 }

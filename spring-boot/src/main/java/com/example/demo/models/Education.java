@@ -1,10 +1,17 @@
 package com.example.demo.models;
 
+import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Entity
+@Table(name = "educations")
 public class Education {
-    private int id;
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @JsonProperty("id")
+    private String id;
+
     @JsonProperty("name")
     private String name;
     
@@ -14,19 +21,8 @@ public class Education {
     @JsonProperty("year")
     private String year;
 
-    public Education(int id, String name, String module, String year) {
-        this.id = id;
-        this.name = name;
-        this.module = module;
-        this.year = year;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public Education() {
+        // Default constructor
     }
 
     public String getName() {

@@ -6,10 +6,8 @@ import com.example.demo.services.AppConfig;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,7 +16,7 @@ import java.util.List;
 public class SkillController {
     private final SkillService skillService;
     private final AppConfig appConfig;
-
+    @Autowired
     public SkillController(SkillService skillService, AppConfig appConfig) {
         this.skillService = skillService;
         this.appConfig = appConfig;
@@ -32,5 +30,20 @@ public class SkillController {
     @GetMapping(path = "getSkills")
     public List<Skill> getSkills() {
         return skillService.getSkills();
+    }
+
+    @GetMapping(path = "getSkills/{id}")
+    public Skill getSkillById(@PathVariable String id) {
+        return skillService.getSkillById(id);
+    }
+
+    @PostMapping(path = "postSkills")
+    public Skill saveSkill(@RequestBody Skill skill) {
+        return skillService.saveSkill(skill);
+    }
+
+    @DeleteMapping(path = "deleteSkills/{id}")
+    public void deleteSkill(@PathVariable String id) {
+        skillService.deleteSkill(id);
     }
 }

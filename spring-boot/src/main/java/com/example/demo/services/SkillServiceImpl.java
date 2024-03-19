@@ -1,51 +1,44 @@
 package com.example.demo.services;
 
 import com.example.demo.models.Skill;
+import com.example.demo.repositories.SkillRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SkillServiceImpl implements SkillService {
+    private final SkillRepository skillRepository;
+
+    @Autowired
+    public SkillServiceImpl(SkillRepository skillRepository) {
+        this.skillRepository = skillRepository;
+    }
 
     @Override
     public List<Skill> getSkills() {
-        return createListOfSkills();
+        return skillRepository.findAll();
     }
 
-    private List<Skill> createListOfSkills() {
-        List<Skill> skills = new ArrayList<>();
+    @Override
+    public Skill getSkillById(String id) {
+        Optional<Skill> optionalSkill = skillRepository.findById(id);
+        return optionalSkill.orElse(null);
+    }
 
-        String[][] skillData = {
-            {
-                "Web Development",
-                "Laravel | CodeIgniter | React | Spring Boot",
-            },
-            {
-                "Programming Languages",
-                "PHP | Java | Javascript/Typescript | VBA | C#",
-            },
-            {
-                "Web Services",
-                "SQS | CloudWatch | S3 | Lambda | CodePipeline | MinIO | Jenkins",
-            },
-            {
-                "Database Management Systems (DMS)",
-                "MySQL | MSSQL | PostgreSQL",
-            },
-            {
-                "Automation Testing",
-                "Cypress | Selenium WebDriver | Cucumber",
-            }
-        };
+    public Skill getSkillByName(String name) {
+        return skillRepository.findByName(name);
+    }
 
-        // Loop through the skill data and create Skill instances
-        for (int id = 1; id <= skillData.length; id++) {
-            String[] data = skillData[id - 1]; // Get skill data for the current ID
-            skills.add(new Skill(id, data[0], data[1]));
-        }
+    @Override
+    public Skill saveSkill(Skill skill) {
+        return skillRepository.save(skill);
+    }
 
-        return skills;
+    @Override
+    public void deleteSkill(String id) {
+        skillRepository.deleteById(id);
     }
 }

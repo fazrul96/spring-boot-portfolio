@@ -1,9 +1,17 @@
 package com.example.demo.models;
 
+import com.google.api.client.util.DateTime;
+import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Entity
+@Table(name = "blogs")
 public class Blog {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @JsonProperty("id")
+    private String id;
 
     @JsonProperty("alias")
     private String alias;
@@ -23,18 +31,14 @@ public class Blog {
     @JsonProperty("description")
     private String description;
 
-    @JsonProperty("timeAgo")
-    private String timeAgo;
+    @JsonProperty("datetime")
+    private String datetime;
 
-    public Blog(String alias, String image, String title, String author, String genre, String description, String timeAgo) {
-        this.id = id;
-        this.alias = alias;
-        this.image = image;
-        this.author = author;
-        this.genre = genre;
-        this.description = description;
-        this.title = title;
-        this.timeAgo = timeAgo;
+    @JsonProperty("rating")
+    private String rating;
+
+    public Blog() {
+        // Default constructor
     }
 
     public String getAlias() {
@@ -85,11 +89,19 @@ public class Blog {
         this.title = title;
     }
 
-    public String getTimeAgo() {
-        return timeAgo;
+    public String getDatetime() {
+        return datetime;
     }
 
-    public void setTimeAgo(String timeAgo) {
-        this.timeAgo = timeAgo;
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 }

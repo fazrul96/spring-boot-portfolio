@@ -1,17 +1,13 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.Blog;
-import com.example.demo.models.Experience;
 import com.example.demo.services.AppConfig;
 import com.example.demo.services.BlogService;
-import com.example.demo.services.ExperienceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +17,7 @@ public class BlogController {
     private final BlogService blogService;
     private final AppConfig appConfig;
 
+    @Autowired
     public BlogController(BlogService blogService, AppConfig appConfig) {
         this.blogService = blogService;
         this.appConfig = appConfig;
@@ -35,5 +32,20 @@ public class BlogController {
     @GetMapping(path = "getBlogs")
     public List<Blog> getBlogs() {
         return blogService.getBlogs();
+    }
+
+    @GetMapping(path = "getBlogs/{id}")
+    public Blog getBlogById(@PathVariable String id) {
+        return blogService.getBlogById(id);
+    }
+
+    @PostMapping(path = "postBlogs")
+    public Blog saveBlog(@RequestBody Blog blog) {
+        return blogService.saveBlog(blog);
+    }
+
+    @DeleteMapping(path = "deleteBlogs/{id}")
+    public void deleteBlog(@PathVariable String id) {
+        blogService.deleteBlog(id);
     }
 }

@@ -6,10 +6,8 @@ import com.example.demo.services.AppConfig;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,7 +16,7 @@ import java.util.List;
 public class ProjectController {
     private final ProjectService projectService;
     private final AppConfig appConfig;
-
+    @Autowired
     public ProjectController(ProjectService projectService, AppConfig appConfig) {
         this.projectService = projectService;
         this.appConfig = appConfig;
@@ -32,5 +30,20 @@ public class ProjectController {
     @GetMapping(path = "getProjects")
     public List<Project> getProjects() {
         return projectService.getProjects();
+    }
+
+    @GetMapping(path = "getProjects/{id}")
+    public Project getProjectById(@PathVariable String id) {
+        return projectService.getProjectById(id);
+    }
+
+    @PostMapping(path = "postProjects")
+    public Project saveProject(@RequestBody Project project) {
+        return projectService.saveProject(project);
+    }
+
+    @DeleteMapping(path = "deleteProjects/{id}")
+    public void deleteProject(@PathVariable String id) {
+        projectService.deleteProject(id);
     }
 }

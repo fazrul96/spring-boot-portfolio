@@ -1,9 +1,18 @@
 package com.example.demo.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
+import java.util.List;
+
+@Entity
+@Table(name = "projects")
 public class Project {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @JsonProperty("id")
+    private String id;
     
     @JsonProperty("title")
     private String title;
@@ -21,46 +30,13 @@ public class Project {
     private String img;
     
     @JsonProperty("tag")
-    private String[] tag;
+    private String tag;
 
     @JsonProperty("list")
-    private String[] list;
+    private String list;
 
-//    private int id;
-//    private String category;
-//    private String title;
-//    private String status;
-//    private String link;
-//    private String image;
-//    private String[] tags;
-//    public ProjectServiceImpl(int id, String category, String title, String status, String link, String image, String[] tags) {
-//        this.id = id;
-//        this.category = category;
-//        this.title = title;
-//        this.status = status;
-//        this.link = link;
-//        this.image = image;
-//        this.tags = tags;
-//    }
-
-    public Project(int id, String title, String description, String status, String reference, String img, String[] list, String[] tag) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.status = status;
-        this.reference = reference;
-        this.img = img;
-        this.list = list;
-        this.tag = tag;
-    }
-
-    // Getters and setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public Project() {
+        // Default constructor
     }
 
     public String getTitle() {
@@ -103,19 +79,19 @@ public class Project {
         this.img = img;
     }
 
-    public String[] getTag() {
+    public String getTag() {
         return tag;
     }
 
-    public void setTag(String[] tag) {
+    public void setTag(String tag) {
         this.tag = tag;
     }
 
-    public String[] getList() {
+    public String getList() {
         return list;
     }
 
-    public void setList(String[] list) {
+    public void setList(String list) {
         this.list = list;
     }
 }
