@@ -5,7 +5,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 
 import ExperienceTimelineItem from '../../../components/section/experiences/ExperienceTimelineItem';
 
-const ExperienceCardModel = ({ experience, experienceItems }) => {
+const ExperienceCardModel = ({ experiencesWithItem }) => {
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState('paper');
 
@@ -32,14 +32,15 @@ const ExperienceCardModel = ({ experience, experienceItems }) => {
 
   const handleHover = () => {
     setHover(!hover);
+    setHover(!hover);
   };
 
-  const tags = experience.tag.split("|");
+  const tags = experiencesWithItem.tag.split("|");
   return (
     <React.Fragment>
     <Tooltip title="View more" arrow onClick={handleClickOpen('paper')} onMouseEnter={handleHover} onMouseLeave={handleHover}>
       <div>
-        {experience.role} <TrendingUpIcon style={{ transform: hover ? 'translateY(-3px)' : 'none', transition: 'transform 0.3s ease', color:'green' }} />
+        {experiencesWithItem.role} <TrendingUpIcon style={{ transform: hover ? 'translateY(-3px)' : 'none', transition: 'transform 0.3s ease', color:'green' }} />
       </div>
     </Tooltip>
       <Dialog
@@ -52,9 +53,9 @@ const ExperienceCardModel = ({ experience, experienceItems }) => {
         <DialogTitle id="scroll-dialog-title">Experience Timeline</DialogTitle>
         <DialogContent dividers={scroll === 'paper'} sx={{ backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8)), url("${'https://getwallpapers.com/wallpaper/full/7/d/c/1172966-free-download-developer-wallpaper-hd-2560x1440-cell-phone.jpg'}")`,
                                                            backgroundSize: 'cover'}}>
-          {experienceItems && experienceItems.length > 0 && (
+          {experiencesWithItem.items && experiencesWithItem.items.length > 0 && (
             <Grid container spacing={2}>
-              {experience.company_name === '' &&
+              {experiencesWithItem.companyName === '' &&
                   <Hidden smDown mdDown>
                     <Grid item md={2}>
                       <Timeline style={{ margin: '0' }}>
@@ -77,10 +78,10 @@ const ExperienceCardModel = ({ experience, experienceItems }) => {
               }
               <Grid item xs={12} md={10}>
                 <ExperienceTimelineItem
-                  title={experience.role}
-                  year={experience.year}
-                  duration={experience.duration}
-                  items={experienceItems}
+                  title={experiencesWithItem.role}
+                  year={experiencesWithItem.year}
+                  duration={experiencesWithItem.duration}
+                  items={experiencesWithItem.items}
                   chips={[
                       ...tags.map((tag, index) => ({
                         key: index,

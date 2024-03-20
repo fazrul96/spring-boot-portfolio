@@ -8,7 +8,10 @@ import java.util.Map;
 
 @Service
 public interface ExperienceItemService {
-    List<Map<String, Object>> getExperienceItems();
+    List<ExperienceItem> getExperienceItems();
+
+    List<Map<String, Object>> getExperienceItemsByTitle();
+
     ExperienceItem getExperienceItemById(String id);
     ExperienceItem saveExperienceItem(ExperienceItem experience);
     void deleteExperienceItem(String id);

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping(path = "${app.apiPath}")
+@CrossOrigin(origins = "${app.basePath}")
 public class MapController {
-    @CrossOrigin(origins = "${app.basePath}")
     @GetMapping("/map")
     public String showMap() {
         return "googlemap";

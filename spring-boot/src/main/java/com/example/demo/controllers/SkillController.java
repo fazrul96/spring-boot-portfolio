@@ -13,25 +13,28 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "${app.apiPath}")
+@CrossOrigin(origins = "${app.basePath}")
 public class SkillController {
     private final SkillService skillService;
-    private final AppConfig appConfig;
     @Autowired
-    public SkillController(SkillService skillService, AppConfig appConfig) {
+    public SkillController(SkillService skillService) {
         this.skillService = skillService;
-        this.appConfig = appConfig;
     }
     @Operation(summary = "Get list of skills")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully retrieved skills"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @CrossOrigin(origins = "${app.basePath}")
     @GetMapping(path = "getSkills")
     public List<Skill> getSkills() {
         return skillService.getSkills();
     }
 
+    @Operation(summary = "Get list of skills using id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved skills using id"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping(path = "getSkills/{id}")
     public Skill getSkillById(@PathVariable String id) {
         return skillService.getSkillById(id);

@@ -11,25 +11,22 @@ import {
 import ExperienceCardModel from '../../../components/section/experiences/ExperienceCardModel';
 import ExperienceCardAccordion from '../../../components/section/experiences/ExperienceCardAccordion';
 
-const ExperienceCard = ({ experience, experienceItems }) => {
+const ExperienceCard = ({ experiencesWithItem }) => {
   return (
     <Card>
       <CardActionArea>
         <CardMedia
           component="img"
           height="140"
-          image={experience.image || 'https://wallpapercave.com/wp/wp2708351.jpg'}
+          image={experiencesWithItem.image || 'https://wallpapercave.com/wp/wp2708351.jpg'}
           alt="Experience Image"
         />
-        <CardContent sx={{backgroundImage: `linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.95)), url("${experience.image}")`}}>
+        <CardContent sx={{backgroundImage: `linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.95)), url("${experiencesWithItem.image}")`}}>
           <Typography gutterBottom variant="h5" component="div">
-            {experience.company_name}
+            {experiencesWithItem.companyName} {experiencesWithItem.companyType}
             <Typography gutterBottom variant="h6" component="div">
-                <ExperienceCardModel experience={experience} experienceItems={experienceItems} />
+                <ExperienceCardModel experiencesWithItem={experiencesWithItem}/>
             </Typography>
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {experience.description}
           </Typography>
         </CardContent>
       </CardActionArea>

@@ -13,25 +13,28 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "${app.apiPath}")
+@CrossOrigin(origins = "${app.basePath}")
 public class ProjectController {
     private final ProjectService projectService;
-    private final AppConfig appConfig;
     @Autowired
-    public ProjectController(ProjectService projectService, AppConfig appConfig) {
+    public ProjectController(ProjectService projectService) {
         this.projectService = projectService;
-        this.appConfig = appConfig;
     }
     @Operation(summary = "Get list of projects")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully retrieved projects"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @CrossOrigin(origins = "${app.basePath}")
     @GetMapping(path = "getProjects")
     public List<Project> getProjects() {
         return projectService.getProjects();
     }
 
+    @Operation(summary = "Get list of projects using id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved projects using id"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping(path = "getProjects/{id}")
     public Project getProjectById(@PathVariable String id) {
         return projectService.getProjectById(id);

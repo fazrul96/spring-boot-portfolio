@@ -19,17 +19,15 @@ const ExperienceTimelineItem = ({ title, year, duration, items, chips }) => {
 
         <ul style={{ paddingLeft: '0px', marginBottom: '20px' }}>
             {items.map((item, indexItem) => (
-                <ul key={indexItem} style={{ marginBottom: '5px' }}>
-                  {item.title ? (
-                    <li style={{ fontWeight: 'bold', fontStyle: 'italic' }}>
-                      {item.title}
-                      {item.description && <br />}
-                    </li>
-                  ) : (
-                    <ul style={{ paddingLeft: '20px', marginBottom: '0' }}>
-                      <li>{item.description}</li>
-                    </ul>
-                  )}
+                <ul key={indexItem} style={{ marginBottom: '5px'}}>
+                <div style={{ fontWeight: 'bold', fontStyle: 'italic' }}>
+                    {item.title}
+                </div>
+                    {item.items.map((task, indexTask) => (
+                        <li key={indexTask}>
+                          {task.description}
+                        </li>
+                    ))}
                 </ul>
             ))}
         </ul>

@@ -14,8 +14,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "${app.apiPath}")
+@CrossOrigin(origins = "${app.basePath}")
 public class MapDataController {
-    @CrossOrigin(origins = "${app.basePath}")
     @Operation(summary = "Get Map")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully retrieved map"),

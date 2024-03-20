@@ -37,8 +37,7 @@ import { Box, CssBaseline, Drawer } from '@mui/material';
 const drawerWidth = 240;
 
 const App = () => {
-  const [experiences, setExperiences] = useState([]);
-  const [experienceItems, setExperienceItems] = useState([]);
+  const [experiencesWithItems, setExperiencesWithItems] = useState([]);
   const [educations, setEducations] = useState([]);
   const [certifications, setCertifications] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -58,16 +57,14 @@ const App = () => {
         try {
           const apiService = new ApiService(url);
 
-          const experiencesData = await apiService.fetchExperiences();
-          const experienceItemsData = await apiService.fetchExperienceItems();
+          const experiencesWithItemsData = await apiService.fetchExperiencesWithItems();
           const educationsData = await apiService.fetchEducations();
           const certificationsData = await apiService.fetchCertifications();
           const projectsData = await apiService.fetchProjects();
           const skillsData = await apiService.fetchSkills();
           const blogsData = await apiService.fetchBlogs();
 
-          setExperiences(experiencesData);
-          setExperienceItems(experienceItemsData);
+          setExperiencesWithItems(experiencesWithItemsData);
           setEducations(educationsData);
           setCertifications(certificationsData);
           setProjects(projectsData);
@@ -136,7 +133,7 @@ const App = () => {
           component="main"
         >
             <Routes>
-              <Route path="/" element={<HomePage projects={projects} experiences={experiences} experienceItems={experienceItems} educations={educations} certifications={certifications} skills={skills} error={error} />} />
+              <Route path="/" element={<HomePage projects={projects} experiencesWithItems={experiencesWithItems} educations={educations} certifications={certifications} skills={skills} error={error} />} />
               <Route path="/component" element={<ComponentPage />} />
               <Route path="/medium" element={<MediumPage />} />
               <Route path="/module" element={<ModulePage />} />

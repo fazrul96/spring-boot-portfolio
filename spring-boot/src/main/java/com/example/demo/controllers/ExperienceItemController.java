@@ -14,36 +14,44 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path = "${app.apiPath}")
+@CrossOrigin(origins = "${app.basePath}")
 public class ExperienceItemController {
     private final ExperienceItemService experienceItemService;
-    private final AppConfig appConfig;
 
     @Autowired
-    public ExperienceItemController(ExperienceItemService experienceItemService, AppConfig appConfig) {
+    public ExperienceItemController(ExperienceItemService experienceItemService) {
         this.experienceItemService = experienceItemService;
-        this.appConfig = appConfig;
     }
 
-    @CrossOrigin(origins = "${app.basePath}")
     @Operation(summary = "Get list of experiences")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully retrieved experiences"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping(path = "getExperienceItems")
-    public List<Map<String, Object>> getExperienceItems() {
+    public List<ExperienceItem> getExperienceItems() {
         return experienceItemService.getExperienceItems();
     }
 
+    @Operation(summary = "Get list of experience item using title")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved experience item using title"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @GetMapping(path = "getExperienceItemsByTitle")
+    public List<Map<String, Object>> getExperienceItemsByTitle() {
+        return experienceItemService.getExperienceItemsByTitle();
+    }
+
+    @Operation(summary = "Get list of experience item using id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved experience item using id"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping(path = "getExperienceItems/{id}")
     public ExperienceItem getExperienceItemById(@PathVariable String id) {
         return experienceItemService.getExperienceItemById(id);
     }
-
-//    @GetMapping(path = "getExperienceItems/{title}")
-//    public ExperienceItem getExperienceItemByTitle(@PathVariable String title) {
-//        return experienceItemService.getExperienceItemByTitle(title);
-//    }
 
     @PostMapping(path = "postExperienceItems")
     public ExperienceItem saveExperienceItem(@RequestBody ExperienceItem experience) {

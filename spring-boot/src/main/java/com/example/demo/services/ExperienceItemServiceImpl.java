@@ -1,6 +1,5 @@
 package com.example.demo.services;
 
-import com.example.demo.models.Experience;
 import com.example.demo.models.ExperienceItem;
 import com.example.demo.repositories.ExperienceItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,12 @@ public class ExperienceItemServiceImpl implements ExperienceItemService {
     }
 
     @Override
-    public List<Map<String, Object>> getExperienceItems() {
+    public List<ExperienceItem> getExperienceItems() {
+        return experienceItemRepository.findAll();
+    }
+
+    @Override
+    public List<Map<String, Object>> getExperienceItemsByTitle() {
         List<ExperienceItem> experienceItems = experienceItemRepository.findAll();
         Map<String, List<Map<String, Object>>> groupedItems = new LinkedHashMap<>();
 

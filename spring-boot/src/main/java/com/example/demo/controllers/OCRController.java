@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping(path = "${app.apiPath}")
+@CrossOrigin(origins = "${app.basePath}")
 public class OCRController {
     private String baseDirectory;
     private String outputDirectory;
@@ -41,7 +42,6 @@ public class OCRController {
         this.targetPath = Paths.get(this.outputDirectory);
     }
 
-    @CrossOrigin(origins = "${app.basePath}")
     @Operation(summary = "ProcessOCR")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully retrieved ocr results"),
@@ -53,7 +53,6 @@ public class OCRController {
         return processOCRInDirectory();
     }
 
-    @CrossOrigin(origins = "${app.basePath}")
     @Operation(summary = "ProcessOCRInDirectory")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully processOCR"),
@@ -75,7 +74,6 @@ public class OCRController {
     }
 
 
-    @CrossOrigin(origins = "${app.basePath}")
     @Operation(summary = "processOCR")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully processOCR"),

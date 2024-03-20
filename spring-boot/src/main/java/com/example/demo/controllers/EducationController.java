@@ -13,16 +13,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "${app.apiPath}")
+@CrossOrigin(origins = "${app.basePath}")
 public class EducationController {
     private final EducationService educationService;
-    private final AppConfig appConfig;
     @Autowired
-    public EducationController(EducationService educationService, AppConfig appConfig) {
+    public EducationController(EducationService educationService) {
         this.educationService = educationService;
-        this.appConfig = appConfig;
     }
 
-    @CrossOrigin(origins = "${app.basePath}")
     @Operation(summary = "Get list of educations")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully retrieved educations"),
@@ -33,6 +31,11 @@ public class EducationController {
         return educationService.getEducations();
     }
 
+    @Operation(summary = "Get list of educations using id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved educations using id"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping(path = "getEducations/{id}")
     public Education getEducationById(@PathVariable String id) {
         return educationService.getEducationById(id);

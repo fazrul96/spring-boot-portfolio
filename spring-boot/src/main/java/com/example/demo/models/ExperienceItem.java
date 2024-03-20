@@ -22,6 +22,9 @@ public class ExperienceItem {
     @JoinColumn(name = "experience_id")
     private Experience experience;
 
+    @JsonProperty("alias")
+    private String alias;
+
     public ExperienceItem() {
         // Default constructor
     }
@@ -56,5 +59,13 @@ public class ExperienceItem {
 
     public void setExperience(Experience experience) {
         this.experience = experience;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 }

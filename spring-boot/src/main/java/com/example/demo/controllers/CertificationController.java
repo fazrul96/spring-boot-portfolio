@@ -13,28 +13,30 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "${app.apiPath}")
+@CrossOrigin(origins = "${app.basePath}")
 public class CertificationController {
     private final CertificationService certificationService;
-    private final AppConfig appConfig;
 
     @Autowired
-    public CertificationController(CertificationService certificationService, AppConfig appConfig) {
+    public CertificationController(CertificationService certificationService) {
         this.certificationService = certificationService;
-        this.appConfig = appConfig;
     }
 
-    @CrossOrigin(origins = "${app.basePath}")
     @Operation(summary = "Get list of certifications")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully retrieved certifications"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-
     @GetMapping(path = "getCertifications")
     public List<Certification> getCertifications() {
         return certificationService.getCertifications();
     }
 
+    @Operation(summary = "Get list of certifications using id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved certifications using id"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping(path = "getCertifications/{id}")
     public Certification getCertificationById(@PathVariable String id) {
         return certificationService.getCertificationById(id);

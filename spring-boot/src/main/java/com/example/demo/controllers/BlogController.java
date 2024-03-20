@@ -13,14 +13,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "${app.apiPath}")
+@CrossOrigin(origins = "${app.basePath}")
 public class BlogController {
     private final BlogService blogService;
-    private final AppConfig appConfig;
 
     @Autowired
-    public BlogController(BlogService blogService, AppConfig appConfig) {
+    public BlogController(BlogService blogService) {
         this.blogService = blogService;
-        this.appConfig = appConfig;
     }
 
     @CrossOrigin(origins = "${app.basePath}")

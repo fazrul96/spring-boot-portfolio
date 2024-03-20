@@ -13,20 +13,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "${app.apiPath}")
+@CrossOrigin(origins = "${app.basePath}")
 public class BlogChapterController {
     private final BlogChapterService blogChapterService;
-    private final AppConfig appConfig;
-
     @Autowired
-    public BlogChapterController(BlogChapterService blogChapterService, AppConfig appConfig) {
+    public BlogChapterController(BlogChapterService blogChapterService) {
         this.blogChapterService = blogChapterService;
-        this.appConfig = appConfig;
     }
 
-    @CrossOrigin(origins = "${app.basePath}")
     @Operation(summary = "Get list of blog chapters")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved blogs"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved blog chapters"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping(path = "getBlogChapters")
@@ -34,6 +31,11 @@ public class BlogChapterController {
         return blogChapterService.getBlogChapters();
     }
 
+    @Operation(summary = "Get list of blog chapters using Id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved blog chapters using id"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping(path = "getBlogChapters/{id}")
     public BlogChapter getBlogChapterById(@PathVariable String id) {
         return blogChapterService.getBlogChapterById(id);

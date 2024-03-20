@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "${app.apiPath}")
+@CrossOrigin(origins = "${app.basePath}")
 public class HelloController {
-    @CrossOrigin(origins = "${app.basePath}")
     @Operation(summary = "Hello")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),

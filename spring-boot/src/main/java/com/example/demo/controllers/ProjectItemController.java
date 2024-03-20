@@ -13,25 +13,28 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "${app.apiPath}")
+@CrossOrigin(origins = "${app.basePath}")
 public class ProjectItemController {
     private final ProjectItemService projectItemService;
-    private final AppConfig appConfig;
     @Autowired
-    public ProjectItemController(ProjectItemService projectItemService, AppConfig appConfig) {
+    public ProjectItemController(ProjectItemService projectItemService) {
         this.projectItemService = projectItemService;
-        this.appConfig = appConfig;
     }
-    @Operation(summary = "Get list of projects")
+    @Operation(summary = "Get list of project items")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved projects"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved project items"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @CrossOrigin(origins = "${app.basePath}")
     @GetMapping(path = "getProjectItems")
     public List<ProjectItem> getProjectItems() {
         return projectItemService.getProjectItems();
     }
 
+    @Operation(summary = "Get list of projects")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved project items using id"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping(path = "getProjectItems/{id}")
     public ProjectItem getProjectItemById(@PathVariable String id) {
         return projectItemService.getProjectItemById(id);

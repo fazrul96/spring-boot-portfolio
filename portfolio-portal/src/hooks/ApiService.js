@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 class ApiService {
   constructor(baseURL) {
     this.baseURL = baseURL;
@@ -5,24 +7,16 @@ class ApiService {
 
   async fetchData(endpoint) {
     try {
-      const response = await fetch(`${this.baseURL}${endpoint}`);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch data from ${endpoint}`);
-      }
-      const data = await response.json();
-      return data;
+      const response = await axios.get(`${this.baseURL}${endpoint}`);
+      return response.data;
     } catch (error) {
       console.error(`Error fetching data from ${endpoint}:`, error);
       throw error;
     }
   }
 
-  async fetchExperiences() {
-    return this.fetchData('/getExperiences');
-  }
-
-  async fetchExperienceItems() {
-    return this.fetchData('/getExperienceItems');
+  async fetchExperiencesWithItems() {
+    return this.fetchData('/getExperiencesWithItems');
   }
 
   async fetchEducations() {
