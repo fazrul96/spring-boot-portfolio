@@ -1,8 +1,7 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.Project;
-import com.example.demo.services.ProjectService;
-import com.example.demo.services.AppConfig;
+import com.example.demo.entity.Project;
+import com.example.demo.services.modules.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -36,7 +35,7 @@ public class ProjectController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping(path = "getProjects/{id}")
-    public Project getProjectById(@PathVariable String id) {
+    public Project getProjectById(@PathVariable Integer id) {
         return projectService.getProjectById(id);
     }
 
@@ -46,7 +45,7 @@ public class ProjectController {
     }
 
     @DeleteMapping(path = "deleteProjects/{id}")
-    public void deleteProject(@PathVariable String id) {
+    public void deleteProject(@PathVariable Integer id) {
         projectService.deleteProject(id);
     }
 }

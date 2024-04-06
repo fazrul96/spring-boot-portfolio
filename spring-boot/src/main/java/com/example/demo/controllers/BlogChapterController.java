@@ -1,8 +1,7 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.BlogChapter;
-import com.example.demo.services.AppConfig;
-import com.example.demo.services.BlogChapterService;
+import com.example.demo.entity.BlogChapter;
+import com.example.demo.services.modules.BlogChapterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

@@ -1,8 +1,7 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.Education;
-import com.example.demo.services.EducationService;
-import com.example.demo.services.AppConfig;
+import com.example.demo.entity.Education;
+import com.example.demo.services.modules.EducationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -37,7 +36,7 @@ public class EducationController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping(path = "getEducations/{id}")
-    public Education getEducationById(@PathVariable String id) {
+    public Education getEducationById(@PathVariable Integer id) {
         return educationService.getEducationById(id);
     }
 
@@ -47,7 +46,7 @@ public class EducationController {
     }
 
     @DeleteMapping(path = "deleteEducations/{id}")
-    public void deleteEducation(@PathVariable String id) {
+    public void deleteEducation(@PathVariable Integer id) {
         educationService.deleteEducation(id);
     }
 }

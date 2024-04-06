@@ -1,6 +1,6 @@
 package com.example.demo.controllers;
 
-import com.example.demo.services.EmailService;
+import com.example.demo.services.emails.EmailService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -13,6 +13,7 @@ import org.thymeleaf.context.Context;
 
 @RestController
 @RequestMapping(path = "${app.apiPath}")
+@CrossOrigin(origins = "${app.basePath}")
 public class EmailController {
     private static final Logger logger = LoggerFactory.getLogger(EmailController.class);
     @Autowired

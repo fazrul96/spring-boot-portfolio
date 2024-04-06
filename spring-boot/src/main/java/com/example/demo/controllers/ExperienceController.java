@@ -1,8 +1,7 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.Experience;
-import com.example.demo.services.ExperienceService;
-import com.example.demo.services.AppConfig;
+import com.example.demo.entity.Experience;
+import com.example.demo.services.modules.ExperienceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -49,7 +48,7 @@ public class ExperienceController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping(path = "getExperiences/{id}")
-    public Experience getExperienceById(@PathVariable String id) {
+    public Experience getExperienceById(@PathVariable Integer id) {
         return experienceService.getExperienceById(id);
     }
 
@@ -59,7 +58,7 @@ public class ExperienceController {
     }
 
     @DeleteMapping(path = "deleteExperiences/{id}")
-    public void deleteExperience(@PathVariable String id) {
+    public void deleteExperience(@PathVariable Integer id) {
         experienceService.deleteExperience(id);
     }
 }

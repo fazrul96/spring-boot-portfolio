@@ -1,8 +1,7 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.Skill;
-import com.example.demo.services.SkillService;
-import com.example.demo.services.AppConfig;
+import com.example.demo.entity.Skill;
+import com.example.demo.services.modules.SkillService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -36,7 +35,7 @@ public class SkillController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping(path = "getSkills/{id}")
-    public Skill getSkillById(@PathVariable String id) {
+    public Skill getSkillById(@PathVariable Integer id) {
         return skillService.getSkillById(id);
     }
 
@@ -46,7 +45,7 @@ public class SkillController {
     }
 
     @DeleteMapping(path = "deleteSkills/{id}")
-    public void deleteSkill(@PathVariable String id) {
+    public void deleteSkill(@PathVariable Integer id) {
         skillService.deleteSkill(id);
     }
 }

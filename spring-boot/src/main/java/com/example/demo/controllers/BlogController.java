@@ -1,8 +1,7 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.Blog;
-import com.example.demo.services.AppConfig;
-import com.example.demo.services.BlogService;
+import com.example.demo.entity.Blog;
+import com.example.demo.services.modules.BlogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -34,7 +33,7 @@ public class BlogController {
     }
 
     @GetMapping(path = "getBlogs/{id}")
-    public Blog getBlogById(@PathVariable String id) {
+    public Blog getBlogById(@PathVariable Integer id) {
         return blogService.getBlogById(id);
     }
 
@@ -44,7 +43,7 @@ public class BlogController {
     }
 
     @DeleteMapping(path = "deleteBlogs/{id}")
-    public void deleteBlog(@PathVariable String id) {
+    public void deleteBlog(@PathVariable Integer id) {
         blogService.deleteBlog(id);
     }
 }
