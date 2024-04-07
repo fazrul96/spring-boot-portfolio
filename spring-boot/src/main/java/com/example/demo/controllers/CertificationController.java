@@ -1,8 +1,7 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.Certification;
-import com.example.demo.services.CertificationService;
-import com.example.demo.services.AppConfig;
+import com.example.demo.entity.Certification;
+import com.example.demo.services.modules.CertificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -38,7 +37,7 @@ public class CertificationController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping(path = "getCertifications/{id}")
-    public Certification getCertificationById(@PathVariable String id) {
+    public Certification getCertificationById(@PathVariable Integer id) {
         return certificationService.getCertificationById(id);
     }
 
@@ -48,7 +47,7 @@ public class CertificationController {
     }
 
     @DeleteMapping(path = "deleteCertifications/{id}")
-    public void deleteCertification(@PathVariable String id) {
+    public void deleteCertification(@PathVariable Integer id) {
         certificationService.deleteCertification(id);
     }
 }
