@@ -24,19 +24,19 @@ public class ExperienceItemService {
         List<ExperienceItem> experienceItems = experienceItemRepository.findAll();
         Map<String, List<Map<String, Object>>> groupedItems = new LinkedHashMap<>();
 
-        for (ExperienceItem experienceItem : experienceItems) {
-            String title = experienceItem.getTitle();
-
-            Map<String, Object> itemMap = new LinkedHashMap<>();
-            itemMap.put("id", experienceItem.getId());
-            itemMap.put("description", experienceItem.getDescription());
-
-            if (!groupedItems.containsKey(title)) {
-                groupedItems.put(title, new ArrayList<>());
-            }
-
-            groupedItems.get(title).add(itemMap);
-        }
+//        for (ExperienceItem experienceItem : experienceItems) {
+//            String title = experienceItem.getTitle();
+//
+//            Map<String, Object> itemMap = new LinkedHashMap<>();
+//            itemMap.put("id", experienceItem.getId());
+//            itemMap.put("description", experienceItem.getDescription());
+//
+//            if (!groupedItems.containsKey(title)) {
+//                groupedItems.put(title, new ArrayList<>());
+//            }
+//
+//            groupedItems.get(title).add(itemMap);
+//        }
 
         List<Map<String, Object>> result = new ArrayList<>();
         for (Map.Entry<String, List<Map<String, Object>>> entry : groupedItems.entrySet()) {
