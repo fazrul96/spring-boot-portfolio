@@ -16,6 +16,7 @@ import static com.example.demo.constants.InterfaceSchemaConstant.*;
 @Entity
 @Immutable
 public class PortfolioView {
+
     @Id
     @Column(name = ID)
     private Integer id;

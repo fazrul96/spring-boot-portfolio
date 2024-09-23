@@ -1,5 +1,6 @@
 package com.example.demo.data.entity;
 
+@SuppressWarnings({"PMD.DataClass"})
 public class Coffee {
 
     private String brand;
@@ -41,6 +42,9 @@ public class Coffee {
 
     @Override
     public String toString() {
-        return "Coffee [brand=" + getBrand() + ", origin=" + getOrigin() + ", characteristics=" + getCharacteristics() + "]";
+        return "Coffee [brand=" + getBrand()
+                + ", origin=" + getOrigin()
+                + ", characteristics=" + getCharacteristics()
+                + "]";
     }
 }

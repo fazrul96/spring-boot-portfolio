@@ -19,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "${app.apiPath}")
 @CrossOrigin(origins = "${app.basePath}")
+@SuppressWarnings({"PMD.SignatureDeclareThrowsException"})
 public class MinIOController {
     @Autowired
     private MinioService minioService;
@@ -34,17 +35,22 @@ public class MinIOController {
     }
 
     @DeleteMapping(path = "deleteFile")
-    public void delete(@RequestParam("fileName") String fileName) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public void delete(@RequestParam("fileName") String fileName) throws
+            ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException,
+            InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         minioService.deleteFile(fileName);
     }
 
     @GetMapping(path = "getFileInfo")
-    public String getFileInfo(@RequestParam("fileName") String fileName) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public String getFileInfo(@RequestParam("fileName") String fileName) throws
+            ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException,
+            InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         return minioService.getFileInfo(fileName);
     }
 
     @GetMapping(path = "downloadFile")
-    public void downloadFile(@RequestParam("fileName") String fileName, HttpServletResponse response) throws Exception {
+    public void downloadFile(@RequestParam("fileName") String fileName, HttpServletResponse response) throws
+            Exception {
         minioService.downloadFile(fileName, response);
     }
 }
