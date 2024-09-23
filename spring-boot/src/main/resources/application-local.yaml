@@ -1,0 +1,120 @@
+spring:
+#  batch:
+#    initialize-schema: never
+#  main:
+#    web-application-type: NONE
+  application:
+    name: react-spring-portfolio
+  datasource:
+    portfolio:
+      url: ${DATASOURCE_JDBC_URL_BASE:jdbc:mysql://localhost:3306/portfolio}
+      username: ${DATASOURCE_DB_APP_USERNAME:root}
+      password: ${DATASOURCE_DB_APP_PASSWORD:password}
+      connection-timeout: ${DATASOURCE_CONN_TIMEOUT:5000}
+      maximum-pool-size: ${DATASOURCE_READER_POOL_SIZE:5}
+      idle-timeout: ${DATASOURCE_READER_POOL_IDLE_TIMEOUT:password}
+      minimum-idle: ${DATASOURCE_READER_POOL_MINIMUM_IDLE:120000}
+      max-lifetime: ${DATASOURCE_MAX_LIFETIME:2}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+#      ddl-auto: validate
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        jdbc.time_zone: Asia/Singapore
+#        dialect.storage_engine: innodb
+    open-in-view: false
+  data:
+    rest:
+      base-path: ${DATA_REST_BASE_PATH:/api}
+  mail:
+    host: ${MAIL_HOST:sandbox.smtp.mailtrap.io}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:4b6033751c40e9}
+    password: ${MAIL_PASSWORD:0853ca693d8160}
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+app:
+  basePath: ${APP_BASE_PATH:http://localhost:3000} # For development environment
+  #  basePath: ${APP_BASE_PATH:https://portfolio-portal.mfzrl.cyou} # For production environment
+  apiPath: ${APP_API_PATH:/api/v1/}
+
+logging:
+  level:
+    com.example.demo: ${LOGGING_LEVEL_APP_DEMO:TRACE}
+    org.springframework.web: ${LOGGING_LEVEL_APP_WEB:ERROR}
+    org.springframework.security: ${LOGGING_LEVEL_APP_SECURITY:DEBUG}
+    org.springframework.web.cors: ${LOGGING_LEVEL_APP_WEB_CORS:DEBUG}
+    io.minio: ${LOGGING_LEVEL_APP_MINIO:DEBUG}
+    root: ${LOGGING_LEVEL_APP_ROOT:ERROR}
+  file: app.log
+  config: classpath:logback-spring.xml
+
+minio:
+  endpoint: ${MINIO_ENDPOINT:http://localhost:9000}
+  access-key: ${MINIO_ACCESS_KEY:oaIvcqkPxwqL6njXosOy}
+  secret-key: ${MINIO_SECRET_KEY:Hcbm4NMN24SK0s8gufFANwr8XbmPv1YbqZXPnzIJ}
+  bucket-name: ${MINIO_BUCKET_NAME:portfolio}
+  username: ${MINIO_USERNAME:minioadmin}
+  password: ${MINIO_PASSWORD:minioadmin}
+
+okta:
+  oauth2:
+    issuer: ${OKTA_OAUTH2_ISSUER:https://dev-kcm0rrkdks1wi726.us.auth0.com/}
+    client-id: ${OKTA_OAUTH2_CLIENT_ID:SWi3PPArj7qVBRSCsudK2wFXp9LFGQmS}
+    client-secret: ${OKTA_OAUTH2_CLIENT_SECRET:z0tm-2BsC52TORGrXkChuW_MEWp1WGvksPTkojBnjJ_2P0ndwN6jnguzuOxMiCZE}
+    audience: ${OKTA_OAUTH2_AUDIENCE:https://dev-kcm0rrkdks1wi726.us.auth0.com/api/v2/}
+
+batch:
+  portfolio:
+    chunkSize: ${CHUNK_SIZE:5}
+    output-file-path: ${OUTPUT_FILE_PATH:}
+    output-file-base-name: ${OUTPUT_FILE_BASE_NAME:}
+    output-file-type: ${OUTPUT_FILE_TYPE:.XML}
+    from-date: ${FROM_DATE:}
+    to-date: ${TO_DATE:}
+    portfolio-output-file-base-name: ${PORTFOLIO_OUTPUT_FILE_BASE_NAME:PORTFOLIO_}
+    file-manager:
+      aws-s3-endpoint: ${AWS_S3_ENDPOINT:http://localhost:4566}
+      aws-secret-endpoint: ${AWS_SECRET_ENDPOINT:http://localhost:4566}
+      region: ${AWS_REGION:us-east-1}
+      sftp-host: ${SFTP_HOST:localhost}
+      sftp-username: ${SFTP_USERNAME:test}
+      sftp-port: ${SFT[_PORT:2222}
+      bucket-name-slift: ${BUCKET_NAME_SLIFT:local-bucket-slift}
+      temp-file: ${BATCH_TEMP_FILE:C:\\Users\\ICAM\Downloads\\localtemp}
+      folder-name: ${AWS_S3_FOLDER_NAME:slift}
+      prefix-key: ${BATCH_PREFIX_KEY:PORTFOLIO_KEY}
+      cert-file-path: ${BATCH_CERT_FILE_PATH:PORTFOLIO_CERT}
+      sftp-key-file-path: ${BATCH_SFTP_KEY_FILE_PATH:C:\\Users\\ICAM\Downloads\\localtemp\\sftpkeypath}
+      error-file-path: ${BATCH_ERROR_FILE_PATH:C:\\Users\\ICAM\Downloads\\localtemp\\error}
+      dest-file-path: ${BATCH_DEST_FILE_PATH:C:\\Users\\ICAM\Downloads\\localtemp\\dest}
+      src-file-path: ${BATCH_SRC_FILE_PATH:C:\\Users\\ICAM\Downloads\\output}
+      slift-file-path: ${BATCH_SLIFT_FILE_PATH:C:\\Users\\ICAM\Downloads\\localtemp\\slift}
+      ssh-auth-user: ${BATCH_SSH_AUTH_USER_KEY:portfoliotest}
+      sftp-ssh-pk-path: ${BATCH_SFTP_SSH_PK:}
+      slift-pass-phrase: ${BATCH_SLIFT_PASS_PHRASE:portfolio123}
+      sftp-pass-phrase: ${BATCH_SFTP_PASS_PHRASE:test}
+      sftp-prefic-key: ${BATCH_SFTP_PREFIX_KEY:}
+      slift-lib-jar-path: ${BATCH_SLIFT_LIB_JAR_PATH:C:\\Users\\ICAM\Downloads\\localtemp\\slift\\SLIFTEzClassid.jar;C:\\Users\\ICAM\Downloads\\localtemp\\slift\\tfpjce.jar}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+
+file:
+  input: coffee-list.csv
+
+cloud:
+  aws:
+    region:
+      static: us-east-1
