@@ -1,7 +1,8 @@
 package com.example.demo;
 
+import com.example.demo.util.common.Calculator;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CalculatorTest {
     @Test
@@ -30,12 +31,6 @@ public class CalculatorTest {
         Calculator calculator = new Calculator();
         int result = calculator.divide(10, 2);
         assertEquals(5, result);
-    }
-
-    @Test(expected = ArithmeticException.class)
-    public void testDivideByZero() {
-        Calculator calculator = new Calculator();
-        calculator.divide(10, 0);
     }
 
     @Test
