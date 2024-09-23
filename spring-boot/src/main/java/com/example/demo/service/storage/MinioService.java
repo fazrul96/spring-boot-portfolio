@@ -4,6 +4,7 @@ import com.example.demo.config.MinioConfig;
 import io.minio.*;
 import io.minio.errors.*;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +18,24 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
+@SuppressWarnings({"PMD.AvoidPrintStackTrace","PMD.UnusedLocalVariable","PMD.SignatureDeclareThrowsException",
+        "PMD.CloseResource", "PMD.AvoidThrowingNewInstanceOfSameException"})
 public class MinioService {
     @Autowired
-    private MinioConfig minioConfig;
+    private final MinioConfig minioConfig;
 
     @Autowired
-    private MinioClient minioClient;
+    private final MinioClient minioClient;
 
     public MinioService(MinioConfig minioConfig, MinioClient minioClient) {
         this.minioConfig = minioConfig;
         this.minioClient = minioClient;
     }
 
-    public List<String> uploadFiles(List<MultipartFile> files) throws IOException, MinioException, NoSuchAlgorithmException, InvalidKeyException {
+    public List<String> uploadFiles(List<MultipartFile> files)
+            throws IOException, MinioException, NoSuchAlgorithmException, InvalidKeyException {
         if (files.isEmpty()) {
             throw new IllegalArgumentException("File is empty");
         }
@@ -61,7 +66,10 @@ public class MinioService {
         return uploadedFileNames;
     }
 
-    public void deleteFile(String fileName) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public void deleteFile(String fileName)
+            throws ServerException, InsufficientDataException, ErrorResponseException, IOException,
+            NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException,
+            InternalException {
         minioClient.removeObject(
                 RemoveObjectArgs.builder()
                         .bucket(minioConfig.getBucketName())
@@ -69,7 +77,9 @@ public class MinioService {
                         .build());
     }
 
-    public String getFileInfo(String fileName) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public String getFileInfo(String fileName) throws ServerException, InsufficientDataException,
+            ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException,
+            InvalidResponseException, XmlParserException, InternalException {
         return minioClient.statObject(
                 StatObjectArgs.builder()
                         .bucket(minioConfig.getBucketName())

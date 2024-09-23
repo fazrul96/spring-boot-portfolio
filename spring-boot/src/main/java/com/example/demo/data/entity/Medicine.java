@@ -16,6 +16,7 @@ import org.hibernate.annotations.Immutable;
 @AllArgsConstructor
 @Immutable
 public class Medicine {
+    @Id
     private UUID id;
 
     private String name;

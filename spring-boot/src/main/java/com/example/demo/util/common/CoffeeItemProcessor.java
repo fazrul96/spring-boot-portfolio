@@ -1,14 +1,12 @@
 package com.example.demo.util.common;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.example.demo.data.entity.Coffee;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 
+@Slf4j
 public class CoffeeItemProcessor implements ItemProcessor<Coffee, Coffee> {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(CoffeeItemProcessor.class);
-
+    
     @Override
     public Coffee process(final Coffee coffee) {
         String brand = coffee.getBrand().toUpperCase();
@@ -16,7 +14,7 @@ public class CoffeeItemProcessor implements ItemProcessor<Coffee, Coffee> {
         String chracteristics = coffee.getCharacteristics().toUpperCase();
 
         Coffee transformedCoffee = new Coffee(brand, origin, chracteristics);
-        LOGGER.info("Converting ( {} ) into ( {} )", coffee, transformedCoffee);
+        log.info("Converting ( {} ) into ( {} )", coffee, transformedCoffee);
 
         return transformedCoffee;
     }

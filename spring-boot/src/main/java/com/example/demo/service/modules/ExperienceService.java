@@ -4,12 +4,15 @@ import com.example.demo.data.entity.Experience;
 import com.example.demo.data.entity.ExperienceItem;
 import com.example.demo.data.repository.ExperienceItemRepository;
 import com.example.demo.data.repository.ExperienceRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Slf4j
 @Service
+@SuppressWarnings({"PMD.AvoidInstantiatingObjectsInLoops"})
 public class ExperienceService {
     private final ExperienceRepository experienceRepository;
     private final ExperienceItemRepository experienceItemRepository;
@@ -72,7 +75,8 @@ public class ExperienceService {
         return null;
     }
 
-    private Map<String, Map<String, List<Map<String, Object>>>> groupExperienceItems(List<ExperienceItem> experienceItems) {
+    private Map<String, Map<String, List<Map<String, Object>>>> groupExperienceItems(
+            List<ExperienceItem> experienceItems) {
         Map<String, Map<String, List<Map<String, Object>>>> groupedItems = new LinkedHashMap<>();
 
         for (ExperienceItem experienceItem : experienceItems) {

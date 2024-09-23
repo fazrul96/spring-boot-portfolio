@@ -2,6 +2,7 @@ package com.example.demo.data.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.*;
 import org.hibernate.annotations.Immutable;
 
@@ -16,6 +17,7 @@ import static com.example.demo.constants.InterfaceSchemaConstant.*;
 @Immutable
 public class PortfolioView {
 
+    @Id
     @Column(name = ID)
     private Integer id;
 

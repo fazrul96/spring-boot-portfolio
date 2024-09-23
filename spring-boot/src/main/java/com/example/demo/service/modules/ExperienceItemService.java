@@ -2,12 +2,15 @@ package com.example.demo.service.modules;
 
 import com.example.demo.data.entity.ExperienceItem;
 import com.example.demo.data.repository.ExperienceItemRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Slf4j
 @Service
+@SuppressWarnings({"PMD.AvoidInstantiatingObjectsInLoops"})
 public class ExperienceItemService {
     private final ExperienceItemRepository experienceItemRepository;
 

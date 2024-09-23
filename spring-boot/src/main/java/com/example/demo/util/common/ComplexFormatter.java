@@ -1,8 +1,12 @@
 package com.example.demo.util.common;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
+@SuppressWarnings({"PMD.UseUtilityClass"})
 public class ComplexFormatter {
 
     private static final Map<String, String> REPLACEMENT_RULES = new HashMap<>();
@@ -12,9 +16,9 @@ public class ComplexFormatter {
         REPLACEMENT_RULES.put("\\[\\s*", "");       // Replace "[" with an empty string
         REPLACEMENT_RULES.put("\\]", "");           // Replace "]" with an empty string
         REPLACEMENT_RULES.put("8", "&");            // Replace "8" with "&"
-//        REPLACEMENT_RULES.put("2", "?");            // Replace "2" with "?"
-//        REPLACEMENT_RULES.put("\\b8\\b", "&");      // Replace "8" when it's a whole word
-//        REPLACEMENT_RULES.put("\\b2\\b", "?");      // Replace "2" when it's a whole word
+        //REPLACEMENT_RULES.put("2", "?");            // Replace "2" with "?"
+        //REPLACEMENT_RULES.put("\\b8\\b", "&");      // Replace "8" when it's a whole word
+        //REPLACEMENT_RULES.put("\\b2\\b", "?");      // Replace "2" when it's a whole word
         REPLACEMENT_RULES.put("(?i)days", " days"); // Add space before "days"
     }
 
@@ -62,6 +66,6 @@ public class ComplexFormatter {
                 "\n" +
                 "]";
         String result = formatAndReplaceSpecial(input);
-        System.out.println(result);
+        log.info("Resilt: {}", result);
     }
 }

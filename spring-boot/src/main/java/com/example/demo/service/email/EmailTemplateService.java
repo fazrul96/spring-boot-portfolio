@@ -2,8 +2,7 @@ package com.example.demo.service.email;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -12,16 +11,19 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+@Slf4j
 @Service
+@SuppressWarnings({"PMD.UseObjectForClearerAPI"})
 public class EmailTemplateService {
-    private static final Logger logger = LoggerFactory.getLogger(EmailTemplateService.class);
+
     @Autowired
     private TemplateEngine templateEngine;
 
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public void sendTemplatedEmail(String to, String from, String subject, String templateName, Context context) throws MessagingException {
+    public void sendTemplatedEmail(String to, String from, String subject, String templateName, Context context)
+            throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
@@ -34,9 +36,9 @@ public class EmailTemplateService {
             helper.setText(htmlContent, true);
             javaMailSender.send(mimeMessage);
 
-            logger.info("Email sent successfully to: {}", to);
+            log.info("Email sent successfully to: {}", to);
         } catch (MessagingException | MailException e) {
-            logger.error("Failed to send email: " + e.getMessage());
+            log.error("Failed to send email: " + e.getMessage());
         }
     }
 }

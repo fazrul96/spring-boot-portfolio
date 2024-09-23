@@ -1,6 +1,5 @@
 package com.example.demo.listener;
 
-import com.example.demo.util.BatchUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
@@ -22,6 +21,7 @@ import static com.example.demo.constants.BatchConstant.*;
 import static com.example.demo.util.BatchUtil.*;
 
 @Slf4j
+@SuppressWarnings({"PMD.AvoidFileStream", "PMD.ConfusingTernary"})
 public class NoRecordsListener implements ChunkListener {
     private final BatchProperties batchProperties;
 
@@ -55,11 +55,11 @@ public class NoRecordsListener implements ChunkListener {
                 fromDate = LocalDate.parse(batchProperties.getFromDate());
                 toDate = LocalDate.parse(batchProperties.getToDate());
             } else {
-                fromDate = BatchUtil.retrieveDate(1);
+                fromDate = retrieveDate(1);
                 toDate = fromDate;
             }
         }
-        LocalDate todayDate = BatchUtil.retrieveDate(0);
+        LocalDate todayDate = retrieveDate(0);
         JacksonXmlModule xmlModule = new JacksonXmlModule();
         xmlModule.setDefaultUseWrapper(true);
         ObjectMapper objectMapper = new XmlMapper(xmlModule);
