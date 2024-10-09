@@ -2,53 +2,74 @@ package com.example.demo.controller;
 
 import com.example.demo.data.entity.Skill;
 import com.example.demo.service.modules.SkillService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SkillControllerTest {
     @InjectMocks
     private SkillController skillController;
+
     @Mock
     private SkillService skillService;
 
     @Test
     public void testGetSkills() {
-        List<Skill> mockSkills = new ArrayList<>();
-        Skill skill = new Skill();
+        // Arrange
+        Skill mockSkill = createMockSkill();
+        List<Skill> mockSkills = Collections.singletonList(mockSkill);
 
+        // Mocking the service call
+        when(skillService.getAllSkills()).thenReturn(mockSkills);
+
+        // Act
+        ResponseEntity<List<Skill>> responseEntity = skillController.getAllSkills();
+
+        // Assert
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(mockSkills.size(), responseEntity.getBody().size());
+        assertSkillEquals(mockSkill, responseEntity.getBody().get(0));
+    }
+
+    @Test
+    public void testGetSkillById() {
+        // Arrange
+        Skill mockSkill = createMockSkill();
+        when(skillService.getSkillById(1)).thenReturn(mockSkill);
+
+        // Act
+        ResponseEntity<Skill> responseEntity = skillController.getSkillById(1);
+
+        // Assert
+        assertNotNull(responseEntity);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(responseEntity.getBody());
+        assertSkillEquals(mockSkill, responseEntity.getBody());
+    }
+
+    private Skill createMockSkill() {
+        Skill skill = new Skill();
         skill.setId(1);
         skill.setName("Web Development");
         skill.setTitle("Laravel|CodeIgniter|React|Spring Boot");
+        return skill;
+    }
 
-        mockSkills.add(skill);
-
-        when(skillService.getSkills()).thenReturn(mockSkills);
-        List<Skill> actualSkills = skillController.getSkills();
-
-        assertEquals(mockSkills.size(), actualSkills.size());
-        assertEquals(mockSkills.get(0).getId(), actualSkills.get(0).getId());
-        assertEquals(mockSkills.get(0).getTitle(), actualSkills.get(0).getTitle());
-        assertEquals(mockSkills.get(0).getName(), actualSkills.get(0).getName());
-
-        when(skillService.getSkillById(1)).thenReturn(skill);
-        Skill actualSkill = skillController.getSkillById(1);
-
-        assertNotNull(actualSkill);
-        assertEquals(mockSkills.get(0).getId(), actualSkill.getId());
-        assertEquals(mockSkills.get(0).getTitle(), actualSkill.getTitle());
-        assertEquals(mockSkills.get(0).getName(), actualSkill.getName());
+    private void assertSkillEquals(Skill expected, Skill actual) {
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getTitle(), actual.getTitle());
     }
 }
-
-

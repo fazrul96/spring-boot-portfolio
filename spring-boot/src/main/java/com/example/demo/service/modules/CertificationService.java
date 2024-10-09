@@ -2,12 +2,15 @@ package com.example.demo.service.modules;
 
 import com.example.demo.data.entity.Certification;
 import com.example.demo.data.repository.CertificationRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
+@Slf4j
 @Service
 public class CertificationService {
     private final CertificationRepository certificationRepository;
@@ -17,13 +20,13 @@ public class CertificationService {
         this.certificationRepository = certificationRepository;
     }
 
-    public List<Certification> getCertifications() {
+    public List<Certification> getAllCertifications() {
         return certificationRepository.findAll();
     }
 
     public Certification getCertificationById(Integer id) {
-        Optional<Certification> optionalCertification = certificationRepository.findById(id);
-        return optionalCertification.orElse(null);
+        return certificationRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Certification not found"));
     }
 
     public Certification getCertificationByTitle(String title) {
@@ -31,10 +34,14 @@ public class CertificationService {
     }
 
     public Certification saveCertification(Certification certification) {
+        // Add any additional logic or validation here if needed
         return certificationRepository.save(certification);
     }
 
     public void deleteCertification(Integer id) {
+        if (!certificationRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Certification not found");
+        }
         certificationRepository.deleteById(id);
     }
 }

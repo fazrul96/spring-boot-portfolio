@@ -3,10 +3,11 @@ package com.example.demo.service.modules;
 import com.example.demo.data.entity.Skill;
 import com.example.demo.data.repository.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SkillService {
@@ -17,13 +18,13 @@ public class SkillService {
         this.skillRepository = skillRepository;
     }
 
-    public List<Skill> getSkills() {
+    public List<Skill> getAllSkills() {
         return skillRepository.findAll();
     }
 
     public Skill getSkillById(Integer id) {
-        Optional<Skill> optionalSkill = skillRepository.findById(id);
-        return optionalSkill.orElse(null);
+        return skillRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Skill not found"));
     }
 
     public Skill getSkillByName(String name) {
@@ -35,6 +36,9 @@ public class SkillService {
     }
 
     public void deleteSkill(Integer id) {
+        if (!skillRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Skill not found");
+        }
         skillRepository.deleteById(id);
     }
 }
