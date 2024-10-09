@@ -54,10 +54,10 @@ public class CertificationControllerTest {
         ResponseEntity<Certification> responseEntity = certificationController.getCertificationById(1);
 
         // Assert
-        assertNotNull(responseEntity); // Check if responseEntity is not null
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode()); // Verify the status code is 200 OK
-        assertNotNull(responseEntity.getBody()); // Check if the body is not null
-        assertCertificationEquals(mockCertification, responseEntity.getBody()); // Compare the certification details
+        assertNotNull(responseEntity);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(responseEntity.getBody());
+        assertCertificationEquals(mockCertification, responseEntity.getBody());
     }
 
     private Certification createMockCertification() {
