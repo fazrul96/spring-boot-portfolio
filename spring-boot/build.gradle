@@ -70,8 +70,6 @@ dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-web:$SPRING_BOOT_VERSION"
 	implementation 'org.springframework.boot:spring-boot-starter-batch'
 	implementation "org.springframework.boot:spring-boot-starter-webflux:${SPRING_BOOT_VERSION}"
-	implementation "org.springframework.boot:spring-boot-starter-security"
-	implementation "org.springframework.boot:spring-boot-starter-oauth2-client"
 	implementation "org.springframework.boot:spring-boot-starter-mail:${SPRING_BOOT_VERSION}"
 	implementation "org.springframework.boot:spring-boot-starter-thymeleaf:${SPRING_BOOT_VERSION}"
 	implementation "org.springframework.batch:spring-batch-test"
@@ -79,8 +77,15 @@ dependencies {
 	testImplementation "org.springframework.boot:spring-boot-starter-test"
 	testImplementation "org.mockito:mockito-inline:5.0.0"
 
+	implementation 'org.apache.commons:commons-csv:1.12.0'
 	// Okta Auth0
+	implementation "org.springframework.boot:spring-boot-starter-security"
+	implementation "org.springframework.boot:spring-boot-starter-oauth2-client"
+	implementation "org.springframework.boot:spring-boot-starter-oauth2-resource-server"
 	implementation "com.okta.spring:okta-spring-boot-starter:${OKTA_SPRING_BOOT_STARTER_VERSION}"
+	// Add this line for OAuth2 Resource Server JWT validation support
+	implementation 'org.springframework.security:spring-security-oauth2-jose'
+	// JWT libraries (for custom JWT handling if needed)
 	implementation 'com.auth0:java-jwt:3.18.3'
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.3'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.3'

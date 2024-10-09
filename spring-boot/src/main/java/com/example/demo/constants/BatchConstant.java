@@ -7,7 +7,6 @@ public class BatchConstant {
 
     public static final Integer MAX_NUMBER_OF_RECORDS = 100_000;
 
-    public static final String SLASH = "/";
     public static final String PEM_FILE_NAME = "sftpSshKey";
     public static final String XML_EXTENSION = ".XML";
 

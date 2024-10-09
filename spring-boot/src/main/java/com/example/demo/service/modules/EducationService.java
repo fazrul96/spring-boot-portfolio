@@ -2,12 +2,14 @@ package com.example.demo.service.modules;
 
 import com.example.demo.data.entity.Education;
 import com.example.demo.data.repository.EducationRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class EducationService {
     private final EducationRepository educationRepository;
@@ -17,24 +19,23 @@ public class EducationService {
         this.educationRepository = educationRepository;
     }
 
-    public List<Education> getEducations() {
+    public List<Education> getAllEducations() {
         return educationRepository.findAll();
     }
 
-    public Education getEducationById(Integer id) {
-        Optional<Education> optionalEducation = educationRepository.findById(id);
-        return optionalEducation.orElse(null);
-    }
-
-    public Education getEducationByName(String name) {
-        return educationRepository.findByName(name);
+    public Optional<Education> getEducationById(Integer id) {
+        return educationRepository.findById(id);
     }
 
     public Education saveEducation(Education education) {
         return educationRepository.save(education);
     }
 
-    public void deleteEducation(Integer id) {
-        educationRepository.deleteById(id);
+    public boolean deleteEducation(Integer id) {
+        if (educationRepository.existsById(id)) {
+            educationRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }
