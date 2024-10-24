@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Box, Grid } from '@mui/material';
 import EducationCard from '../../../components/section/educations/EducationCard';
-import { API_BASE_URL, API_PUBLIC_URL } from './../../../constants/ApiConstants';
+import { API_BASE_URL, API_PUBLIC_URL, EDUCATIONS } from './../../../constants/ApiConstants';
 
 import ApiService from './../../../services/ApiService';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -23,7 +23,7 @@ const Education = ({ educations }) => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await apiService.fetchEducations();
+                const response = await apiService.fetchResource(EDUCATIONS);
                 setData(response);
             } catch (error) {
                 setError('Failed to load data');

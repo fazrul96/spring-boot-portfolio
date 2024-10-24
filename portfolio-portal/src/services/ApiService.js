@@ -38,59 +38,8 @@ class ApiService {
 	    }
     }
 
-    async request(method, endpoint, data = null, params = null) {
-        try {
-            const headers = await this.setHeaders();
-            const config = { headers, method, url: endpoint, data, params };
-            const response = await this.api.request(config);
-            return response.data;
-        } catch (error) {
-            console.error(`Error during ${method.toUpperCase()} request to ${endpoint}:`, error.response || error.message);
-            throw error;
-        }
-    }
-
-	get(endpoint, params = null) {
-		return this.request('get', endpoint, null, params);
-	}
-
-	// Wrapper for POST request
-	post(endpoint, data) {
-		return this.request('post', endpoint, data);
-	}
-
-    // Wrapper for PUT request
-    put(endpoint, data) {
-        return this.request('put', endpoint, data);
-    }
-
-    // Wrapper for DELETE request
-    delete(endpoint) {
-        return this.request('delete', endpoint);
-    }
-
-	fetchExperiencesWithItems() {
-		return this.fetchData('/experiences');
-	}
-
-	fetchEducations() {
-		return this.fetchData('/educations');
-	}
-
-	fetchCertifications() {
-		return this.fetchData('/certifications');
-	}
-
-	fetchProjects() {
-		return this.fetchData('/projects');
-	}
-
-	fetchSkills() {
-		return this.fetchData('/skills');
-	}
-
-	fetchBlogs() {
-		return this.fetchData('/blogs');
+	fetchResource(resourceType) {
+		return this.fetchData(`/${resourceType}`);
 	}
 }
 

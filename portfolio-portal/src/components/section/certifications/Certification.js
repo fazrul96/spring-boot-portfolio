@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Box, Grid } from '@mui/material';
 import CertificationCard from '../../../components/section/certifications/CertificationCard';
-import { API_BASE_URL, API_PUBLIC_URL } from './../../../constants/ApiConstants';
+import { API_BASE_URL, API_PUBLIC_URL, CERTIFICATIONS } from './../../../constants/ApiConstants';
 
 import ApiService from './../../../services/ApiService';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -22,7 +22,7 @@ const Certification = ({ certifications }) => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await apiService.fetchCertifications();
+                const response = await apiService.fetchResource(CERTIFICATIONS);
                 setData(response);
             } catch (error) {
                 setError('Failed to load data');
@@ -43,7 +43,7 @@ const Certification = ({ certifications }) => {
 		        Certification
 	        </h1>
 	        <p className="portfolio-subheading">Here are my previous certifications</p> */}
-			    <Grid container spacing={2} justifyContent="center" alignItems="center">
+			    <Grid container spacing={2} >
 	                {loading ? (
 	                    <p>Loading...</p>
 	                ) : error ? (
@@ -51,7 +51,7 @@ const Certification = ({ certifications }) => {
 	                ) : (
 	                    <>
 	                        {data.map((certification, index) => (
-		                        <Grid item xs={12} md={6} key={index}>
+		                        <Grid item xs={12} md={3} key={index}>
 	                                <CertificationCard certification={certification} />
 	                            </Grid>
 	                        ))}

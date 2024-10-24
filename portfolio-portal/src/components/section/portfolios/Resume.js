@@ -5,25 +5,25 @@ import { Button, Box, Grid } from '@mui/material';
 import { RESUME_FILE_NAME, RESUME_URL, PDF_WORKER_URL } from './../../../constants/AppConstants';
 
 const viewerStyles = {
-    width: '100%',
-    padding: '10px',
-    overflowY: 'auto',
+	width: '100%',
+	padding: '10px',
+	overflowY: 'auto',
 };
 
 const modalDialogStyles = {
-    paddingTop: '50px',
-    paddingLeft: '10px',
-    paddingRight: '10px',
+	paddingTop: '50px',
+	paddingLeft: '10px',
+	paddingRight: '10px',
 };
 
 const Resume = ({ modalId = 'resume', modalTitle = 'RESUME', downloadLabel = 'Download Resume' }) => {
 	const handleDownload = () => {
-        const link = document.createElement('a');
-        link.href = RESUME_URL;
-        link.setAttribute('download', RESUME_FILE_NAME);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+	    const link = document.createElement('a');
+	    link.href = RESUME_URL;
+	    link.setAttribute('download', RESUME_FILE_NAME);
+	    document.body.appendChild(link);
+	    link.click();
+	    document.body.removeChild(link);
     };
 
 	return (

@@ -30,32 +30,32 @@ registerPlugin(
 );
 
 class Filepond extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      files: [],
-    };
-  }
+	constructor(props) {
+        super(props);
+        this.state = {
+        files: [],
+        };
+    }
 
-  handleInit() {
-    console.log("FilePond instance has initialised");
-  }
+    handleInit() {
+        console.log("FilePond instance has initialised");
+    }
 
-  render() {
-    return (
-      <FilePond
-        ref={(ref) => (this.pond = ref)}
-        files={this.state.files}
-        allowMultiple={true}
-        oninit={() => this.handleInit()}
-        onupdatefiles={(fileItems) => {
-          this.setState({
-            files: fileItems.map((fileItem) => fileItem.file),
-          });
-        }}
-      />
-    );
-  }
+	render() {
+	    return (
+            <FilePond
+	            ref={(ref) => (this.pond = ref)}
+	            files={this.state.files}
+	            allowMultiple={true}
+	            oninit={() => this.handleInit()}
+	            onupdatefiles={(fileItems) => {
+		            this.setState({
+		                files: fileItems.map((fileItem) => fileItem.file),
+		            });
+	            }}
+            />
+	    );
+    }
 }
 
 export default Filepond;

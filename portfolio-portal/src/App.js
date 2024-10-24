@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import { Box, CssBaseline, Drawer } from '@mui/material';
@@ -29,36 +29,6 @@ const App = () => {
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
 	};
-
-//	useEffect(() => {
-//		const fetchAllData = async () => {
-//		    try {
-//                const token = await getAccessTokenSilently();
-//                apiService.setToken(token);
-//
-//                const [educationsData, certificationsData, projectsData, skillsData, blogsData] = await Promise.all([
-//                    apiService.fetchEducations(),
-//                    apiService.fetchCertifications(),
-//                    apiService.fetchProjects(),
-//                    apiService.fetchSkills(),
-//                    apiService.fetchBlogs(),
-//                ]);
-//
-//			    setEducations(educationsData);
-//			    setCertifications(certificationsData);
-//			    setProjects(projectsData);
-//			    setSkills(skillsData);
-//			    setBlogs(blogsData);
-//		    } catch (err) {
-//		        console.error('Error fetching data:', err);
-//			    setError(err);
-//		    }
-//		};
-//
-//		if (isAuthenticated) {
-//            fetchAllData();
-//        }
-//	}, [getAccessTokenSilently, apiService, isAuthenticated]);
 
 	return (
 		<Router>

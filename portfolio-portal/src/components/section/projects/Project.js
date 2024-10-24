@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Box, Grid } from '@mui/material';
 import ProjectCard from '../../../components/section/projects/ProjectCard';
 import ProjectCarousel from '../../../components/section/projects/ProjectCarousel';
-import { API_BASE_URL, API_PUBLIC_URL } from './../../../constants/ApiConstants';
+import { API_BASE_URL, API_PUBLIC_URL, PROJECTS } from './../../../constants/ApiConstants';
 
 import ApiService from './../../../services/ApiService';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -23,7 +23,7 @@ const Project = ({projects}) => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await apiService.fetchProjects();
+                const response = await apiService.fetchResource(PROJECTS);
                 setData(response);
             } catch (error) {
                 setError('Failed to load data');
@@ -53,7 +53,7 @@ const Project = ({projects}) => {
                     ) : (
 		                <>
 		                    {data.map((project, index) => (
-		                        <Grid item xs={12} md={4} key={index}>
+		                        <Grid item xs={12} md={3} key={index}>
 		                            <ProjectCard project={project} />
 		                        </Grid>
 		                    ))}

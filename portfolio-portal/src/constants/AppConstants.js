@@ -1,4 +1,5 @@
 export const APP_NAME = "Portfolio";
+export const APP_REGION = "MY";
 export const DRAWER_WIDTH = 240;
 
 export const PUBLIC_PAGES = ['Component', 'Medium', 'Module'];
