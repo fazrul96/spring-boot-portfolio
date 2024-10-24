@@ -1,30 +1,59 @@
 import React from 'react';
-import resume from '../../../../src/assets/img/resume.png';
+import { Worker, Viewer } from '@react-pdf-viewer/core';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import { Button, Box, Grid } from '@mui/material';
+import { RESUME_FILE_NAME, RESUME_URL, PDF_WORKER_URL } from './../../../constants/AppConstants';
 
-const Resume = () => {
-  return (
-    <div className="modal fade" id="resume" tabIndex="-1" role="dialog">
-        <div className="modal-dialog modal-lg">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">RESUME</h5>
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <p className="resume-download">
-                <a href={resume} download="FazrulRomliResume.pdf">Download Resume</a>
-              </p>
-              <img className="img-fluid resume-image" src={resume} alt="Resume" />
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-    </div>
-  );
+const viewerStyles = {
+    width: '100%',
+    padding: '10px',
+    overflowY: 'auto',
+};
+
+const modalDialogStyles = {
+    paddingTop: '50px',
+    paddingLeft: '10px',
+    paddingRight: '10px',
+};
+
+const Resume = ({ modalId = 'resume', modalTitle = 'RESUME', downloadLabel = 'Download Resume' }) => {
+	const handleDownload = () => {
+        const link = document.createElement('a');
+        link.href = RESUME_URL;
+        link.setAttribute('download', RESUME_FILE_NAME);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+	return (
+		<Box sx={{ flexGrow: 1 }}>
+			<div className="modal fade" id={modalId} tabIndex="-1" role="dialog" aria-labelledby="resumeModalLabel" aria-hidden="true">
+			    <div className="modal-dialog modal-lg" style={modalDialogStyles} role="document">
+			        <div className="modal-content">
+				        <div className="modal-header">
+			                <h5 className="modal-title" id="resumeModalLabel">{modalTitle}</h5>
+				            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleDownload}
+                                style={{ marginLeft: 'auto' }}
+                            >
+                                {downloadLabel}
+                            </Button>
+				        </div>
+				        <div className="modal-body">
+							<Worker workerUrl={PDF_WORKER_URL}>
+		                        <div style={viewerStyles}>
+		                            <Viewer fileUrl={RESUME_URL} />
+		                        </div>
+		                    </Worker>
+				        </div>
+		            </div>
+			    </div>
+			</div>
+		</Box>
+	);
 };
 
 export default Resume;
