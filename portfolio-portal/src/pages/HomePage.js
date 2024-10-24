@@ -6,11 +6,14 @@ import Project from './../components/section/projects/Project';
 //import Certification from './../components/section/certifications/Certification';
 //import Skills from './../components/section/skills/Skill';
 //import Contact from './../components/section/Contact';
-
+import {
+    Divider,
+} from '@mui/material';
 const HomePage = ({ projects, educations, certifications, skills, error }) => {
 	return (
 		<div>
 		    <Portfolio />
+		    <Divider />
 	        <Project projects={projects} id="projects" />
 	        {/*
 		    <Certification certifications={certifications} id="certifications" />

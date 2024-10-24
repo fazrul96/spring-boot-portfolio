@@ -4,6 +4,9 @@ import '@react-pdf-viewer/core/lib/styles/index.css';
 import { Button, Box, Grid } from '@mui/material';
 import { RESUME_FILE_NAME, RESUME_URL, PDF_WORKER_URL } from './../../../constants/AppConstants';
 
+import Tooltip from '@mui/material/Tooltip';
+import DownloadIcon from '@mui/icons-material/Download';
+
 const viewerStyles = {
 	width: '100%',
 	padding: '10px',
@@ -16,7 +19,7 @@ const modalDialogStyles = {
 	paddingRight: '10px',
 };
 
-const Resume = ({ modalId = 'resume', modalTitle = 'RESUME', downloadLabel = 'Download Resume' }) => {
+const Resume = ({ modalId = 'resume', modalTitle = 'Curricular Vitae', downloadLabel = 'Download Resume' }) => {
 	const handleDownload = () => {
 	    const link = document.createElement('a');
 	    link.href = RESUME_URL;
@@ -34,12 +37,11 @@ const Resume = ({ modalId = 'resume', modalTitle = 'RESUME', downloadLabel = 'Do
 				        <div className="modal-header">
 			                <h5 className="modal-title" id="resumeModalLabel">{modalTitle}</h5>
 				            <Button
-                                variant="contained"
-                                color="primary"
                                 onClick={handleDownload}
-                                style={{ marginLeft: 'auto' }}
                             >
-                                {downloadLabel}
+                                <Tooltip title={downloadLabel} arrow>
+                                    <DownloadIcon />
+                                </Tooltip>
                             </Button>
 				        </div>
 				        <div className="modal-body">

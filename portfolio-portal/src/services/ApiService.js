@@ -38,9 +38,41 @@ class ApiService {
 	    }
     }
 
-	fetchResource(resourceType) {
+	async fetchResource(resourceType) {
 		return this.fetchData(`/${resourceType}`);
 	}
+
+    async createResource(resourceType, data) {
+        const headers = await this.setHeaders();
+        try {
+            const response = await this.api.post(`/${resourceType}`, data, { headers });
+            return response.data;
+        } catch (error) {
+            console.error(`Error creating resource at /${resourceType}:`, error.response || error.message);
+            throw error;
+        }
+    }
+
+    async updateResource(resourceType, id, data) {
+        const headers = await this.setHeaders();
+        try {
+            const response = await this.api.put(`/${resourceType}/${id}`, data, { headers });
+            return response.data;
+        } catch (error) {
+            console.error(`Error updating resource at /${resourceType}/${id}:`, error.response || error.message);
+            throw error;
+        }
+    }
+
+    async deleteResource(resourceType, id) {
+        const headers = await this.setHeaders();
+        try {
+            await this.api.delete(`/${resourceType}/${id}`, { headers });
+        } catch (error) {
+            console.error(`Error deleting resource at /${resourceType}/${id}:`, error.response || error.message);
+            throw error;
+        }
+    }
 }
 
 export default ApiService;

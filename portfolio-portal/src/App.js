@@ -16,13 +16,13 @@ import ApiService from './services/ApiService';
 
 const drawerWidth = 240;
 const App = () => {
-    const { isAuthenticated, getAccessTokenSilently } = useAuth0();
-    const [educations, setEducations] = useState([]);
-    const [certifications, setCertifications] = useState([]);
-    const [projects, setProjects] = useState([]);
-    const [skills, setSkills] = useState([]);
-    const [blogs, setBlogs] = useState([]);
-    const [error, setError] = useState(null);
+	const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+	const [educations, setEducations] = useState([]);
+	const [certifications, setCertifications] = useState([]);
+	const [projects, setProjects] = useState([]);
+	const [skills, setSkills] = useState([]);
+	const [blogs, setBlogs] = useState([]);
+	const [error, setError] = useState(null);
 
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const apiService = new ApiService(process.env.REACT_APP_BASE_URL + process.env.REACT_APP_API_PUBLIC_URL);
@@ -32,72 +32,72 @@ const App = () => {
 
 	return (
 		<Router>
-		  <Box sx={{ display: 'flex' }}>
-		    <CssBaseline />
-		    <AppBarResponsive />
-		    <Box
-		      component="nav"
-		      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-		      aria-label="mailbox folders"
-		    >
-		    {/*
-		      <Drawer
-		        variant="temporary"
-		        open={mobileOpen}
-		        onClose={handleDrawerToggle}
-		        ModalProps={{
-		          keepMounted: true, // Better open performance on mobile.
-		        }}
-		        sx={{
-		          display: { xs: 'block', sm: 'none' },
-		          '& .MuiDrawer-paper': {
-		            boxSizing: 'border-box',
-		            width: drawerWidth,
-		            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 1)), url("${'https://wallpapercave.com/wp/wp2708351.jpg'}")`,
-		            backgroundSize: 'cover',
-		          },
-		        }}
-		      >
-		        <SidebarDrawer />
-		      </Drawer>
-		    */}
-		      <Drawer
-		        variant="permanent"
-		        sx={{
-		          display: { xs: 'none', sm: 'block' },
-		          '& .MuiDrawer-paper': {
-		            boxSizing: 'border-box',
-		            width: drawerWidth,
-		            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 1)), url("${'https://wallpapercave.com/wp/wp2708351.jpg'}")`,
-		            backgroundSize: 'cover',
-		          },
-		        }}
-		        open
-		      >
-		        <SidebarDrawer />
-		      </Drawer>
-		    </Box>
-		    <Box component="main">
-		        <Routes>
-		            <Route path="/" element={<HomePage projects={projects} educations={educations} certifications={certifications} skills={skills} error={error} />} />
-					{publicRoutes.map((route) => (
-						<Route
-							key={route.path}
-							path={route.path}
-							element={route.component}
-						/>
-					))}
+	        <Box sx={{ display: 'flex' }}>
+		        <CssBaseline />
+		        <AppBarResponsive />
+		        <Box
+		            component="nav"
+		            sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+		            aria-label="mailbox folders"
+		        >
+				    {/*
+				      <Drawer
+				        variant="temporary"
+				        open={mobileOpen}
+				        onClose={handleDrawerToggle}
+				        ModalProps={{
+				          keepMounted: true, // Better open performance on mobile.
+				        }}
+				        sx={{
+				          display: { xs: 'block', sm: 'none' },
+				          '& .MuiDrawer-paper': {
+				            boxSizing: 'border-box',
+				            width: drawerWidth,
+				            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 1)), url("${'https://wallpapercave.com/wp/wp2708351.jpg'}")`,
+				            backgroundSize: 'cover',
+				          },
+				        }}
+				      >
+				        <SidebarDrawer />
+				      </Drawer>
+				    */}
+			        <Drawer
+			            variant="permanent"
+			            sx={{
+			                display: { xs: 'none', sm: 'block' },
+			                '& .MuiDrawer-paper': {
+		                        boxSizing: 'border-box',
+			                    width: drawerWidth,
+			                    backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 1)), url("${'https://wallpapercave.com/wp/wp2708351.jpg'}")`,
+			                    backgroundSize: 'cover',
+		                    },
+			            }}
+			            open
+			        >
+			            <SidebarDrawer />
+			        </Drawer>
+		        </Box>
+			    <Box component="main">
+			        <Routes>
+			            <Route path="/" element={<HomePage projects={projects} educations={educations} certifications={certifications} skills={skills} error={error} />} />
+						{publicRoutes.map((route) => (
+							<Route
+								key={route.path}
+								path={route.path}
+								element={route.component}
+							/>
+						))}
 
-		            {protectedRoutes.map((route) => (
-		                <Route
-		                    key={route.path}
-		                    path={route.path}
-		                    element={<ProtectedRoute>{route.component}</ProtectedRoute>}
-		                />
-		            ))}
-		        </Routes>
-		    </Box>
-		  </Box>
+			            {protectedRoutes.map((route) => (
+			                <Route
+			                    key={route.path}
+			                    path={route.path}
+			                    element={<ProtectedRoute>{route.component}</ProtectedRoute>}
+			                />
+			            ))}
+			        </Routes>
+			    </Box>
+	        </Box>
 		</Router>
 	);
 }
