@@ -1,238 +1,82 @@
-import React from 'react';
-import {
-  Box,
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-  CardActions,
-  Typography,
-  Button,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Grid,
-  Chip,
-  Stack, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText
-} from '@mui/material';
-
-import Tooltip from '@mui/material/Tooltip';
-import StarIcon from '@mui/icons-material/Star';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import EmailIcon from '@mui/icons-material/Email';
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-
-import Paper from '@mui/material/Paper';
-import ButtonBase from '@mui/material/ButtonBase';
-import { styled } from '@mui/material/styles';
-
-import Filepond from '../../../components/filepond/Filepond';
+import React, { useState } from 'react';
+import { Grid, Typography, Paper, Tabs, Tab, Box } from '@mui/material';
+import ProfileCard from './ProfileCard';
+import SummaryList from './SummaryList';
+import SkillsList from './SkillsList';
+import RolesList from './RolesList';
+import IndustryList from './IndustryList';
+import { SUMMARIES, SKILLS, ROLES, INDUSTRIES } from '../../../data/portfolioData';
 import profileImage from '../../../assets/img/profile-img.jpg';
-import { UserCard } from 'react-ui-cards';
-
-// Auth0
-import { useAuth0 } from '@auth0/auth0-react';
 
 const PortfolioContent = () => {
-	const { isAuthenticated, user } = useAuth0();
-	const details = [
-	    { label: 'Birthday', value: '16 May 1996' },
-	    { label: 'Website', value: 'https://portfolio.mfzrl.cyou/' },
-	    { label: 'City', value: 'Dengkil, Selangor, Malaysia' },
-	    { label: 'Age', value: '27' },
-	    { label: 'Degree', value: 'Degree' },
-	    { label: 'Email', value: 'mfazrul07@gmail.com' },
-	    { label: 'Freelance', value: 'Available' },
-    ];
+    const [activeTab, setActiveTab] = useState(0);
 
-	return (
-        <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-        >
-            <Card style={{ marginBottom: '20px', marginTop: '100px'}}>
-		        <CardActionArea>
-	                <CardContent>
-		                <Typography gutterBottom variant="h5" component="div">
-		                    {/* <Image src={profileImage} thumbnail />
-		                        <Image src={profileImage} style={{width: '450px', height: '450px', objectFit: 'scale-down'}}/>
-		                    */}
-		                    <h3>Software Devloper</h3>
-		                    <p className="portfolio-description">
-		                        Greetings! I'm Fazrul Romli, a Software Developer with over 4 years of hands-on experience. My journey into the world of coding started in 2012 when I decided to create custom Tumblr themes, and since then, I've embraced various roles in the field of web development.
-			                    Throughout my career, I've had the privilege of contributing my skills to diverse projects, ranging from advertising agencies to start-ups, student-led design studios, and large corporations. Currently, I'm passionately leading projects and building products for clients at Upstatement.
-			                    My expertise lies in the Laravel framework, and I'm dedicated to constantly updating and improving my projects for future reference. As a highly skilled and innovative professional, I excel in prioritizing tasks, resolving technical challenges, and delivering exceptional results.
-			                    Outside the world of coding, you'll find me scaling rock walls, spending quality time with my wife and two cats, or embarking on adventures in Hyrule in search of elusive Korok seeds.
-			                    Feel free to explore my project collection, and don't hesitate to reach out if you have any questions or need assistance.
-			                </p>
-			                <Typography gutterBottom variant="h6" component="div">
-		                        {details.map((detail, index) => (
-		                            <li>
-		                                <i className="bi bi-chevron-right"></i> <strong>{detail.label}:</strong> <span>{detail.value}</span>
-			                        </li>
-		                        ))}
-			                </Typography>
-		                </Typography>
-	                    <Typography variant="body2" color="text.secondary">
-		                    <a className="portfolio-button" data-toggle="modal" data-target="#resume">Learn More</a>
-	                    </Typography>
-	                </CardContent>
-	            </CardActionArea>
-	        </Card>
-        </Box>
-	);
+    const containerStyles = (backgroundImage) => ({
+        padding: 2,
+        margin: 'auto',
+        mt: 8,
+        mb: 2,
+        flexGrow: 1,
+        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8)), url(${backgroundImage})`,
+        backgroundSize: 'cover',
+    });
+
+    const backgroundImageUrl = 'https://getwallpapers.com/wallpaper/full/7/d/c/1172966-free-download-developer-wallpaper-hd-2560x1440-cell-phone.jpg';
+
+    return (
+        <Paper elevation={12} sx={containerStyles(backgroundImageUrl)}>
+            <Grid container spacing={2} justifyContent="center" alignItems="center">
+                <ProfileCard profileImage={profileImage} />
+
+                <Grid item xs={12} sm container direction="column" spacing={2}>
+                    <Box sx={{ width: '100%' }}>
+                        <Tabs
+                            value={activeTab}
+                            onChange={(event, newValue) => setActiveTab(newValue)}
+                            indicatorColor="primary"
+                            textColor="primary"
+                        >
+                            <Tab label="Overview" />
+                            <Tab label="Experience" />
+                        </Tabs>
+                    </Box>
+
+                    <Grid container spacing={2} justifyContent="center" alignItems="center">
+                        {activeTab === 0 && (
+                            <>
+                                <Grid item xs={12}>
+									<Box sx={{ mt: 3 }}>
+	                                    <Typography variant="h6" gutterBottom>
+	                                        Welcome to My Portfolio!
+	                                    </Typography>
+	                                    <Typography variant="body1" sx={{ fontFamily: 'Inter, sans-serif', lineHeight: 1.6 }}>
+	                                        I’m a full-stack developer with 4+ years of experience in creating user-friendly and efficient applications across diverse industries. Skilled in both frontend and backend technologies, I’m passionate about delivering seamless digital experiences. Explore my work, and feel free to reach out!
+	                                    </Typography>
+                                    </Box>
+                                    <Box sx={{ mt: 3 }}>
+                                        <SummaryList summaries={SUMMARIES} />
+                                    </Box>
+                                </Grid>
+                            </>
+                        )}
+                        {activeTab === 1 && (
+                            <>
+                                <Grid item xs={12} sm={6}>
+                                    <RolesList roles={ROLES} />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <IndustryList industries={INDUSTRIES} />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <SkillsList skills={SKILLS} />
+                                </Grid>
+                            </>
+                        )}
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Paper>
+    );
 };
 
-const details = [
-	{ label: 'Birthday', value: '16 May 1996' },
-	{ label: 'Website', value: 'https://portfolio.mfzrl.cyou/' },
-	{ label: 'City', value: 'Dengkil, Selangor, Malaysia' },
-	{ label: 'Age', value: '27' },
-	{ label: 'Degree', value: 'Degree' },
-	{ label: 'Email', value: 'mfazrul07@gmail.com' },
-	{ label: 'Freelance', value: 'Available' },
-];
-
-const chipData = [
-	{ label: 'Software Developer', imageUrl: 'https://wallpapercave.com/wp/wp2708351.jpg' },
-	{ label: 'Business Analyst', imageUrl: 'https://wallpapercave.com/wp/wp2708351.jpg' },
-	{ label: 'Automation', imageUrl: 'https://wallpapercave.com/wp/wp2708351.jpg' },
-	{ label: 'CI/CD', imageUrl: 'https://wallpapercave.com/wp/wp2708351.jpg' },
-	{ label: 'PHP', imageUrl: 'https://wallpapercave.com/wp/wp2708351.jpg' },
-	{ label: 'Java', imageUrl: 'https://wallpapercave.com/wp/wp2708351.jpg' },
-	{ label: 'Cypress', imageUrl: 'https://wallpapercave.com/wp/wp2708351.jpg' },
-	{ label: 'Appium', imageUrl: 'https://wallpapercave.com/wp/wp2708351.jpg' },
-	{ label: 'SQL', imageUrl: 'https://wallpapercave.com/wp/wp2708351.jpg' },
-];
-
-const Img = styled('img')({
-	margin: 'auto',
-	display: 'block',
-	maxWidth: '100%',
-	maxHeight: '100%',
-});
-
-const Portfolio = () => {
-	return (
-		<Paper elevation={12}
-	        sx={{
-		        p: 2,
-		        margin: 'auto',
-		        marginTop: '100px',
-		        marginBottom: '20px',
-		        flexGrow: 1,
-		        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8)), url("${'https://getwallpapers.com/wallpaper/full/7/d/c/1172966-free-download-developer-wallpaper-hd-2560x1440-cell-phone.jpg'}")`,
-		        backgroundSize: 'cover',
-		        backgroundColor: (theme) =>
-		            theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-	        }}
-		>
-	        <Grid container spacing={2}>
-			    <Grid item>
-		            <UserCard
-		                float
-			            header={profileImage}
-			            avatar={profileImage}
-			            name='Fazrul Romli'
-			            positionName='Software Developer'
-			            stats={[
-		                    { value: (
-		                        <Tooltip title="LinkedIn" arrow>
-		                            <a href="https://www.linkedin.com/in/fazrul-romli-79138415b/"><LinkedInIcon /></a>
-			                    </Tooltip>)},
-			                { value: (
-			                    <Tooltip title="Github" arrow>
-			                        <a href="https://github.com/fazrul96"><GitHubIcon /></a>
-			                    </Tooltip>)},
-			                { value: (
-			                    <Tooltip title="Email" arrow>
-			                      < a href="mailto:fazrul51@gmail.com"><EmailIcon /></a>
-			                    </Tooltip>)},
-			                { value: (
-			                    <Tooltip title="Resume" arrow>
-		                            <a className="portfolio-button" data-toggle="modal" data-target="#resume">
-		                                <AssignmentIndIcon />
-			                        </a>
-			                    </Tooltip>)}
-			            ]}
-		            />
-			    </Grid>
-	            <Grid item xs={12} sm container>
-	                <Grid item xs container direction="column" spacing={2}>
-			            <Grid item xs>
-			                <Typography gutterBottom variant="subtitle1" component="div">
-			                    Welcome to My Web Portfolio!
-				            </Typography>
-				            <Typography variant="body2" gutterBottom sx={{ fontFamily: 'Inter, sans-serif' }}>
-				                <p> Greetings! I'm a versatile software developer with over 4+ years of hands-on experience. Proficient in both frontend and backend technologies. With a passion for crafting seamless digital experiences, I have a rich history of success in bringing ideas to life through code. </p>
-				                <p> I'm a dynamic and innovative web design and development professional with over 4 years of experience across diverse industries. My expertise lies in delivering exceptional results by seamlessly combining technical prowess with superior analytical thinking skills. As a task-driven individual, I excel in prioritizing tasks, promptly identifying and resolving technical issues, and ensuring timely project completion.</p>
-				                <p> Feel free to explore my project collection, and don't hesitate to reach out if you have any questions or need assistance. </p>
-				            </Typography>
-				            </Grid>
-					        {/*
-					            <Grid item xs>
-					                <Typography sx={{ cursor: 'pointer' }} variant="body2">
-					                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} aria-label="contacts">
-					                      <ListItem disablepadding="true">
-					                        <ListItemButton>
-					                          <ListItemIcon>
-					                            <StarIcon />
-					                          </ListItemIcon>
-					                          <ListItemText primary="Chelsea Otakan" />
-					                        </ListItemButton>
-					                      </ListItem>
-
-					                      <ListItem disablepadding="true">
-					                        <ListItemButton>
-					                          <ListItemText inset primary="Eric Hoffman" />
-					                        </ListItemButton>
-					                      </ListItem>
-
-					                    <div>
-					                      {details.map((detail, index) => (
-					                        <ListItem key={index} disablepadding="true">
-					                          <ListItemButton>
-					                            <ListItemText inset primary={`${detail.label}: ${detail.value}`} />
-					                          </ListItemButton>
-					                        </ListItem>
-					                      ))}
-					                    </div>
-					                    </List>
-					                </Typography>
-					            </Grid>
-					        */}
-					        {/*
-					        <Grid item xs>
-					            <Typography sx={{ cursor: 'pointer' }} variant="body2">
-					                <Stack direction="row" spacing={1}>
-					                  {chipData.map((chip, index) => (
-					                    <Chip
-					                      key={index}
-					                      variant="outlined"
-					                      size="small"
-					                      label={chip.label}
-					                      style={{
-					                        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 1)), url("${chip.imageUrl}")`,
-					                        backgroundSize: 'cover',
-					                      }}
-					                    />
-					                  ))}
-					                </Stack>
-					            </Typography>
-					        </Grid>
-					        */}
-				        </Grid>
-		                <Grid item>
-	                        <Typography variant="subtitle1" component="div">
-				                <StarIcon sx={{ color: 'gold' }} /> {/* or 'yellow' */}
-				            </Typography>
-			            </Grid>
-			    </Grid>
-            </Grid>
-		</Paper>
-	);
-}
-
-export default Portfolio;
+export default PortfolioContent;
