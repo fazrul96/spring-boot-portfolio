@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import PortfolioContent from '../../../components/section/portfolios/PortfolioContent';
-import Resume from '../../../components/section/portfolios/Resume';
+import Profile from '../../../components/section/portfolios/Profile';
 
 const Portfolio = () => {
 	return (
@@ -16,7 +16,7 @@ const Portfolio = () => {
                 </p>
                 */}
                 <PortfolioContent/>
-                <Resume/>
+                <Profile/>
 	        </section>
         </Box>
 	);
