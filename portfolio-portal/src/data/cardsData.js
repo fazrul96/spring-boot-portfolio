@@ -1,0 +1,42 @@
+export const cardsData = [
+  {
+    id: 1,
+    status: "Completed",
+    title: 'Cypress',
+    description: 'Description for Cypress',
+    imageUrl: 'https://miro.medium.com/v2/resize:fit:713/1*kQoWz5i50D9R8IlCtWAvdw.png',
+    url: process.env.REACT_APP_CYPRESS_URL,
+  },
+  {
+    id: 2,
+    status: "Testing",
+    title: 'Jenkins',
+    description: 'Description for Jenkins',
+    imageUrl: 'https://media.licdn.com/dms/image/C5612AQEjVEGEpTu6qg/article-cover_image-shrink_600_2000/0/1535449639610?e=2147483647&v=beta&t=HH2FtY2XGClmpqfoEY8rFHePGwNb72FrzcvEbrFXnpw',
+    url: process.env.REACT_APP_JENKINS_URL,
+  },
+  {
+    id: 3,
+    status: "Development",
+    title: 'MinIO',
+    description: 'Description for MinIO',
+    imageUrl: 'https://th.bing.com/th/id/OIP.FZaTfocOgKvX0uXOXQ1i2wAAAA?rs=1&pid=ImgDetMain',
+    url: process.env.REACT_APP_S3_URL,
+  },
+  {
+    id: 4,
+    status: "Completed",
+    title: 'SonarQube',
+    description: 'Description for SonarQube',
+    imageUrl: 'https://blog.pirago.vn/content/images/2021/08/sonarqube-share.png',
+    url: process.env.REACT_APP_SONARQUBE_URL,
+  },
+  {
+    id: 5,
+    status: "Pending",
+    title: 'Grafana',
+    description: 'Description for Grafana',
+    imageUrl: 'https://th.bing.com/th/id/OIP.bOoQ_Hc-xd_Pf7UUoy6vkQHaEK?w=1024&h=576&rs=1&pid=ImgDetMain',
+    url: process.env.REACT_APP_GRAFANA_URL,
+  },
+];
