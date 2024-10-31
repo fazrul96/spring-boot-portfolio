@@ -13,6 +13,11 @@ export const SNAPSYNCH_URL = process.env.REACT_APP_SNAPSYNCH_URL || `${process.e
 export const CV_FILE_NAME = process.env.REACT_APP_CV_FILE_NAME || 'CV.pdf';
 export const SNAPSYNCH_FILE_NAME = process.env.REACT_APP_SNAPSYNCH_FILE_NAME || 'SnapSynch.pdf';
 export const PDF_WORKER_URL = process.env.REACT_APP_PDF_WORKER_URL || 'https://unpkg.com/pdfjs-dist@3.6.172/build/pdf.worker.min.js';
+export const GRAPH_FILE_NAME = 'blood_pressure_graph.png';
+
+export const API_BASE_URL_TEST = "http://localhost:8080/api";
+export const SYNC_WEBTOON_URL = `${API_BASE_URL_TEST}/`;
+export const SLASH = '/';
 
 export const PROFILE_TABS = [
 	{
@@ -29,9 +34,26 @@ export const PROFILE_TABS = [
 	},
 ];
 
+export const WEBTOONS_LIST = [
+	{ title: 'nano-machine', chapter: '1', source: 'asura' },
+	{ title: 'Solo Leveling', chapter: '2', source: 'asura' },
+	{ title: 'Tomb Raider King', chapter: '3', source: 'asura' },
+	{ title: 'The Beginning After the End', chapter: '4', source: 'asura' },
+];
+
 export const DEFAULT_IMAGE = 'https://wallpapercave.com/wp/wp2708351.jpg';
 export const STATUS_COLOR = {
     Completed: 'green',
     InProgress: '#FFB81C',
 };
 export const GITHUB_URL = 'https://github.com/fazrul96';
+
+export const OCR_IMAGES = [
+	{ id: 1, image: '/assets/img/ocrSample/sampleJpg.jpg', title: 'Sample JPG' },
+	{ id: 2, image: '/assets/img/ocrSample/samplePng.png', title: 'Sample PNG' },
+];
+
+export const OCR_ERROR_MESSAGES = {
+	NO_FILE: 'Please select a file for OCR processing.',
+	PROCESS_FAILURE: 'OCR process failed. Please try again.',
+};

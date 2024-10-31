@@ -6,7 +6,7 @@ import {
 	Grid,
 } from '@mui/material';
 import CardComponent from '../components/CardComponent';
-import { cardData } from '../data/ModuleData';
+import { cardData } from '../data/moduleData';
 
 const ModulePage = () => {
 	const categories = [...new Set(cardData.map((card) => card.category))];

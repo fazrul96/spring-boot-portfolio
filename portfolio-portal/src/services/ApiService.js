@@ -27,31 +27,54 @@ class ApiService {
 		}
 	}
 
-	async fetchData(endpoint) {
-		const headers = await this.setHeaders();
-		try {
-			const response = await this.api.get(endpoint, { headers });
+    async fetchData(endpoint) {
+        const headers = await this.setHeaders();
+        try {
+            const response = await this.api.get(endpoint, { headers });
             return response.data;
-		} catch (error) {
-			console.error(`Error fetching data from ${endpoint}:`, error.response || error.message);
-	        throw error;
-	    }
+        } catch (error) {
+            if (error.response) {
+                // Log the full response for a better diagnosis
+                console.error(`Error fetching data from ${endpoint}:`, error.response.status, error.response.data);
+            } else {
+                console.error(`Error fetching data from ${endpoint}:`, error.message);
+            }
+            throw error;
+        }
     }
 
 	async fetchResource(resourceType) {
 		return this.fetchData(`/${resourceType}`);
 	}
 
-    async createResource(resourceType, data) {
-        const headers = await this.setHeaders();
-        try {
-            const response = await this.api.post(`/${resourceType}`, data, { headers });
-            return response.data;
-        } catch (error) {
-            console.error(`Error creating resource at /${resourceType}:`, error.response || error.message);
-            throw error;
-        }
-    }
+	async createResource(resourceType, data, isFormData = false, options = {}) {
+	    const headers = await this.setHeaders();
+
+	    let requestData;
+	    if (isFormData) {
+	        // Create a FormData object if the flag is set
+	        requestData = new FormData();
+	        for (const key in data) {
+	            requestData.append(key, data[key]); // Append each field
+	        }
+	        headers['Content-Type'] = 'multipart/form-data'; // Set content type for FormData
+	    } else {
+	        // Default to JSON
+	        requestData = data;
+	        headers['Content-Type'] = 'application/json'; // Set content type for JSON
+	    }
+
+	    try {
+	        const response = await this.api.post(`/${resourceType}`, requestData, {
+	            headers,
+	            ...options,
+	        });
+	        return response.data;
+	    } catch (error) {
+	        console.error(`Error creating resource at /${resourceType}:`, error.response || error.message);
+	        throw error;
+	    }
+	}
 
     async updateResource(resourceType, id, data) {
         const headers = await this.setHeaders();

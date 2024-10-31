@@ -142,7 +142,7 @@ const Project = () => {
                                 <p>{error}</p>
                             ) : (
                                 data.map((project, index) => (
-                                    <Grid item xs={12} md={3} key={index}>
+                                    <Grid item xs={12} sm={6} md={6} lg={3} key={index}>
                                         <ProjectCard
                                             project={project}
                                             onEdit={() => handleOpenForm(project)}

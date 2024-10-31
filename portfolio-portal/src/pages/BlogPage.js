@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Box, Grid } from '@mui/material';
-import BlogListPage from './BlogListPage';
+import WebtoonPage from './WebtoonPage';
 
 const BlogPage = ({blogs}) => {
-  return (
-      <Box sx={{ flexGrow: 1 }}>
-          <section id="blog">
-          <Grid container spacing={2} justifyContent="left" alignItems="center">
-              <BlogListPage blogs={blogs} />
-          </Grid>
-          </section>
-      </Box>
-  );
+	return (
+        <Box sx={{ flexGrow: 1, padding: 2, marginTop: '30px' }}>
+            <section id="blog">
+		        <Grid container spacing={2} justifyContent="left" alignItems="center">
+	                <WebtoonPage />
+		        </Grid>
+	        </section>
+	  </Box>
+	);
 };
 
 export default BlogPage;
