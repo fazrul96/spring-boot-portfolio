@@ -55,7 +55,6 @@ class HivetoonPatternHandler(BasePatternHandler):
 
         return zip_path
 
-# todo need more improvement instead download all image including logo etc, need to specify more like in hivetoon
 class AsuraPatternHandler(BasePatternHandler):
     def download_images(self, title, chapter, url):
         driver = setup_driver()
@@ -65,16 +64,18 @@ class AsuraPatternHandler(BasePatternHandler):
         try:
             driver.get(url)
 
-            # Adjust XPath or CSS selector based on Asura’s HTML structure
+            # Update the image selector if necessary based on Asura's HTML structure
             image_elements = driver.find_elements(By.XPATH, "//img[@src]")
 
             for index, image in enumerate(image_elements):
                 image_url = image.get_attribute("src")
-                # Adjust the condition if Asura’s CDN URL is different
-                if "asuracomic" in image_url:  # Assuming images come from Asura's domain
+
+                # Download only images hosted on gg.asuracomic.net and ending with .webp
+                if "gg.asuracomic.net" in image_url and image_url.endswith(".webp"):
                     img_data = requests.get(image_url).content
-                    with open(f"{unique_dir}/image_{index + 1}.jpg", "wb") as handler:
+                    with open(f"{unique_dir}/image_{index + 1}.webp", "wb") as handler:
                         handler.write(img_data)
+
         finally:
             driver.quit()
 

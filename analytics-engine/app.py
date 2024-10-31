@@ -1,11 +1,16 @@
-from flask import Flask, request, send_file, jsonify
+from flask import Flask, request, send_file, jsonify, send_from_directory
 from config.settings import SUPPORTED_URLS
 from utils.file_handler import extract_blood_pressure_data
 from utils.graph_generator import generate_blood_pressure_plot
 from utils.pattern_handler import get_pattern_handler
 from utils.url_builder import build_url
+import os
+import zipfile
 
 app = Flask(__name__, static_folder='static')
+
+DOWNLOAD_DIRECTORY = "downloads"
+EXTRACTED_IMAGES_DIRECTORY = "extracted_images"
 
 # ---- Blood Pressure Graph Generation Endpoint ----
 @app.route('/generate-graph', methods=['POST'])
@@ -46,11 +51,32 @@ def download_webtoon():
         handler = get_pattern_handler(source)
         zip_path = handler.download_images(title, chapter, url)
 
+        # extract_images(zip_path)
+
         return jsonify({"message": "Download completed", "zip_path": zip_path}), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred"}), 500
+
+def extract_images(zip_path):
+    """Extract images from the zip file to the specified directory."""
+    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+        zip_ref.extractall(EXTRACTED_IMAGES_DIRECTORY)
+
+@app.route('/images/<path:filename>', methods=['GET'])
+def serve_image(filename):
+    """Serve images from the extracted images directory."""
+    return send_from_directory(EXTRACTED_IMAGES_DIRECTORY, filename)
+
+@app.route('/api/list-images', methods=['GET'])
+def list_images():
+    """List all extracted images."""
+    try:
+        images = os.listdir(EXTRACTED_IMAGES_DIRECTORY)
+        return jsonify(images), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(port=5001)
