@@ -1,22 +1,28 @@
+from config.settings import HIVETOON_BASE_URL, ASURA_BASE_URL, ASURA_SUFFIXES
+
+
 def build_url(source, title, chapter):
-    # Define suffixes for Asura titles
-    asura_suffixes = {
-        "nano-machine": "-0e72058d",  # Add more series titles and their suffixes here
-        # "other-title": "-suffix-code",  # Example for other titles
+    """Builds a URL based on the source, title, and chapter number."""
+
+    # Define URL patterns for each source, using constants
+    url_patterns = {
+        "hivetoon": lambda title, chapter: f"{HIVETOON_BASE_URL}{title}-chapter-{chapter}/",
+        "asura": lambda title, chapter: build_asura_url(title, chapter),
     }
 
-    # Define URL patterns for each source, including a special case for Asura
-    if source == "hivetoon":
-        url = f"https://hivetoon.com/2023/{title}-chapter-{chapter}/"
+    # Check if the source is defined in url_patterns
+    if source in url_patterns:
+        return url_patterns[source](title, chapter)
 
-    elif source == "asura":
-        # Check if title exists in the suffix dictionary
-        suffix = asura_suffixes.get(title)
-        if not suffix:
-            raise ValueError(f"Suffix for Asura title '{title}' not found.")
-        url = f"https://asuracomic.net/series/{title}{suffix}/chapter/{chapter}/"
+    raise ValueError(f"URL pattern for source '{source}' not defined.")
 
-    else:
-        raise ValueError(f"URL pattern for source '{source}' not defined.")
 
-    return url
+def build_asura_url(title, chapter):
+    """Builds the URL for the Asura source, checking for title-specific suffixes."""
+
+    # Check if title exists in the suffix dictionary
+    suffix = ASURA_SUFFIXES.get(title)
+    if not suffix:
+        raise ValueError(f"Suffix for Asura title '{title}' not found.")
+
+    return f"{ASURA_BASE_URL}{title}{suffix}/chapter/{chapter}/"

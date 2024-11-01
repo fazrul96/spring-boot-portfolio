@@ -1,24 +1,22 @@
 from flask import Flask, request, send_file, jsonify, send_from_directory
-from config.settings import SUPPORTED_URLS
 from utils.file_handler import extract_blood_pressure_data
 from utils.graph_generator import generate_blood_pressure_plot
 from utils.pattern_handler import get_pattern_handler
 from utils.url_builder import build_url
+from config.settings import EXTRACTED_IMAGES_DIRECTORY, ERROR_MESSAGES, GENERATE_GRAPH_ROUTE, DOWNLOAD_WEBTOON_ROUTE
 import os
 import zipfile
 
 app = Flask(__name__, static_folder='static')
 
-DOWNLOAD_DIRECTORY = "downloads"
-EXTRACTED_IMAGES_DIRECTORY = "extracted_images"
 
 # ---- Blood Pressure Graph Generation Endpoint ----
-@app.route('/generate-graph', methods=['POST'])
+@app.route(GENERATE_GRAPH_ROUTE, methods=['POST'])
 def generate_graph():
     file = request.files.get('file')
 
     if not file or file.filename == '':
-        return jsonify({"error": "No file selected"}), 400
+        return create_error_response(ERROR_MESSAGES["no_file"], 400)
 
     try:
         # Extract data from the file
@@ -29,45 +27,50 @@ def generate_graph():
         return send_file(plot_image, mimetype='image/png')
 
     except ValueError as e:
-        return jsonify({"error": str(e)}), 400
-    except Exception as e:
-        return jsonify({"error": "An unexpected error occurred"}), 500
+        return create_error_response(str(e), 400)
+    except Exception:
+        return create_error_response(ERROR_MESSAGES["unexpected_error"], 500)
 
 # ---- Webtoon Download API Endpoint ----
-@app.route('/download-webtoon', methods=['POST'])
+@app.route(DOWNLOAD_WEBTOON_ROUTE, methods=['POST'])
 def download_webtoon():
     title = request.form.get("title")
     chapter = request.form.get("chapter")
     source = request.form.get("source", "hivetoon")  # Default value
 
-    # Validation for required fields
-    if not title or not chapter or not source:
-        return jsonify({"error": "Title, chapter, and source are required"}), 400
+    # Validate required fields
+    if not all([title, chapter, source]):
+        return create_error_response(ERROR_MESSAGES["missing_fields"], 400)
 
     try:
         # Generate the URL dynamically
         url = build_url(source, title, chapter)
-
         handler = get_pattern_handler(source)
         zip_path = handler.download_images(title, chapter, url)
 
-        # extract_images(zip_path)
-
         return jsonify({"message": "Download completed", "zip_path": zip_path}), 200
     except ValueError as e:
-        return jsonify({"error": str(e)}), 400
-    except Exception as e:
-        return jsonify({"error": "An unexpected error occurred"}), 500
+        return create_error_response(str(e), 400)
+    except Exception:
+        return create_error_response(ERROR_MESSAGES["unexpected_error"], 500)
+
+
+def create_error_response(message, status_code):
+    """Helper function to create error responses."""
+    return jsonify({"error": message}), status_code
+
 
 def extract_images(zip_path):
     """Extract images from the zip file to the specified directory."""
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         zip_ref.extractall(EXTRACTED_IMAGES_DIRECTORY)
 
+
 @app.route('/images/<path:filename>', methods=['GET'])
 def serve_image(filename):
     """Serve images from the extracted images directory."""
     return send_from_directory(EXTRACTED_IMAGES_DIRECTORY, filename)
+
 
 @app.route('/api/list-images', methods=['GET'])
 def list_images():
@@ -76,7 +79,8 @@ def list_images():
         images = os.listdir(EXTRACTED_IMAGES_DIRECTORY)
         return jsonify(images), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return create_error_response(str(e), 500)
+
 
 if __name__ == "__main__":
     app.run(port=5001)

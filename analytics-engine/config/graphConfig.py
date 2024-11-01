@@ -1,0 +1,19 @@
+PLOT_FIGURE_SIZE = (12, 6)
+SYSTOLIC_COLOR = 'blue'
+DIASTOLIC_COLOR = 'green'
+TARGET_SYSTOLIC_COLOR = 'red'
+TARGET_DIASTOLIC_COLOR = 'yellow'
+TARGET_LINE_STYLE = '--'
+TARGET_LINE_WIDTH = 2.5
+SAVE_PLOT_FILENAME = 'blood_pressure_readings.png'
+Y_LIMITS = (50, 200)
+GRID_STYLE = '--'
+GRID_ALPHA = 0.5
+
+TIME_COLUMN = 'time'
+SYSTOLIC_COLUMN = 'systolic'
+DIASTOLIC_COLUMN = 'diastolic'
+SYSTOLIC_TARGET_COLUMN = 'systolic_target'
+DIASTOLIC_TARGET_COLUMN = 'diastolic_target'
+
+ERROR_PROCESSING_CSV = "Error processing CSV file: {}"
