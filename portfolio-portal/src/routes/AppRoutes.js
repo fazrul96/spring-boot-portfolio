@@ -11,8 +11,8 @@ import SpacePage from '../pages/SpacePage';
 import StoragePage from '../pages/StoragePage';
 import OpenApiPage from '../pages/OpenApiPage';
 import BlogPage from '../pages/BlogPage';
-import BlogDetailPage from '../pages/BlogDetailPage';
-import BlogContent from '../pages/BlogContent';
+import WebtoonChaptersPage from '../pages/WebtoonChaptersPage';
+import WebtoonReaderPage from '../pages/WebtoonReaderPage';
 
 export const publicRoutes = [
   { path: '/component', component: <ComponentPage /> },
@@ -29,6 +29,6 @@ export const protectedRoutes = [
   { path: '/storage', component: <StoragePage /> },
   { path: '/openapi', component: <OpenApiPage /> },
   { path: '/blog', component: <BlogPage /> },
-  { path: '/blog/:alias', component: <BlogDetailPage /> },
-  { path: '/blog/:alias/chapter/:chapter', component: <BlogContent /> },
+  { path: '/series/:title/chapters', component: <WebtoonChaptersPage /> },
+  { path: '/series/:title/:chapter', component: <WebtoonReaderPage /> },
 ];

@@ -31,7 +31,8 @@
     "react-ui-cards": "^3.1.0",
     "sweetalert2": "^11.14.4",
     "swiper": "^10.2.0",
-    "typescript": "^4.0.0"
+    "typescript": "^4.0.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "latest",

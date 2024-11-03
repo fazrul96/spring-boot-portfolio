@@ -19,5 +19,6 @@ export const PROJECTS = 'projects';
 export const SKILLS = 'skills';
 
 export const GENERATE_GRAPH_BLOOD_PRESSURE = 'generate-graph';
-export const WEBTOONS = 'downloaded-webtoons';
+export const DOWNLOAD_WEBTOON = 'download-webtoon';
+export const WEBTOONS = 'webtoons';
 export const PROCESS_OCR = 'processOCR';

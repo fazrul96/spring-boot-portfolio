@@ -1,134 +1,155 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { Box, Button, Typography, Card, CardContent, CardMedia, Grid } from '@mui/material';
-import { SYNC_WEBTOON_URL, WEBTOONS_LIST, DEFAULT_IMAGE } from './../constants/AppConstants';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Box, Grid, Button, Snackbar } from '@mui/material';
+import WebtoonCard from './../components/common/WebtoonCard';
 import ApiService from './../services/ApiService';
 import { useAuth0 } from '@auth0/auth0-react';
+import { API_BASE_URL, API_PRIVATE_URL, WEBTOONS } from './../constants/ApiConstants';
+import Swal from 'sweetalert2';
 
-const useWebtoonSync = (apiService) => {
-	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState(null);
-
-	const syncWebtoon = async (title, chapter, source) => {
-		setIsLoading(true);
-		try {
-	        const response = await apiService.createResource('download-webtoon', {
-		        title,
-		        chapter,
-		        source,
-		    }, true);
-	        console.log('Sync Success:', response);
-	        return true; // Indicate success
-		} catch (err) {
-	        setError("Failed to sync webtoon");
-		    console.error("Error syncing webtoon:", err.response?.data || err.message);
-		    return false; // Indicate failure
-		} finally {
-	        setIsLoading(false);
-		}
-	};
-
-	return { syncWebtoon, isLoading, error };
-};
-
-// Webtoon Fetch Function
-const useWebtoonsFetch = (apiService) => {
-	const [webtoons, setWebtoons] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState(null);
-
-	const fetchDownloadedWebtoons = async () => {
-		setIsLoading(true);
-		try {
-	        const response = await apiService.fetchResource('downloaded-webtoons');
-		    setWebtoons(response);
-		} catch (err) {
-		    setError("Failed to load webtoons");
-		    console.error("Error fetching webtoons:", err);
-		} finally {
-		    setIsLoading(false);
-		}
-	};
-
-	useEffect(() => {
-		fetchDownloadedWebtoons();
-	}, [apiService]);
-
-	return { webtoons, fetchDownloadedWebtoons, isLoading, error };
-};
-
-// Main Component
 const WebtoonPage = () => {
-	const { getAccessTokenSilently } = useAuth0();
+    const navigate = useNavigate();
+    const { getAccessTokenSilently } = useAuth0();
 
-	const apiService = useMemo(
-		() => new ApiService(SYNC_WEBTOON_URL, getAccessTokenSilently),
-		[getAccessTokenSilently]
-	);
+    const [webtoonsData, setWebtoonsData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
 
-	const { webtoons, fetchDownloadedWebtoons, isLoading: isFetching, error: fetchError } = useWebtoonsFetch(apiService);
-	const { syncWebtoon, isLoading: isSyncing, error: syncError } = useWebtoonSync(apiService);
+    // Create a memoized instance of ApiService with the Auth0 token function
+    const apiService = useMemo(
+        () => new ApiService(API_BASE_URL + API_PRIVATE_URL, getAccessTokenSilently),
+        [getAccessTokenSilently]
+    );
 
-	const handleSync = async (title, chapter, source) => {
-		const success = await syncWebtoon(title, chapter, source);
-		if (success) {
-	        await fetchDownloadedWebtoons(); // Refresh the list after successful sync
-		}
-	};
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            setError(null);
 
-	const handleRead = (title) => {
-		// Add logic for reading the webtoon here
-		// For example, redirect to a reading page or open a new tab
-		console.log(`Reading ${title}`);
-		// You could use something like: window.open(`/read/${title}`, '_blank');
-	};
+            try {
+                const response = await apiService.fetchResource(WEBTOONS);
+                setWebtoonsData(response);
+            } catch (error) {
+                setError('Failed to load webtoon data');
+                console.error('Error fetching webtoon data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-	// Combine hardcoded webtoons with fetched webtoons
-	const combinedWebtoons = [...WEBTOONS_LIST, ...webtoons];
+        fetchData();
+    }, [apiService]);
 
-	return (
-		<Box sx={{ flexGrow: 1, padding: 2 }}>
-	        {(fetchError || syncError) && (
-		        <Typography variant="body2" color="error">
-		            {fetchError || syncError}
-	            </Typography>
-		    )}
-		    <Grid container spacing={2} mt={2}>
-			    {combinedWebtoons.map((webtoon, index) => (
-			        <Grid item xs={12} sm={6} md={4} key={index}>
-				        <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-			                <CardMedia
-					            component="img"
-					            sx={{ height: 150 }}
-					            image={DEFAULT_IMAGE} // Use random image
-					            alt={webtoon.title}
-				            />
-				            <CardContent sx={{ flexGrow: 1 }}>
-					            <Typography variant="h6">{webtoon.title}</Typography>
-					            <Typography variant="body2">Chapter: {webtoon.chapter}</Typography>
-					            <Typography variant="body2">Source: {webtoon.source}</Typography>
-				            </CardContent>
-				            <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: 1 }}>
-					            <Button
-				                    variant="contained"
-					                onClick={() => handleSync(webtoon.title, webtoon.chapter, webtoon.source)}
-					                disabled={isFetching || isSyncing}
-					            >
-				                    {isFetching || isSyncing ? "Processing..." : "Sync"}
-					            </Button>
-					            <Button
-					                variant="outlined"
-					                onClick={() => handleRead(webtoon.title)}
-					                disabled={isFetching || isSyncing}
-					            >
-				                    Read
-					            </Button>
-				            </Box>
-				        </Card>
-			        </Grid>
-			    ))}
-		    </Grid>
-		</Box>
-	);
+    const handleCardClick = (webtoonTitle) => {
+        navigate(`/series/${webtoonTitle}/chapters`);
+    };
+
+    const handleDeleteWebtoon = async (webtoonTitle) => {
+        try {
+            await apiService.deleteResource(`webtoons/${webtoonTitle}`);
+            setWebtoonsData((prevData) => prevData.filter((webtoon) => webtoon.title !== webtoonTitle));
+            setSnackbarMessage('Webtoon deleted successfully');
+            setSnackbarOpen(true);
+        } catch (error) {
+            setSnackbarMessage('Failed to delete webtoon');
+            setSnackbarOpen(true);
+            console.error('Error deleting webtoon:', error);
+        }
+    };
+
+    const handleAddWebtoon = async (newWebtoon) => {
+    console.log(newWebtoon);
+        try {
+            await apiService.createResource('webtoons', newWebtoon);
+            setWebtoonsData((prevData) => [...prevData, newWebtoon]); // Update state with the new webtoon
+            setSnackbarMessage('Webtoon added successfully');
+            setSnackbarOpen(true);
+        } catch (error) {
+            setSnackbarMessage('Failed to add webtoon');
+            setSnackbarOpen(true);
+            console.error('Error adding webtoon:', error);
+        }
+    };
+
+    const toProperCase = (text, delimiter = '-') => {
+        return text
+	        .split(delimiter)
+	        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+	        .join(' ');
+    };
+
+    const showAddWebtoonForm = () => {
+        Swal.fire({
+            title: 'Add New Webtoon',
+            html: `
+                <input id="swal-input-title" class="swal2-input" placeholder="Webtoon Title">
+                <input id="swal-input-description" class="swal2-input" placeholder="Description">
+                <input id="swal-input-alias" class="swal2-input" placeholder="Alias" readonly>
+                <input id="swal-input-genre" class="swal2-input" placeholder="Genre">
+                <input id="swal-input-img" class="swal2-input" placeholder="Image URL">
+                <input id="swal-input-chapter-count" class="swal2-input" type="number" placeholder="Chapter Count">
+                <input id="swal-input-tag" class="swal2-input" placeholder="Tag">
+                <input id="swal-input-source" class="swal2-input" placeholder="Source URL">
+                <input id="swal-input-suffix" class="swal2-input" placeholder="Suffix">
+            `,
+            focusConfirm: false,
+            preConfirm: () => {
+                const title = document.getElementById('swal-input-title').value;
+                const chapterCount = parseInt(document.getElementById('swal-input-chapter-count').value);
+                const source = document.getElementById('swal-input-source').value;
+                const suffix = document.getElementById('swal-input-suffix').value;
+
+                if (!title || !chapterCount || !source || !suffix ) {
+                    Swal.showValidationMessage('Please fill out all fields');
+                }
+
+                const alias = toProperCase(title);
+
+                return { title, alias, chapterCount, source, suffix };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleAddWebtoon(result.value);
+            }
+        });
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
+
+    return (
+        <Box sx={{ flexGrow: 1, padding: 2 }} mt={5}>
+            <Button variant="contained" color="primary" onClick={showAddWebtoonForm}>
+                Add New Webtoon
+            </Button>
+            <Grid container spacing={2} mt={1}>
+                {loading ? (
+                    <p>Loading...</p>
+                ) : error ? (
+                    <p>{error}</p>
+                ) : (
+                    webtoonsData.map((webtoon, index) => (
+                        <Grid item xs={12} sm={12} md={4} lg={2} key={index}>
+                            <WebtoonCard
+                                webtoon={webtoon}
+                                onClick={() => handleCardClick(webtoon.title)}
+                                onDelete={() => handleDeleteWebtoon(webtoon.title)}
+                            />
+                        </Grid>
+                    ))
+                )}
+            </Grid>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={handleSnackbarClose}
+                message={snackbarMessage}
+            />
+        </Box>
+    );
 };
 
 export default WebtoonPage;

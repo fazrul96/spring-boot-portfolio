@@ -15,9 +15,11 @@ export const SNAPSYNCH_FILE_NAME = process.env.REACT_APP_SNAPSYNCH_FILE_NAME || 
 export const PDF_WORKER_URL = process.env.REACT_APP_PDF_WORKER_URL || 'https://unpkg.com/pdfjs-dist@3.6.172/build/pdf.worker.min.js';
 export const GRAPH_FILE_NAME = 'blood_pressure_graph.png';
 
-export const API_BASE_URL_TEST = "http://localhost:8080/api";
+export const API_BASE_URL_TEST = "http://localhost:8080/api/v1";
 export const SYNC_WEBTOON_URL = `${API_BASE_URL_TEST}/`;
 export const SLASH = '/';
+export const DASH = '-';
+export const ONE_SPACE = ' ';
 
 export const PROFILE_TABS = [
 	{
@@ -32,13 +34,6 @@ export const PROFILE_TABS = [
 		fileName: SNAPSYNCH_FILE_NAME,
 		description: '',
 	},
-];
-
-export const WEBTOONS_LIST = [
-	{ title: 'nano-machine', chapter: '1', source: 'asura' },
-	{ title: 'Solo Leveling', chapter: '2', source: 'asura' },
-	{ title: 'Tomb Raider King', chapter: '3', source: 'asura' },
-	{ title: 'The Beginning After the End', chapter: '4', source: 'asura' },
 ];
 
 export const DEFAULT_IMAGE = 'https://wallpapercave.com/wp/wp2708351.jpg';
