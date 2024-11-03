@@ -1,29 +1,40 @@
-HIVETOON_BASE_URL = "https://hivetoon.com/2023/"
-ASURA_BASE_URL = "https://asuracomic.net/series/"
-SUPPORTED_URLS = {
-    "hivetoon": "HivetoonPatternHandler",
-    "asura": "AsuraPatternHandler",
-}
+from enum import Enum
 
-ASURA_SUFFIXES = {
-    "nano-machine": "-0e72058d",  # Add more series titles and their suffixes here
-    # "other-title": "-suffix-code",  # Example for other titles
-}
+# ---- Webtoon Sources ----
+class WebtoonSource(Enum):
+    HIVETOON = "hivetoon"
+    ASURA = "asura"
 
+class WebtoonConfig:
+    BASE_URLS = {
+        WebtoonSource.HIVETOON: "https://hivetoon.com/2023/",
+        WebtoonSource.ASURA: "https://asuracomic.net/series/",
+    }
+    IMAGE_EXTENSIONS = {
+        WebtoonSource.HIVETOON: ".jpg",
+        WebtoonSource.ASURA: ".webp",
+    }
+    URL_PREFIXES = {
+        WebtoonSource.HIVETOON: "https://cdn.hivetoon.com/wp-content/uploads/",
+        WebtoonSource.ASURA: "gg.asuracomic.net",
+    }
+    HANDLERS = {
+        WebtoonSource.HIVETOON: "HivetoonPatternHandler",
+        WebtoonSource.ASURA: "AsuraPatternHandler",
+    }
+
+# ---- Download and Extraction Paths ----
 DOWNLOAD_DIR = "webtoon_downloads"
 EXTRACTED_IMAGES_DIRECTORY = "extracted_images"
 
-HIVETOON_URL_PREFIX = "https://cdn.hivetoon.com/wp-content/uploads/"
-ASURA_URL_PREFIX = "gg.asuracomic.net"
-
-ASURA_IMAGE_EXTENSION = ".webp"
-HIVETOON_IMAGE_EXTENSION = ".jpg"
-
+# ---- Error Messages ----
 ERROR_MESSAGES = {
     "no_file": "No file selected",
-    "missing_fields": "Title, chapter, and source are required",
+    "missing_fields": "title, chapter, source, and suffix are required",
     "unexpected_error": "An unexpected error occurred",
 }
 
-GENERATE_GRAPH_ROUTE = '/generate-graph'
-DOWNLOAD_WEBTOON_ROUTE = '/download-webtoon'
+# ---- API Routes ----
+class ApiRoutes:
+    GENERATE_GRAPH = '/generate-graph'
+    DOWNLOAD_WEBTOON = '/download-webtoon'

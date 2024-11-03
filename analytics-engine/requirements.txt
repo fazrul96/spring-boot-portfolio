@@ -7,3 +7,4 @@ numpy==1.23.5
 selenium
 webdriver-manager
 requests
+flask-cors
