@@ -40,6 +40,20 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
+    public Project updateProject(Integer id, Project projectDetails) {
+        log.info("Updating project with ID: {}", id);
+        return projectRepository.findById(id).map(project -> {
+            project.setTitle(projectDetails.getTitle());
+            project.setDescription(projectDetails.getDescription());
+            project.setStatus(projectDetails.getStatus());
+            project.setReference(projectDetails.getReference());
+            project.setImg(projectDetails.getImg());
+            project.setTag(projectDetails.getTag());
+            project.setList(projectDetails.getList());
+            return projectRepository.save(project);
+        }).orElseThrow(() -> new IllegalArgumentException("Project not found with ID: " + id));
+    }
+
     public void deleteProject(Integer id) {
         log.info("Deleting project with ID: {}", id);
         projectRepository.deleteById(id);

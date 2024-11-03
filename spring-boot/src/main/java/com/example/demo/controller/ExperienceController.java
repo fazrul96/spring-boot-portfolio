@@ -6,13 +6,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "${app.apiPath}")
+@RequestMapping(path = "${app.publicApiPath}")
 @CrossOrigin(origins = "${app.basePath}")
 public class ExperienceController {
     private final ExperienceService experienceService;
@@ -22,14 +24,15 @@ public class ExperienceController {
         this.experienceService = experienceService;
     }
 
-    @Operation(summary = "Get list of all experiences")
+    @Operation(summary = "Retrieve all experiences")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully retrieved experiences"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @GetMapping(path = "getExperiences")
-    public List<Experience> getExperiences() {
-        return experienceService.getExperiences();
+    @GetMapping(path = "experiences")
+    public ResponseEntity<List<Experience>> getAllExperiences() {
+        List<Experience> experiences = experienceService.getAllExperiences();
+        return ResponseEntity.ok(experiences);
     }
 
     @Operation(summary = "Get list of all experiences with experiences items")
@@ -42,23 +45,43 @@ public class ExperienceController {
         return experienceService.getExperiencesWithItems();
     }
 
-    @Operation(summary = "Get list of experience using id")
+    @Operation(summary = "Retrieve an experience by ID")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved experience using id"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the experience"),
+            @ApiResponse(responseCode = "404", description = "Education not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @GetMapping(path = "getExperiences/{id}")
-    public Experience getExperienceById(@PathVariable Integer id) {
-        return experienceService.getExperienceById(id);
+    @GetMapping(path = "experiences/{id}")
+    public ResponseEntity<Experience> getExperienceById(@PathVariable Integer id) {
+        return experienceService.getExperienceById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    @PostMapping(path = "postExperiences")
-    public Experience saveExperience(@RequestBody Experience experience) {
-        return experienceService.saveExperience(experience);
+    @Operation(summary = "Create a new experience")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Successfully created experience"),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @PostMapping(path = "experiences")
+    public ResponseEntity<Experience> createEducation(@RequestBody Experience experience) {
+        Experience createdExperience = experienceService.saveExperience(experience);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdExperience);
     }
 
-    @DeleteMapping(path = "deleteExperiences/{id}")
-    public void deleteExperience(@PathVariable Integer id) {
-        experienceService.deleteExperience(id);
+    @Operation(summary = "Delete an experience by ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Successfully deleted the experience"),
+            @ApiResponse(responseCode = "404", description = "Education not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @DeleteMapping(path = "experiences/{id}")
+    public ResponseEntity<Void> deleteExperience(@PathVariable Integer id) {
+        if (experienceService.deleteExperience(id)) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.service.modules;
 
+import com.example.demo.data.entity.Education;
 import com.example.demo.data.entity.Experience;
 import com.example.demo.data.entity.ExperienceItem;
 import com.example.demo.data.repository.ExperienceItemRepository;
@@ -25,7 +26,7 @@ public class ExperienceService {
         this.experienceItemRepository = experienceItemRepository;
     }
 
-    public List<Experience> getExperiences() {
+    public List<Experience> getAllExperiences() {
         return experienceRepository.findAll();
     }
 
@@ -95,9 +96,9 @@ public class ExperienceService {
         return groupedItems;
     }
 
-    public Experience getExperienceById(Integer id) {
-        Optional<Experience> optionalExperience = experienceRepository.findById(id);
-        return optionalExperience.orElse(null);
+
+    public Optional<Experience> getExperienceById(Integer id) {
+        return experienceRepository.findById(id);
     }
 
     public Experience getExperienceByRole(String role) {
@@ -108,7 +109,11 @@ public class ExperienceService {
         return experienceRepository.save(experience);
     }
 
-    public void deleteExperience(Integer id) {
-        experienceRepository.deleteById(id);
+    public boolean deleteExperience(Integer id) {
+        if (experienceRepository.existsById(id)) {
+            experienceRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

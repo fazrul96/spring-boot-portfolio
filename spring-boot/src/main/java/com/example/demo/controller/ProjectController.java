@@ -58,6 +58,19 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProject);
     }
 
+    @Operation(summary = "Update an existing project by ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully updated the project"),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "404", description = "Project not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @PutMapping(path = "projects/{id}")
+    public ResponseEntity<Project> updateProject(@PathVariable Integer id, @RequestBody Project project) {
+        Project updatedProject = projectService.updateProject(id, project);
+        return updatedProject != null ? ResponseEntity.ok(updatedProject) : ResponseEntity.notFound().build();
+    }
+
     @Operation(summary = "Delete a project by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Successfully deleted the project"),

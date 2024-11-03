@@ -62,6 +62,6 @@ public class Experience {
     @JsonProperty("alias")
     private String alias;
 
-    @OneToMany(mappedBy = "experience")
-    private List<ExperienceItem> experienceItems;
+    //@OneToMany(mappedBy = "experience")
+    //private List<ExperienceItem> experienceItems;
 }
