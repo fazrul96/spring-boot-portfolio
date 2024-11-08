@@ -17,7 +17,6 @@ const WebtoonPage = () => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
 
-    // Create a memoized instance of ApiService with the Auth0 token function
     const apiService = useMemo(
         () => new ApiService(API_BASE_URL + API_PRIVATE_URL, getAccessTokenSilently),
         [getAccessTokenSilently]

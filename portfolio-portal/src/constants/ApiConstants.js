@@ -20,5 +20,6 @@ export const SKILLS = 'skills';
 
 export const GENERATE_GRAPH_BLOOD_PRESSURE = 'generate-graph';
 export const DOWNLOAD_WEBTOON = 'download-webtoon';
+export const PROCESS_ZIP = 'process-zip';
 export const WEBTOONS = 'webtoons';
 export const PROCESS_OCR = 'processOCR';

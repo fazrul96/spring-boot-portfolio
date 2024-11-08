@@ -116,11 +116,7 @@ const ChapterList = ({ chapters, handleSync, isFetching, isSyncing, syncingChapt
                 </Button>
             }>
                 <ListItemButton onClick={() => navigate(`/series/${title}/chapter-${chapter}`)}>
-                    <img src={`${process.env.PUBLIC_URL}/assets/extracted_images/${title}-chapter-${chapter}/${title}-chapter-${chapter}-1.webp`}
-                    onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = DEFAULT_IMAGE;
-                        }}
+                    <img src={DEFAULT_IMAGE} // todo fix get first image of the chapter to display
                         style={{ width: '75px', height: '75px', objectFit: 'cover', marginRight: '8px' }} />
                     <Typography variant="body1">Chapter {chapter}</Typography>
                 </ListItemButton>
