@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "${app.apiPath}")
+@RequestMapping(path = "${app.publicApiPath}")
 @CrossOrigin(origins = "${app.basePath}")
 public class ExperienceItemController {
     private final ExperienceItemService experienceItemService;

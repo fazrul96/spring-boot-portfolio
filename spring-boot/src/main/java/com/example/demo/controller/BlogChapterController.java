@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "${app.apiPath}")
+@RequestMapping(path = "${app.privateApiPath}")
 @CrossOrigin(origins = "${app.basePath}")
 public class BlogChapterController {
     private final BlogChapterService blogChapterService;

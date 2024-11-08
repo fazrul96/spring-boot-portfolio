@@ -2,7 +2,8 @@ spring:
   #  batch:
   #    initialize-schema: never
   profiles:
-    active: ${ACTIVE_PROFILE:@activeProfiles@}
+#    active: ${ACTIVE_PROFILE:@activeProfiles@}
+    active: local
   #  main:
   #    web-application-type: NONE
   application:
@@ -45,7 +46,9 @@ spring:
 app:
   basePath: ${APP_BASE_PATH:http://localhost:3000} # For development environment
   #  basePath: ${APP_BASE_PATH:https://portfolio-portal.mfzrl.cyou} # For production environment
-  apiPath: ${APP_API_PATH:/api/v1/}
+  apiPath: ${APP_API_PATH:/api/}
+  privateApiPath: ${APP_PRIVATE_API_PATH:/api/v1/}
+  publicApiPath: ${APP_PUBLIC_API_PATH:/api/v2/}
 
 logging:
   level:

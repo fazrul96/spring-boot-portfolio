@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(path = "${app.apiPath}")
+@RequestMapping(path = "${app.privateApiPath}")
 @CrossOrigin(origins = "${app.basePath}")
 public class MapController {
     @GetMapping("/map")
