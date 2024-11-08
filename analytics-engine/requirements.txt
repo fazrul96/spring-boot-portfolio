@@ -8,3 +8,4 @@ selenium
 webdriver-manager
 requests
 flask-cors
+python-dotenv

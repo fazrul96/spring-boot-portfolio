@@ -1,6 +1,8 @@
+import logging
 import shutil
-
-from flask import Flask, request, send_file, jsonify, send_from_directory
+import os
+import zipfile
+from flask import Flask, request, send_file, jsonify
 from flask_cors import CORS
 from utils.file_handler import extract_blood_pressure_data
 from utils.graph_generator import generate_blood_pressure_plot
@@ -13,11 +15,19 @@ from config.settings import (
     ApiRoutes,
     WebtoonSource
 )
-import os
-import zipfile
+from dotenv import load_dotenv
 
-app = Flask(__name__, static_folder='static')
-CORS(app)
+load_dotenv()
+
+def create_app():
+    app = Flask(__name__, static_folder='static')
+    # app.config.from_object(Config)
+    CORS(app)
+
+    return app
+
+
+app = create_app()
 
 # ---- Helper Functions ----
 def create_error_response(message, status_code):
@@ -43,10 +53,32 @@ def extract_images_from_zip(zip_path):
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         zip_ref.extractall(EXTRACTED_IMAGES_DIRECTORY)
 
-def cleanup_directory(directory):
-    """Remove the specified directory and all its contents."""
+def cleanup_directory_quick(directory):
+    """
+    Quickly removes the specified directory and all its contents using shutil.rmtree.
+
+    Args:
+        directory (str): Path to the directory to remove.
+    """
     if os.path.exists(directory):
         shutil.rmtree(directory)
+    logging.info("Directory successfully been remove")
+
+def cleanup_directory_detailed(directory_path):
+    """
+    Recursively deletes the specified directory and its contents, handling each file and directory individually.
+
+    Args:
+        directory_path (str): Path to the directory to remove.
+    """
+    if os.path.exists(directory_path):
+        for root, dirs, files in os.walk(directory_path, topdown=False):
+            for file in files:
+                os.remove(os.path.join(root, file))
+            for dir in dirs:
+                os.rmdir(os.path.join(root, dir))
+        os.rmdir(directory_path)
+    logging.info("Directory successfully been remove")
 
 # ---- Blood Pressure Graph Generation Endpoint ----
 @app.route(ApiRoutes.GENERATE_GRAPH, methods=['POST'])
@@ -89,40 +121,22 @@ def download_webtoon():
         url = url_builder.build_url(WebtoonSource[source.upper()], title, chapter, suffix)
         handler = PatternHandlerFactory.get_pattern_handler(WebtoonSource[source.upper()])
         zip_path = handler.download_images(title, chapter, url)
+        logging.info(f"Images successfully been zipped into: {zip_path}")
 
-        # Extract images
-        # extract_images_from_zip(zip_path)
-
-        # Delete extracted images after zipping
-        root_dir = f"public"
+        # Define the directory to clean up after sending the ZIP file
+        root_dir = "public"
         dir_name = f"{title}-chapter-{chapter}"
         unique_dir = os.path.join(root_dir, DOWNLOAD_DIR, dir_name)
-        cleanup_directory(unique_dir)
 
-        return jsonify({"message": "Download completed", "zip_path": zip_path}), 200
+        # Send the ZIP file to the client and clean up afterward
+        response = send_file(zip_path, as_attachment=True, mimetype="application/zip")
+        response.call_on_close(lambda: cleanup_directory_quick(unique_dir))
+        return response
 
     except ValueError as e:
         return create_error_response(str(e), 400)
     except Exception:
         return create_error_response(ERROR_MESSAGES["unexpected_error"], 500)
-
-# ---- Image Serving and Listing Endpoints ----
-@app.route('/images/<path:filename>', methods=['GET'])
-def serve_image(filename):
-    """Serve an image from the extracted images directory."""
-    try:
-        return send_from_directory(EXTRACTED_IMAGES_DIRECTORY, filename)
-    except FileNotFoundError:
-        return create_error_response(ERROR_MESSAGES["file_not_found"], 404)
-
-@app.route('/api/list-images', methods=['GET'])
-def list_images():
-    """List all extracted images in the directory."""
-    try:
-        images = os.listdir(EXTRACTED_IMAGES_DIRECTORY)
-        return jsonify(images), 200
-    except Exception as e:
-        return create_error_response(str(e), 500)
 
 # ---- Main Application Entry Point ----
 if __name__ == "__main__":
