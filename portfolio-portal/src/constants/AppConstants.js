@@ -52,3 +52,7 @@ export const OCR_ERROR_MESSAGES = {
 	NO_FILE: 'Please select a file for OCR processing.',
 	PROCESS_FAILURE: 'OCR process failed. Please try again.',
 };
+
+export const VIEW_TYPES = { GRID: 'grid', LIST: 'list' };
+export const SORT_OPTIONS = { NAME: 'name', SIZE: 'size', DATE: 'date' };
+export const FILE_TYPE_FILTERS = { ALL: 'all', FILE: 'file', FOLDER: 'folder' };

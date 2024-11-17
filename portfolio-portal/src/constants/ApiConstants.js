@@ -23,3 +23,8 @@ export const DOWNLOAD_WEBTOON = 'download-webtoon';
 export const PROCESS_ZIP = 'process-zip';
 export const WEBTOONS = 'webtoons';
 export const PROCESS_OCR = 'processOCR';
+
+export const MINIO_LIST_FILES = 'listFiles';
+export const MINIO_DOWNLOAD_FILE = 'downloadFile';
+export const MINIO_UPLOAD_FILES = 'uploadFiles';
+export const MINIO_DELETE_FILE = 'deleteFile';
