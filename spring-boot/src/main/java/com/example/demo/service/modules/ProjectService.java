@@ -1,13 +1,12 @@
 package com.example.demo.service.modules;
 
-import com.example.demo.data.entity.Project;
-import com.example.demo.data.repository.ProjectRepository;
+import com.example.demo.data.portfolio.entity.Project;
+import com.example.demo.data.portfolio.repository.ProjectRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service

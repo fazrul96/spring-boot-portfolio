@@ -1,6 +1,8 @@
 package com.example.demo.service.storage;
 
-import com.example.demo.config.MinioConfig;
+import com.example.demo.config.MinioConfiguration;
+import com.example.demo.constants.GeneralConstant;
+import com.example.demo.util.common.StringUtils;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.messages.Item;
@@ -20,23 +22,22 @@ import java.nio.file.Paths;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import static com.example.demo.constants.GeneralConstant.SLASH;
-import static com.example.demo.constants.GeneralConstant.WEBTOONS;
+import static com.example.demo.constants.GeneralConstant.*;
 
 @Slf4j
 @Service
 public class MinioService {
-    private final MinioConfig minioConfig;
+    private final MinioConfiguration minioConfig;
     private final MinioClient minioClient;
 
     @Autowired
-    public MinioService(MinioConfig minioConfig, MinioClient minioClient) {
+    public MinioService(MinioConfiguration minioConfig, MinioClient minioClient) {
         this.minioConfig = minioConfig;
         this.minioClient = minioClient;
     }
@@ -133,33 +134,68 @@ public class MinioService {
                 .build());
     }
 
-    public List<String> listFiles() throws Exception {
-        Iterable<Result<Item>> results = minioClient.listObjects(ListObjectsArgs.builder().bucket("my-bucket").build());
-        return StreamSupport.stream(results.spliterator(), false)
-                .map(result -> {
-                    try {
-                        return result.get().objectName();
-                    } catch (ErrorResponseException e) {
-                        throw new RuntimeException(e);
-                    } catch (InsufficientDataException e) {
-                        throw new RuntimeException(e);
-                    } catch (InternalException e) {
-                        throw new RuntimeException(e);
-                    } catch (InvalidKeyException e) {
-                        throw new RuntimeException(e);
-                    } catch (InvalidResponseException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (NoSuchAlgorithmException e) {
-                        throw new RuntimeException(e);
-                    } catch (ServerException e) {
-                        throw new RuntimeException(e);
-                    } catch (XmlParserException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .collect(Collectors.toList());
+    public List<String> listFiles(String prefix) {
+        List<String> fileList = new ArrayList<>();
+
+        try {
+            Iterable<Result<Item>> results = minioClient.listObjects(
+                    ListObjectsArgs.builder()
+                            .bucket(minioConfig.getBucketName())
+                            .prefix(prefix) // Use prefix to filter files inside a folder
+                            .delimiter(SLASH) // Delimiter to distinguish folders from files
+                            .build()
+            );
+
+            for (Result<Item> result : results) {
+                Item item = result.get();
+                fileList.add(item.objectName());
+            }
+        } catch (MinioException | IOException | NoSuchAlgorithmException | InvalidKeyException e) {
+            throw new RuntimeException("Error retrieving files from MinIO", e);
+        }
+
+        return fileList;
+    }
+
+    public List<Map<String, Object>> processFiles(List<String> fileNames, String prefix) {
+        List<Map<String, Object>> alias = new ArrayList<>();
+
+        if (prefix != null && !prefix.isEmpty()) {
+            prefix = prefix
+                    .replaceAll(FORWARD_SLASH_PREFIX_REGEX, EMPTY_STRING)
+                    .replaceAll(FORWARD_SLASH_SUFFIX_REGEX, EMPTY_STRING);
+        }
+
+        for (String fileName : fileNames) {
+            Map<String, Object> entry = new HashMap<>();
+            entry.put(GeneralConstant.ORIGINAL_NAME_KEY, fileName);
+
+            String sanitizedName = fileName;
+            if (prefix != null && fileName.startsWith(prefix)) {
+                sanitizedName = fileName.substring(prefix.length());
+            }
+
+            if (sanitizedName.endsWith(GeneralConstant.SLASH)) {
+                entry.put(GeneralConstant.LABEL_KEY, sanitizedName
+                        .replaceAll(FORWARD_SLASH_SINGLE_SUFFIX_REGEX, EMPTY_STRING));
+                entry.put(GeneralConstant.ALIAS_KEY, StringUtils
+                        .capitalizeWords(sanitizedName
+                        .replaceAll(FORWARD_SLASH_SINGLE_SUFFIX_REGEX, EMPTY_STRING)
+                        .replaceAll(DASH, SINGLE_SPACE)));
+                entry.put(GeneralConstant.TYPE_KEY, GeneralConstant.TYPE_FOLDER);
+                entry.put(GeneralConstant.EXTENSION_KEY, null);
+            } else {
+                String[] baseNameAndExtension = StringUtils.extractBaseNameAndExtension(sanitizedName);
+                entry.put(GeneralConstant.LABEL_KEY, sanitizedName);
+                entry.put(GeneralConstant.ALIAS_KEY, StringUtils.capitalizeWords(baseNameAndExtension[0]));
+                entry.put(GeneralConstant.TYPE_KEY, GeneralConstant.TYPE_FILE);
+                entry.put(GeneralConstant.EXTENSION_KEY, baseNameAndExtension[1]);
+            }
+
+            alias.add(entry);
+        }
+
+        return alias;
     }
 
     // Step 2: Extract images from the ZIP file

@@ -1,10 +1,9 @@
 package com.example.demo.service.modules;
 
-import com.example.demo.data.entity.Education;
-import com.example.demo.data.entity.Experience;
-import com.example.demo.data.entity.ExperienceItem;
-import com.example.demo.data.repository.ExperienceItemRepository;
-import com.example.demo.data.repository.ExperienceRepository;
+import com.example.demo.data.portfolio.entity.Experience;
+import com.example.demo.data.portfolio.entity.ExperienceItem;
+import com.example.demo.data.portfolio.repository.ExperienceItemRepository;
+import com.example.demo.data.portfolio.repository.ExperienceRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -70,7 +69,7 @@ public class MinIOController {
         }
     }
 
-    @GetMapping(path = "downloadFile")
+    @PostMapping(path = "downloadFile")
     public ResponseEntity<Void> downloadFile(@RequestParam("fileName") String fileName, HttpServletResponse response) {
         try {
             minioService.downloadFile(fileName, response);
@@ -82,14 +81,15 @@ public class MinIOController {
     }
 
     @GetMapping(path = "listFiles")
-    public ResponseEntity<List<String>> listFiles() {
+    public ResponseEntity<?> listFiles(@RequestParam(required = false) String prefix) {
         try {
-            List<String> fileNames = minioService.listFiles();
-            return ResponseEntity.ok(fileNames);
+            List<String> fileNames = minioService.listFiles(prefix);
+            List<Map<String, Object>> processedFiles = minioService.processFiles(fileNames, prefix);
+            return ResponseEntity.ok(processedFiles);
         } catch (Exception e) {
-            log.error("Error listing files", e);
+            log.error("Error listing files from MinIO", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(List.of("Error listing files: " + e.getMessage()));
+                    .body(Map.of("message", "Error listing files from MinIO", "throwable", e.getMessage()));
         }
     }
 

@@ -1,6 +1,6 @@
 package com.example.demo.controller.web;
 
-import com.example.demo.data.entity.Webtoon;
+import com.example.demo.data.portfolio.entity.Webtoon;
 import com.example.demo.dto.WebtoonDto;
 import com.example.demo.service.modules.WebtoonService;
 import com.example.demo.service.storage.MinioService;
@@ -21,16 +21,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import static com.example.demo.constants.GeneralConstant.SINGLE_SPACE;
 
 @Slf4j
 @RestController

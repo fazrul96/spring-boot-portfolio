@@ -1,9 +1,9 @@
 package com.example.demo.service.modules;
 
-import com.example.demo.data.entity.Webtoon;
-import com.example.demo.data.entity.WebtoonSuffix;
-import com.example.demo.data.repository.WebtoonRepository;
-import com.example.demo.data.repository.WebtoonSuffixRepository;
+import com.example.demo.data.portfolio.entity.Webtoon;
+import com.example.demo.data.portfolio.entity.WebtoonSuffix;
+import com.example.demo.data.portfolio.repository.WebtoonRepository;
+import com.example.demo.data.portfolio.repository.WebtoonSuffixRepository;
 import com.example.demo.dto.WebtoonDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

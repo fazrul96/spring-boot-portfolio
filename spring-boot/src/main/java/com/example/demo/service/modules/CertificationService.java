@@ -1,7 +1,7 @@
 package com.example.demo.service.modules;
 
-import com.example.demo.data.entity.Certification;
-import com.example.demo.data.repository.CertificationRepository;
+import com.example.demo.data.portfolio.entity.Certification;
+import com.example.demo.data.portfolio.repository.CertificationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

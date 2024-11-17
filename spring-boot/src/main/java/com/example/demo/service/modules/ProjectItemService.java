@@ -1,7 +1,7 @@
 package com.example.demo.service.modules;
 
-import com.example.demo.data.entity.ProjectItem;
-import com.example.demo.data.repository.ProjectItemRepository;
+import com.example.demo.data.portfolio.entity.ProjectItem;
+import com.example.demo.data.portfolio.repository.ProjectItemRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package com.example.demo.service.modules;
 
-import com.example.demo.data.entity.BlogChapter;
-import com.example.demo.data.repository.BlogChapterRepository;
+import com.example.demo.data.portfolio.entity.BlogChapter;
+import com.example.demo.data.portfolio.repository.BlogChapterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

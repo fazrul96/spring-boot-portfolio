@@ -1,7 +1,7 @@
 package com.example.demo.service.modules;
 
-import com.example.demo.data.entity.Skill;
-import com.example.demo.data.repository.SkillRepository;
+import com.example.demo.data.portfolio.entity.Skill;
+import com.example.demo.data.portfolio.repository.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
