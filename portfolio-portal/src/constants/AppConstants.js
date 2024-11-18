@@ -19,7 +19,8 @@ export const API_BASE_URL_TEST = "http://localhost:8080/api/v1";
 export const SYNC_WEBTOON_URL = `${API_BASE_URL_TEST}/`;
 export const SLASH = '/';
 export const DASH = '-';
-export const ONE_SPACE = ' ';
+export const EMPTY_STRING = '';
+export const SINGLE_SPACE = ' ';
 
 export const PROFILE_TABS = [
 	{

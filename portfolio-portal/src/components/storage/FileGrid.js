@@ -26,7 +26,7 @@ const FileGrid = ({ files, onDownload, onDelete, onFolderClick }) => (
                         </Box>
                         <CardContent sx={{ textAlign: 'center', padding: 1 }}>
                             <Typography variant="body2" noWrap sx={{ fontWeight: 500 }}>
-                                {file.name} {/* Use `file.name` for display */}
+                                {file.alias} {/* Use `file.name` for display */}
                             </Typography>
                             <Box
                                 sx={{
@@ -38,7 +38,7 @@ const FileGrid = ({ files, onDownload, onDelete, onFolderClick }) => (
                             >
                                 {!isFolder(file) && (
                                     <FileActions
-                                        fileName={file.name} // Pass the file name to actions
+                                        fileName={file.alias} // Pass the file name to actions
                                         onDownload={() => onDownload(file)} // Pass the entire file object
                                         onDelete={() => onDelete(file)} // Pass the entire file object
                                     />
