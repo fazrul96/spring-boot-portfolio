@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -90,21 +89,6 @@ public class MinIOController {
             log.error("Error listing files from MinIO", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("message", "Error listing files from MinIO", "throwable", e.getMessage()));
-        }
-    }
-
-    @GetMapping(path = "downloadAndExtractImages")
-    public ResponseEntity<List<String>> downloadAndExtractImages(
-            @RequestParam("title") String title,
-            @RequestParam("chapter") String chapter) {
-        try {
-            // Call the service to download and extract images
-            List<String> imageUrls = imageService.downloadAndExtractImages(title, chapter);
-            return ResponseEntity.ok(imageUrls); // Return the list of image URLs
-        } catch (Exception e) {
-            log.error("Error downloading and extracting images", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Collections.singletonList("Error occurred while processing the images."));
         }
     }
 }
