@@ -18,27 +18,30 @@ class ApiService {
     }
 
     // Set headers for authorization and content type
-    async setHeaders() {
-        try {
-            if (this.isTokenExpired()) {
-                const token = await this.getAccessTokenSilently({
-                    audience: AUTH0_AUDIENCE,
-                    scope: AUTH0_SCOPE_READ_ITEMS,
-                    prompt: AUTH0_PROMPT,
-                });
-                this.token = token;
-                this.tokenExpiry = Date.now() + 3600 * 1000; // Token expires in 1 hour
-            }
+	async setHeaders(isSecure = false) {
+	    const headers = { 'Content-Type': 'application/json' };
 
-            return {
-                Authorization: `Bearer ${this.token}`,
-                'Content-Type': 'application/json',
-            };
-        } catch (error) {
-            console.error('Error fetching token:', error);
-            throw error;
-        }
-    }
+	    if (isSecure) {
+	        try {
+	            if (this.isTokenExpired()) {
+	                const token = await this.getAccessTokenSilently({
+	                    audience: AUTH0_AUDIENCE,
+	                    scope: AUTH0_SCOPE_READ_ITEMS,
+	                    prompt: AUTH0_PROMPT,
+	                });
+	                this.token = token;
+	                this.tokenExpiry = Date.now() + 3600 * 1000; // Token expires in 1 hour
+	            }
+
+	            headers.Authorization = `Bearer ${this.token}`;
+	        } catch (error) {
+	            console.error('Error fetching token:', error);
+	            throw error;
+	        }
+	    }
+
+	    return headers;
+	}
 
     // Fetch data from the API
     async fetchData(endpoint) {

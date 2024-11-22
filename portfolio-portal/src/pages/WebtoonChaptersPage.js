@@ -176,7 +176,7 @@ const WebtoonChaptersPage = () => {
     const totalChapter = webtoon?.chapterCount || 0;
 
     // Create an array of chapters from 1 to totalChapter
-    const chapters = Array.from({ length: totalChapter }, (_, i) => i + 1);
+    const chapters = Array.from({ length: totalChapter }, (_, i) => totalChapter - i);
 
     const firstChapter = chapters[0];
     const latestChapter = chapters[chapters.length - 1];

@@ -113,7 +113,22 @@ const MinIo = () => {
     }), [data, searchTerm, fileTypeFilter]);
 
     const sortedFiles = useMemo(() => {
-        const compareFn = (a, b) => a.alias.localeCompare(b.alias);
+        const compareFn = (a, b) => {
+            const extractNumber = (str) => {
+                const match = str.match(/(\d+)/);
+                return match ? parseInt(match[0], 10) : 0; // Extract the first number, default to 0
+            };
+
+            // Compare the aliases textually first
+            const textComparison = a.alias.localeCompare(b.alias, undefined, { numeric: true, sensitivity: 'base' });
+            if (textComparison !== 0) return textComparison;
+
+            // If the textual parts are the same, compare the numbers
+            const numA = extractNumber(a.alias);
+            const numB = extractNumber(b.alias);
+            return numA - numB;
+        };
+
         return sortBy === SORT_OPTIONS.NAME ? [...filteredFiles].sort(compareFn) : filteredFiles;
     }, [filteredFiles, sortBy]);
 
