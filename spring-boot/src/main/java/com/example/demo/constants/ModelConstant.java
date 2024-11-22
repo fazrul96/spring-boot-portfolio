@@ -23,4 +23,7 @@ public class ModelConstant {
     public static final String COVER_IMAGE = "cover_image";
 
     public static final String CHAPTER = "chapter";
+
+    public static final String HIVETOON = "hivetoon";
+    public static final String ASURA = "asura";
 }

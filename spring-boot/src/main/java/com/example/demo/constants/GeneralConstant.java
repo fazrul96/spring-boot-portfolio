@@ -1,7 +1,10 @@
 package com.example.demo.constants;
 
+import lombok.NoArgsConstructor;
+
 import java.time.format.DateTimeFormatter;
 
+@NoArgsConstructor
 public final class GeneralConstant {
     public static final String COLON = ":";
     public static final String SLASH = "/";
@@ -28,11 +31,16 @@ public final class GeneralConstant {
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+    public static final String ZIP_EXTENSION = "zip";
+    public static final String ZIP_CONTENT_TYPE = "application/zip";
+    public static final String JSON_CONTENT_TYPE = "application/json";
+    public static final String FORCE_DOWNLOAD_CONTENT_TYPE = "application/force-download";
+    public static final String OCTET_STREAM_CONTENT_TYPE = "application/octet-stream";
+
+    public static final String CHAPTER_SEPARATOR = "-chapter-";
+
     public static final String SUCCESS = "SUCCESS";
     public static final String COMPLETED = "COMPLETED";
     public static final String FAILED = "FAILED";
     public static final String INPROGRESS = "INPROGRESS";
-
-    private GeneralConstant() {
-    }
 }

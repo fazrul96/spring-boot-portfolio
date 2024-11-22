@@ -5,6 +5,7 @@ import com.example.demo.data.portfolio.entity.WebtoonSuffix;
 import com.example.demo.data.portfolio.repository.WebtoonRepository;
 import com.example.demo.data.portfolio.repository.WebtoonSuffixRepository;
 import com.example.demo.dto.WebtoonDto;
+import com.example.demo.properties.AppProperties;
 import com.example.demo.service.storage.MinioService;
 import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
@@ -28,21 +29,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.demo.constants.ApiConstant.DOWNLOAD_WEBTOON;
+import static com.example.demo.constants.GeneralConstant.*;
+import static com.example.demo.constants.ModelConstant.HIVETOON;
+
 @Slf4j
 @Service
 public class WebtoonService {
+    private final AppProperties appProperties;
     private final WebtoonRepository webtoonRepository;
     private final WebtoonSuffixRepository webtoonSuffixRepository;
     private final MinioService minioService;
     private final WebClient webClient;
-    private static final String PYTHON_API_URL = "http://localhost:5001/download-webtoon";
 
     @Autowired
     public WebtoonService(
-            WebtoonRepository webtoonRepository,
+            AppProperties appProperties, WebtoonRepository webtoonRepository,
             WebtoonSuffixRepository webtoonSuffixRepository,
             MinioService minioService,
             WebClient webClient) {
+        this.appProperties = appProperties;
         this.webtoonRepository = webtoonRepository;
         this.webtoonSuffixRepository = webtoonSuffixRepository;
         this.minioService = minioService;
@@ -101,8 +107,9 @@ public class WebtoonService {
     }
 
     private byte[] initiateWebtoonDownload(String title, String chapter, String source, String suffix) {
+
         return webClient.post()
-            .uri(PYTHON_API_URL)
+            .uri(appProperties.getBaseFlaskPath() + SLASH + DOWNLOAD_WEBTOON)
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .bodyValue(createRequestBody(title, chapter, source, suffix))
             .retrieve()
@@ -116,8 +123,8 @@ public class WebtoonService {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("title", title);
         body.add("chapter", chapter.isEmpty() ? "1" : chapter);
-        body.add("source", source.isEmpty() ? "hivetoon" : source);
-        body.add("suffix", suffix.isEmpty() ? " " : suffix);
+        body.add("source", source.isEmpty() ? HIVETOON : source);
+        body.add("suffix", suffix.isEmpty() ? EMPTY_STRING : suffix);
         return body;
     }
 
@@ -131,13 +138,13 @@ public class WebtoonService {
             }
 
             // Step 2: Convert byte[] to MultipartFile
+            String originalFilename = title + CHAPTER_SEPARATOR + chapter + DOT + ZIP_EXTENSION;
             MultipartFile multipartFile = new MockMultipartFile(
-                    "file",
-                    title + "-chapter-" + chapter + ".zip",
-                    "application/zip",
+                    TYPE_FILE,
+                    originalFilename,
+                    ZIP_CONTENT_TYPE,
                     new ByteArrayInputStream(zipData)
             );
-
             // Step 3: Upload to MinIO
             List<MultipartFile> files = new ArrayList<>();
             files.add(multipartFile);

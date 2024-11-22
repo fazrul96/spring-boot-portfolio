@@ -1,5 +1,6 @@
 package com.example.demo.tasklet;
 
+import com.example.demo.service.modules.WebtoonService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepContribution;
@@ -14,22 +15,32 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 public class DownloadWebtoonTasklet implements Tasklet {
+    private final WebtoonService webtoonService;
+
+    private String title = "the-world-after-the-end";
+    private String source = "asura";
+    private String suffix = "-6aa122d8";
+    private int currentChapter = 1;
+    private int maxChapters = 5;
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
         log.info("Processing webtoon chapters...");
 
         try {
-            for (int chapter = 1; chapter <= 3; chapter++) { // Example loop
-                log.info("Processing chapter {}", chapter);
-                Thread.sleep(500); // Simulate delay
-            }
-        } catch (InterruptedException e) {
-            log.error("Error while processing webtoon chapters", e);
+            webtoonService.downloadWebtoon(title, String.valueOf(currentChapter), source, suffix);
+            log.info("Successfully processed chapter {}", currentChapter);
+
+        } catch (Exception e) {
+            log.error("Failed to process chapter {}: {}", currentChapter, e.getMessage());
+        }
+
+        currentChapter++;
+        if (currentChapter > maxChapters) {
+            log.info("All chapters processed. Exiting.");
             return RepeatStatus.FINISHED;
         }
 
-        log.info("Webtoon sync batch completed.");
-        return RepeatStatus.FINISHED;
+        return RepeatStatus.CONTINUABLE;
     }
 }

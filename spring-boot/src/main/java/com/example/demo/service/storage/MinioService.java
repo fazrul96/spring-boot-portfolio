@@ -56,12 +56,12 @@ public class MinioService {
                 // Determine content type for zip files
                 String contentType = file.getContentType();
                 if (contentType == null) {
-                    contentType = "application/octet-stream";  // Default for unknown file types
+                    contentType = OCTET_STREAM_CONTENT_TYPE;
                 }
 
                 // Handle zip files explicitly (optional, if you want to check the content type)
-                if (fileName != null && fileName.endsWith(".zip")) {
-                    contentType = "application/zip";
+                if (fileName != null && fileName.endsWith(DOT + ZIP_EXTENSION)) {
+                    contentType = ZIP_CONTENT_TYPE;
                 }
 
                 String objectName = (title != null)
@@ -118,7 +118,7 @@ public class MinioService {
                             .build());
 
             response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
-            response.setContentType("application/force-download");
+            response.setContentType(FORCE_DOWNLOAD_CONTENT_TYPE);
             response.setCharacterEncoding("UTF-8");
             IOUtils.copy(fileInputStream, response.getOutputStream());
         } catch (Exception e) {

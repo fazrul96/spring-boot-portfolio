@@ -8,11 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 @NoArgsConstructor
 @Data
-@ConfigurationProperties("app")
-public class AppPathProperties {
-    private String basePath;
-    private String baseFlaskPath;
-    private String apiPath;
-    private String privateApiPath;
-    private String publicApiPath;
+@ConfigurationProperties("spring.mail")
+public class EmailProperties {
+    private String host;
+    private String port;
+    private String username;
+    private String password;
 }

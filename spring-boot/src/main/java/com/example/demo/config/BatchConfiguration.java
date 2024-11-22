@@ -5,8 +5,8 @@ import com.example.demo.component.demo.WebtoonSkipPolicy;
 import com.example.demo.component.demo.WebtoonWriter;
 import com.example.demo.dto.WebtoonDetailsDto;
 import com.example.demo.properties.BatchProperties;
+import com.example.demo.tasklet.DownloadWebtoonTasklet;
 import com.example.demo.tasklet.LoggingTasklet;
-import com.example.demo.tasklet.WebtoonSyncTasklet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
@@ -83,13 +83,13 @@ public class BatchConfiguration extends DefaultBatchConfiguration {
     public Job webtoonSyncBatch(
             JobRepository jobRepository,
             Step stepSyncWebtoons,
-            Step stepReadFromDb,
+            //Step stepReadFromDb,
             JobExecutionListener pushJobMetricsListener
     ) {
         return new JobBuilder(WEBTOON_SYNC_BATCH, jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .start(stepSyncWebtoons)
-                .next(stepReadFromDb)
+                //.next(stepReadFromDb)
                 .listener(pushJobMetricsListener)
                 .build();
     }
@@ -98,12 +98,12 @@ public class BatchConfiguration extends DefaultBatchConfiguration {
     public Step stepSyncWebtoons(
             JobRepository jobRepository,
             PlatformTransactionManager platformTransactionManager,
-            WebtoonSyncTasklet webtoonSyncTasklet,
+            DownloadWebtoonTasklet downloadWebtoonTasklet,
             StepExecutionListener pushStepMetricsListener
     ) {
         log.debug("In stepSyncWebtoons");
         return new StepBuilder("stepSyncWebtoons", jobRepository)
-                .tasklet(webtoonSyncTasklet, platformTransactionManager)
+                .tasklet(downloadWebtoonTasklet, platformTransactionManager)
                 .listener(pushStepMetricsListener)
                 .build();
     }

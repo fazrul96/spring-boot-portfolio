@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.example.demo.constants.ApiConstant.CERTIFICATIONS;
+import static com.example.demo.constants.ApiConstant.CERTIFICATIONS_ID;
+
 @RestController
 @RequestMapping(path = "${app.publicApiPath}")
 @CrossOrigin(origins = "${app.basePath}")
@@ -28,7 +31,7 @@ public class CertificationController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved certifications"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @GetMapping(path = "certifications")
+    @GetMapping(path = CERTIFICATIONS)
     public ResponseEntity<List<Certification>> getAllCertifications() {
         List<Certification> certifications = certificationService.getAllCertifications();
         return ResponseEntity.ok(certifications);
@@ -40,7 +43,7 @@ public class CertificationController {
             @ApiResponse(responseCode = "404", description = "Certification not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @GetMapping(path = "certifications/{id}")
+    @GetMapping(path = CERTIFICATIONS_ID)
     public ResponseEntity<Certification> getCertificationById(@PathVariable Integer id) {
         Certification certification = certificationService.getCertificationById(id);
         return certification != null ? ResponseEntity.ok(certification) : ResponseEntity.notFound().build();
@@ -52,7 +55,7 @@ public class CertificationController {
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @PostMapping(path = "certifications")
+    @PostMapping(path = CERTIFICATIONS)
     public ResponseEntity<Certification> createCertification(@RequestBody Certification certification) {
         Certification createdCertification = certificationService.saveCertification(certification);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCertification);
@@ -64,7 +67,7 @@ public class CertificationController {
             @ApiResponse(responseCode = "404", description = "Certification not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @DeleteMapping(path = "certifications/{id}")
+    @DeleteMapping(path = CERTIFICATIONS_ID)
     public ResponseEntity<Void> deleteCertification(@PathVariable Integer id) {
         certificationService.deleteCertification(id);
         return ResponseEntity.noContent().build();

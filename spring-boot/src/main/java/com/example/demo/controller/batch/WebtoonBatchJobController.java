@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.example.demo.constants.ApiConstant.WEBTOONS_SYNC;
+
 @RestController
 @RequestMapping(path = "${app.publicApiPath}")
 @CrossOrigin(origins = "${app.basePath}")
@@ -21,7 +23,7 @@ public class WebtoonBatchJobController {
         this.webtoonBatchJobService = webtoonBatchJobService;
     }
 
-    @PostMapping(path = "webtoon-sync")
+    @PostMapping(path = WEBTOONS_SYNC)
     public ResponseEntity<String> startWebtoonSyncJob() {
         try {
             webtoonBatchJobService.runWebtoonBatchJob();

@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "minio")
 public class MinioConfiguration {
-
     private String bucketName;
     private String endpoint;
     private String accessKey;
