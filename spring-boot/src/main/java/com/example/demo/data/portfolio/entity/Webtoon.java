@@ -5,82 +5,82 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Immutable;
 
+import static com.example.demo.constants.ModelConstant.*;
+
 @Data
-@Getter
-@Setter
 @Builder
 @Entity
 @AllArgsConstructor
-@Table(name = "webtoons")
+@Table(name = TBL_WEBTOONS)
 @Immutable
 public class Webtoon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = ID)
     @JsonProperty("id")
     private Long id;
 
-    @Column(name = "alias")
+    @Column(name = ALIAS)
     @JsonProperty("alias")
     private String alias;
 
-    @Column(name = "image")
+    @Column(name = IMAGE)
     @JsonProperty("image")
     private String image;
 
-    @Column(name = "title")
+    @Column(name = TITLE)
     @JsonProperty("title")
     private String title;
 
-    @Column(name = "author")
+    @Column(name = AUTHOR)
     @JsonProperty("author")
     private String author;
 
-    @Column(name = "genre")
+    @Column(name = GENRE)
     @JsonProperty("genre")
     private String genre;
 
-    @Column(name = "description")
+    @Column(name = DESCRIPTION)
     @JsonProperty("description")
     private String description;
 
-    @Column(name = "rating")
+    @Column(name = RATING)
     @JsonProperty("rating")
     private double rating;
 
-    @Column(name = "artist")
+    @Column(name = ARTIST)
     @JsonProperty("artist")
     private String artist;
 
-    @Column(name = "chapter_count")
+    @Column(name = CHAPTER_COUNT)
     @JsonProperty("chapterCount")
     private int chapterCount;
 
-    @Column(name = "source")
+    @Column(name = SOURCE)
     @JsonProperty("source")
     private String source;
 
-    @Column(name = "created_date")
+    @Column(name = CREATED_DATE)
     @JsonProperty("createdDate")
     private String createdDate;
 
-    @Column(name = "updated_date")
+    @Column(name = UPDATED_DATE)
     @JsonProperty("updatedDate")
     private String updatedDate;
 
-    @Column(name = "status")
+    @Column(name = STATUS)
     @JsonProperty("status")
     private String status;
 
-    @Column(name = "type")
+    @Column(name = TYPE)
     @JsonProperty("type")
     private String type;
 
-    @Column(name = "banner_image")
+    @Column(name = BANNER_IMAGE)
     @JsonProperty("bannerImage")
     private String bannerImage;
 
-    @Column(name = "cover_image")
+    @Column(name = COVER_IMAGE)
     @JsonProperty("coverImage")
     private String coverImage;
 

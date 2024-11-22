@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
 
 import static com.example.demo.constants.BatchConstant.PORTFOLIO_BATCH;
@@ -39,6 +40,15 @@ public class BatchConfiguration extends DefaultBatchConfiguration {
     @Autowired
     public BatchConfiguration(BatchProperties batchProperties) {
         this.batchProperties = batchProperties;
+    }
+
+    @Bean
+    public WebClient webClient() {
+        return WebClient.builder()
+                .codecs(clientCodecConfigurer ->
+                        clientCodecConfigurer.defaultCodecs()
+                                .maxInMemorySize(10 * 1024 * 1024))
+                .build();
     }
 
     @Bean

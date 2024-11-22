@@ -5,11 +5,26 @@ import com.example.demo.data.portfolio.entity.WebtoonSuffix;
 import com.example.demo.data.portfolio.repository.WebtoonRepository;
 import com.example.demo.data.portfolio.repository.WebtoonSuffixRepository;
 import com.example.demo.dto.WebtoonDto;
+import com.example.demo.service.storage.MinioService;
+import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +33,20 @@ import java.util.Optional;
 public class WebtoonService {
     private final WebtoonRepository webtoonRepository;
     private final WebtoonSuffixRepository webtoonSuffixRepository;
+    private final MinioService minioService;
+    private final WebClient webClient;
+    private static final String PYTHON_API_URL = "http://localhost:5001/download-webtoon";
 
     @Autowired
-    public WebtoonService(WebtoonRepository webtoonRepository, WebtoonSuffixRepository webtoonSuffixRepository) {
+    public WebtoonService(
+            WebtoonRepository webtoonRepository,
+            WebtoonSuffixRepository webtoonSuffixRepository,
+            MinioService minioService,
+            WebClient webClient) {
         this.webtoonRepository = webtoonRepository;
         this.webtoonSuffixRepository = webtoonSuffixRepository;
+        this.minioService = minioService;
+        this.webClient = webClient;
     }
 
     public List<Webtoon> getAllWebtoons() {
@@ -74,6 +98,64 @@ public class WebtoonService {
             return Optional.of(webtoonDto);
         }
         return Optional.empty();
+    }
+
+    private byte[] initiateWebtoonDownload(String title, String chapter, String source, String suffix) {
+        return webClient.post()
+            .uri(PYTHON_API_URL)
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .bodyValue(createRequestBody(title, chapter, source, suffix))
+            .retrieve()
+            .bodyToMono(byte[].class)
+            .block();
+    }
+
+    private MultiValueMap<String, Object> createRequestBody(
+            String title, String chapter, String source, String suffix) {
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("title", title);
+        body.add("chapter", chapter.isEmpty() ? "1" : chapter);
+        body.add("source", source.isEmpty() ? "hivetoon" : source);
+        body.add("suffix", suffix.isEmpty() ? " " : suffix);
+        return body;
+    }
+
+    public ResponseEntity<String> downloadWebtoon(String title, String chapter, String source, String suffix) {
+        try {
+            // Step 1: Initiate download from external source
+            byte[] zipData = initiateWebtoonDownload(title, chapter, source, suffix);
+            if (zipData == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Error: Unable to download file");
+            }
+
+            // Step 2: Convert byte[] to MultipartFile
+            MultipartFile multipartFile = new MockMultipartFile(
+                    "file",
+                    title + "-chapter-" + chapter + ".zip",
+                    "application/zip",
+                    new ByteArrayInputStream(zipData)
+            );
+
+            // Step 3: Upload to MinIO
+            List<MultipartFile> files = new ArrayList<>();
+            files.add(multipartFile);
+            List<String> uploadedFileNames = minioService.uploadFiles(files, title);
+
+            log.info("File uploaded to MinIO: {}", uploadedFileNames);
+
+            return ResponseEntity.ok("Download completed and uploaded to MinIO successfully: " + uploadedFileNames);
+
+        } catch (IOException | NoSuchAlgorithmException | InvalidKeyException | MinioException e) {
+            log.error("Error during file upload to MinIO", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error uploading to MinIO: " + e.getMessage());
+        } catch (Exception e) {
+            log.error("Error during webtoon download", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error: " + e.getMessage());
+        }
     }
 
     // todo not working

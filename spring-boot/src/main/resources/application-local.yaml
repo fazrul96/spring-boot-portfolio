@@ -55,6 +55,7 @@ spring:
 
 app:
   basePath: ${APP_BASE_PATH:http://localhost:3000} # For development environment
+  base-flask-path: ${APP_BASE_FLASK_PATH:http://localhost:5001}
   #  basePath: ${APP_BASE_PATH:https://portfolio-portal.mfzrl.cyou} # For production environment
   apiPath: ${APP_API_PATH:/api/}
   privateApiPath: ${APP_PRIVATE_API_PATH:/api/v1/}

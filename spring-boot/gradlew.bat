@@ -1,3 +1,4 @@
+@rem
 @rem Copyright 2015 the original author or authors.
 @rem
 @rem Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,9 +52,7 @@ echo location of your Java installation.
 goto fail
 
 :findJavaFromJavaHome
-set JAVA_HOME=C:\Program Files\BellSoft\LibericaJDK-17
-@REM set JAVA_HOME=C:/Program Files/Java/jdk-20
-@REM set JAVA_HOME=%JAVA_HOME:"=%
+set JAVA_HOME=%JAVA_HOME:"=%
 set JAVA_EXE=%JAVA_HOME%/bin/java.exe
 
 if exist "%JAVA_EXE%" goto execute

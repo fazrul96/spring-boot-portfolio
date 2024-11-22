@@ -7,31 +7,33 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.Immutable;
 
+import static com.example.demo.constants.ModelConstant.*;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "webtoon_chapters")
+@Table(name = TBL_WEBTOON_CHAPTER)
 @Immutable
 public class WebtoonChapter extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = ID)
     @JsonProperty("id")
     private Long id;
 
     @NotNull(message = "Title is required")
-    @Column(name = "title")
+    @Column(name = TITLE)
     @JsonProperty("title")
     private String title;
 
-    @Column(name = "chapter")
+    @Column(name = CHAPTER)
     @JsonProperty("chapter")
     private String chapter;
 
-    @Column(name = "status")
+    @Column(name = STATUS)
     @JsonProperty("status")
     private String status;
 }

@@ -1,29 +1,32 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+import java.text.DecimalFormat
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.3'
 	id 'io.spring.dependency-management' version '1.1.4'
-//	id 'findbugs' // analysis tool for identifying potential issues
 	id 'jacoco'
 	id 'checkstyle' // enforce coding style and standards
 	id 'pmd' // source code analyze
 	id "org.sonarqube" version "4.4.1.3373"
-	id 'com.github.spotbugs' version '6.0.7' // analysis tool for identifying potential issues
-	id 'org.owasp.dependencycheck' version '9.0.9'
+	id 'com.github.spotbugs' version '6.0.12' // analysis tool for identifying potential issues
+	id 'org.owasp.dependencycheck' version '9.1.0'
 	id 'maven-publish'
-//	id 'io.franzbecker.gradle-lombok' version '5.0.0'
 }
 
 group = 'com.example'
-version = '0.0.1-SNAPSHOT'
+version = project.hasProperty('version') ? project.getProperty('version') : '1.0.0'
 
 java {
-	sourceCompatibility = 17
-	targetCompatibility = 17
+	sourceCompatibility = 21
+	targetCompatibility = 21
 }
 
 ext {
-	SPRING_BOOT_VERSION = '3.2.3'
-	LOMBOK_VERSION = '1.18.22'
+	snippetsDir = file('build/generated-snippets')
+
+	SPRING_BOOT_VERSION = '3.3.5'
+	LOMBOK_VERSION = '1.18.36'
 	OKTA_SPRING_BOOT_STARTER_VERSION = '3.0.6'
 	SWAGGER_ANNOTATIONS_VERSION = '2.2.20'
 	SPRINGDOC_OPENAPI_VERSION = '2.4.0'
@@ -42,6 +45,8 @@ ext {
 	SPRING_CLOUD_ORG_AWS_VERSION = '2.2.6.RELEASE'
 	SPRING_CLOUD_VERSION = '2022.0.0'
 }
+
+ext['tess4j.version'] = '5.11.0'
 
 repositories {
 	mavenCentral()
@@ -67,7 +72,7 @@ dependencies {
 
 	// Spring Boot Starters
 	implementation "org.springframework.boot:spring-boot-starter-hateoas:${SPRING_BOOT_VERSION}"
-	implementation "org.springframework.boot:spring-boot-starter-web:$SPRING_BOOT_VERSION"
+	implementation "org.springframework.boot:spring-boot-starter-web:${SPRING_BOOT_VERSION}"
 	implementation 'org.springframework.boot:spring-boot-starter-batch'
 	implementation "org.springframework.boot:spring-boot-starter-webflux:${SPRING_BOOT_VERSION}"
 	implementation "org.springframework.boot:spring-boot-starter-mail:${SPRING_BOOT_VERSION}"
@@ -172,10 +177,21 @@ dependencyManagement {
 	}
 }
 
+jar {
+	enabled = false
+}
 // Reference https://docs.gradle.org/current/userguide/jacoco_plugin.html
 jacoco {
 	toolVersion = "0.8.9"
 //	reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+def activeProfiles = project.properties['activeProfiles'] ?: "local"
+
+processResources {
+	filter ReplaceTokens, tokens: [
+			activeProfiles: activeProfiles
+	]
 }
 
 test {
@@ -186,45 +202,12 @@ test {
 	reports {
 		html.required = true
 	}
-//	outputs.dir snippetsDir
+	outputs.dir snippetsDir
 	systemProperty'flyway.scripts.location', System.getProperty(
 			'flyway.scripts.location', 'filesystem:./src/test/resources/sql-scripts')
 	systemProperty "user.country", "MY"
 	systemProperty "user.language", "en"
 	systemProperty "user.timeznone", "Asia/Singapore"
-	finalizedBy jacocoTestReport
-}
-
-jacocoTestReport {
-	reports {
-		xml.required = false
-		csv.required = false
-		html.required = true
-//		html.outputLocation = layout.buildDirectory.dir('reports/tests/test/jacocoHtml') // custom location
-	}
-}
-
-jacocoTestCoverageVerification {
-	violationRules {
-		// This rule specifies a minimum code coverage requirement of 50%.
-		rule {
-			limit {
-				minimum = 0.5
-			}
-		}
-
-		rule {
-			enabled = false
-			element = 'CLASS'
-			includes = ['org.gradle.*']
-
-			limit {
-				counter = 'LINE'
-				value = 'TOTALCOUNT'
-				maximum = 0.3
-			}
-		}
-	}
 }
 
 checkstyle {
@@ -271,10 +254,6 @@ tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
 	}
 }
 
-tasks.named('test') {
-	finalizedBy jacocoTestReport
-}
-
 sonar {
 	properties {
 		property "sonar.sourceEncoding", "UTF-8"
@@ -288,6 +267,38 @@ sonar {
 		property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
 		property "sonar.coverage.exclusions", "**/*Application.*,**/dto/*,**/config/*,**/constant/*" +
 				",**/exception/*,**/properties/*" + ",**/data/model/*"
+	}
+}
+
+jacocoTestReport {
+	reports {
+		xml.required = true
+		csv.required = false
+		html.required = true
+//		html.outputLocation = layout.buildDirectory.dir('reports/tests/test/jacocoHtml') // custom location
+	}
+}
+
+jacocoTestCoverageVerification {
+	def minCov = findProperty('minCov') ?: '0.10'
+	DecimalFormat decimalFormat = new DecimalFormat('#')
+	def minimumCoverage = decimalFormat.parse(minCov).doubleValue()
+	violationRules {
+		failOnViolation = true
+		rule {
+			limit {
+				minimum = minimumCoverage
+			}
+		}
+		afterEvaluate {
+			getClassDirectories().setFrom(classDirectories.files.collect {
+				fileTree(dir: it, exclude: [
+						"com/example/demo/*Application.*",
+						"com/example/demo/constants/*",
+						"com/example/demo/properties/*"
+				])
+			})
+		}
 	}
 }
 
