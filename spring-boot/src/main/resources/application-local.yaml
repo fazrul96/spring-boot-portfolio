@@ -1,20 +1,32 @@
 spring:
-#  batch:
-#    initialize-schema: never
-#  main:
-#    web-application-type: NONE
+  batch:
+    initialize-schema: always
   application:
     name: react-spring-portfolio
+  cloud:
+    aws:
+      region:
+        static: ${AWS_DEFAULT_REGION:ap-southeast-1}
   datasource:
-    portfolio:
-      url: ${DATASOURCE_JDBC_URL_BASE:jdbc:mysql://localhost:3306/portfolio}
+    batch:
+      jdbc-url: ${DATASOURCE_JDBC_URL_BASE:jdbc:mysql://localhost:3306/batch_db}
       username: ${DATASOURCE_DB_APP_USERNAME:root}
       password: ${DATASOURCE_DB_APP_PASSWORD:password}
       connection-timeout: ${DATASOURCE_CONN_TIMEOUT:5000}
       maximum-pool-size: ${DATASOURCE_READER_POOL_SIZE:5}
-      idle-timeout: ${DATASOURCE_READER_POOL_IDLE_TIMEOUT:password}
-      minimum-idle: ${DATASOURCE_READER_POOL_MINIMUM_IDLE:120000}
-      max-lifetime: ${DATASOURCE_MAX_LIFETIME:2}
+      idle-timeout: ${DATASOURCE_READER_POOL_IDLE_TIMEOUT:120000}
+      minimum-idle: ${DATASOURCE_READER_POOL_MINIMUM_IDLE:2}
+      max-lifetime: ${DATASOURCE_MAX_LIFETIME:30000}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    portfolio:
+      jdbc-url: ${DATASOURCE_JDBC_URL_BASE:jdbc:mysql://localhost:3306/portfolio}
+      username: ${DATASOURCE_DB_APP_USERNAME:root}
+      password: ${DATASOURCE_DB_APP_PASSWORD:password}
+      connection-timeout: ${DATASOURCE_CONN_TIMEOUT:5000}
+      maximum-pool-size: ${DATASOURCE_READER_POOL_SIZE:5}
+      idle-timeout: ${DATASOURCE_READER_POOL_IDLE_TIMEOUT:120000}
+      minimum-idle: ${DATASOURCE_READER_POOL_MINIMUM_IDLE:2}
+      max-lifetime: ${DATASOURCE_MAX_LIFETIME:30000}
       driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -55,6 +67,8 @@ logging:
     org.springframework.security: ${LOGGING_LEVEL_APP_SECURITY:DEBUG}
     org.springframework.web.cors: ${LOGGING_LEVEL_APP_WEB_CORS:DEBUG}
     io.minio: ${LOGGING_LEVEL_APP_MINIO:DEBUG}
+    org.springframework.jdbc.core: DEBUG
+    org.springframework.batch: ERROR
     root: ${LOGGING_LEVEL_APP_ROOT:ERROR}
   file: app.log
   config: classpath:logback-spring.xml
@@ -115,8 +129,3 @@ management:
 
 file:
   input: coffee-list.csv
-
-cloud:
-  aws:
-    region:
-      static: us-east-1

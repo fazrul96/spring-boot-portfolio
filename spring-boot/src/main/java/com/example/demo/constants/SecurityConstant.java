@@ -1,5 +1,7 @@
 package com.example.demo.constants;
 
+import java.util.Arrays;
+
 public final class SecurityConstant {
     public static final String SAMEORIGIN = "SAMEORIGIN";
     public static final String GET = "GET";
@@ -11,6 +13,7 @@ public final class SecurityConstant {
     public static final String ALLOWED_ORIGINS = "http://localhost:3000";
     public static final String[] ALLOWED_METHODS = {GET, POST, PUT, DELETE, OPTIONS};
     public static final String[] ALLOWED_HEADERS = {"*"};
+    //public static final String[] ALLOWED_HEADERS = {"Authorization", "Content-Type"};
 
     private SecurityConstant() {
         // Prevent instantiation

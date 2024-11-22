@@ -5,34 +5,53 @@ import com.example.demo.constants.MetricsConstant;
 import com.example.demo.util.MetricsUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.batch.core.*;
 import org.springframework.context.ApplicationContext;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobExecutionListener;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
-@Slf4j
-@Component
-@RequiredArgsConstructor
-public class PushStepMetricsListener implements JobExecutionListener {
+import java.util.List;
 
-    private final ApplicationContext applicationContext;
+import static com.example.demo.constants.MetricsConstant.*;
+import static com.example.demo.constants.MetricsConstant.ErrorCode.SERVICE_CONNECTION_ERROR;
+
+@Slf4j
+@Component("pushStepExecutionListener")
+public class PushStepMetricsListener implements StepExecutionListener {
 
     @Override
-    public void beforeJob(JobExecution jobExecution) {
+    public void beforeStep(StepExecution stepExecution) {
     }
 
     @Override
-    public void afterJob(JobExecution jobExecution) {
+    public ExitStatus afterStep(StepExecution stepExecution) {
         log.debug("Pushing job level metrics");
-        var jobExecutionContext = jobExecution.getExecutionContext();
-        MetricsConstant.ExitCode exitCode = MetricsUtil.getExitCode(jobExecution.getExitStatus());
-        jobExecutionContext.put("", exitCode.getCode());
+        log.debug("Read Count : {}", stepExecution.getReadCount());
+        log.debug("Write Count : {}", stepExecution.getWriteCount());
+        log.debug("Skip Count : {}", stepExecution.getSkipCount());
 
-        Long jobExecutionId = jobExecution.getId();
-        MetricsUtil.pushMetrics(jobExecutionId, jobExecutionContext);
+        var jobExecutionContext = stepExecution.getJobExecution().getExecutionContext();
+        jobExecutionContext.put(STEP_READ_COUNT, stepExecution.getReadCount());
+        jobExecutionContext.put(STEP_WRITE_COUNT, stepExecution.getWriteCount());
+        jobExecutionContext.put(STEP_SKIP_COUNT, stepExecution.getReadSkipCount());
 
-        var batchExecutionContext = applicationContext.getBean(BatchExecutionContext.class);
-        batchExecutionContext.getJobExecutionExitCodeTracker()
-                .put(jobExecutionId, jobExecution.getExitStatus().getExitCode());
+        if (CollectionUtils.isNotEmpty(stepExecution.getFailureExceptions())) {
+            List<Throwable> throwables = stepExecution.getFailureExceptions();
+            for (Throwable t : throwables) {
+                if (t instanceof DataAccessException
+                    || t.getCause() instanceof DataAccessException) {
+                    jobExecutionContext.put(
+                            JOB_ERROR_CODE,
+                            SERVICE_CONNECTION_ERROR.getCode()
+                    );
+                    jobExecutionContext.put(
+                            JOB_ERROR_CODE_DESC,
+                            SERVICE_CONNECTION_ERROR.getCodeDesc()
+                    );
+                }
+            }
+        }
+        return stepExecution.getExitStatus();
     }
 }
