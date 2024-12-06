@@ -4,23 +4,28 @@ from enum import Enum
 class WebtoonSource(Enum):
     HIVETOON = "hivetoon"
     ASURA = "asura"
+    VORTEX = "vortex"
 
 class WebtoonConfig:
     BASE_URLS = {
         WebtoonSource.HIVETOON: "https://hivetoon.com/2023/",
         WebtoonSource.ASURA: "https://asuracomic.net/series/",
+        WebtoonSource.VORTEX: "https://vortexscans.org/series/",
     }
     IMAGE_EXTENSIONS = {
         WebtoonSource.HIVETOON: ".jpg",
         WebtoonSource.ASURA: ".webp",
+        WebtoonSource.VORTEX: ".webp",
     }
     URL_PREFIXES = {
         WebtoonSource.HIVETOON: "https://cdn.hivetoon.com/wp-content/uploads/",
         WebtoonSource.ASURA: "gg.asuracomic.net",
+        WebtoonSource.VORTEX: "https://storage.vexmanga.com/public//upload/",
     }
     HANDLERS = {
         WebtoonSource.HIVETOON: "HivetoonPatternHandler",
         WebtoonSource.ASURA: "AsuraPatternHandler",
+        WebtoonSource.VORTEX: "VortexPatternHandler",
     }
 
 # ---- Download and Extraction Paths ----

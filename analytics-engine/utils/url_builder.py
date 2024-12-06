@@ -10,6 +10,11 @@ def _build_hivetoon_url(title, chapter, suffix=""):
     base_url = WebtoonConfig.BASE_URLS[WebtoonSource.HIVETOON]
     return f"{base_url}{title}-chapter-{chapter}/"
 
+def _build_vortex_url(title, chapter, suffix=""):
+    """Builds the URL for the Asura source, checking for title-specific suffixes."""
+    base_url = WebtoonConfig.BASE_URLS[WebtoonSource.VORTEX]
+    return f"{base_url}{title}/chapter-{chapter}"
+
 class URLBuilder:
     """Class for building URLs based on source, title, and chapter information."""
 
@@ -17,7 +22,8 @@ class URLBuilder:
         # Map sources to their corresponding URL builder methods
         self.url_patterns = {
             WebtoonSource.HIVETOON: _build_hivetoon_url,
-            WebtoonSource.ASURA: _build_asura_url
+            WebtoonSource.ASURA: _build_asura_url,
+            WebtoonSource.VORTEX: _build_vortex_url
         }
 
     def build_url(self, source, title, chapter, suffix=""):
