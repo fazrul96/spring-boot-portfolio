@@ -27,6 +27,7 @@ ERROR_MESSAGES = {
     "csv_processing_error": "Error processing CSV file: {}"  # Message template for CSV errors
 }
 
+
 # Validation function (optional)
 def validate_plot_settings():
     """Validates plot settings for correct matplotlib compatibility."""

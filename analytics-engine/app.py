@@ -8,15 +8,20 @@ from flask import Flask, request, send_file, jsonify
 from flask_cors import CORS
 from utils.file_handler import extract_blood_pressure_data
 from utils.graph_generator import generate_blood_pressure_plot
-from utils.pattern_handler import PatternHandlerFactory
+from handlers.PatternHandler import PatternHandlerFactory
 from utils.url_builder import URLBuilder
-from config.settings import (
+from config.WebtoonConfig import (
+    WebtoonSource
+)
+from constants.GeneralConstant import (
     ERROR_MESSAGES,
     EXTRACTED_IMAGES_DIRECTORY,
     DOWNLOAD_DIR,
-    ApiRoutes,
-    WebtoonSource
 )
+from routes.ApiRoute import (
+    ApiRoutes
+)
+from data.form.WebtoonForm import webtoon_form_data
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -150,19 +155,11 @@ def generate_graph():
         return create_error_response(ERROR_MESSAGES["unexpected_error"], 500)
 
 
-def extract_form_data(form):
-    """Extract and return form data."""
-    title = form.get("title")
-    chapter = form.get("chapter")
-    source = form.get("source")
-    suffix = form.get("suffix")
-    return title, chapter, source, suffix
-
-
 def download_and_zip_images(title, chapter, source, suffix):
     """Download images and create a zip file."""
     url_builder = URLBuilder()
     url = url_builder.build_url(WebtoonSource[source.upper()], title, chapter, suffix)
+    logging.info(f"url: {url}")
     handler = PatternHandlerFactory.get_pattern_handler(WebtoonSource[source.upper()])
     zip_path = handler.download_images(title, chapter, url)
     logging.info(f"Images successfully zipped into: {zip_path}")
@@ -198,7 +195,7 @@ def download_webtoon():
 
     try:
         # Extract form data
-        title, chapter, source, suffix = extract_form_data(request.form)
+        title, chapter, source, suffix = webtoon_form_data(request.form)
 
         # Define directories
         root_dir = "public"
@@ -206,8 +203,8 @@ def download_webtoon():
         unique_dir = os.path.join(root_dir, DOWNLOAD_DIR, dir_name)
 
         # Cleanup directory before starting the download process
-        cleanup_directory(os.path.join(root_dir, DOWNLOAD_DIR))
-        logging.info(f"Cleanup completed for directory: {os.path.join(root_dir, DOWNLOAD_DIR)}")
+        # cleanup_directory(os.path.join(root_dir, DOWNLOAD_DIR))
+        # logging.info(f"Cleanup completed for directory: {os.path.join(root_dir, DOWNLOAD_DIR)}")
 
         # Build URL, download images, and zip the file
         zip_path = download_and_zip_images(title, chapter, source, suffix)
