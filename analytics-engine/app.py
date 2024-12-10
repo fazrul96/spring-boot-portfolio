@@ -158,8 +158,14 @@ def generate_graph():
 def download_and_zip_images(title, chapter, source, suffix):
     """Download images and create a zip file."""
     url_builder = URLBuilder()
+
+    if source.upper() == WebtoonSource.MANGATOWN.name:
+        chapter = f"{str(chapter).zfill(3)}"
+        suffix = None
+
     url = url_builder.build_url(WebtoonSource[source.upper()], title, chapter, suffix)
     logging.info(f"url: {url}")
+
     handler = PatternHandlerFactory.get_pattern_handler(WebtoonSource[source.upper()])
     zip_path = handler.download_images(title, chapter, url)
     logging.info(f"Images successfully zipped into: {zip_path}")

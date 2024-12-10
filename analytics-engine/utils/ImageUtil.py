@@ -1,27 +1,40 @@
-import requests
-import os
 import logging
-import time
+import os
 import re
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from utils.HeaderUtil import get_random_user_agent
+import time
 from zipfile import ZipFile
 
+import requests
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.ui import WebDriverWait
 
-def download_image_with_header(image_url, save_path, headers=None, retries=3, delay=2):
+from config.WebtoonConfig import WebtoonSource, WebtoonConstants
+from service.WebDriverManagerService import WebDriverManager
+from utils.HeaderUtil import (
+    get_random_user_agent
+)
+
+
+def download_image_with_header(image_url, save_path, retries=1, delay=2):
     """Downloads an image with retry and custom headers."""
-    if headers is None:
-        headers = {"User-Agent": get_random_user_agent()}
+    headers = {
+        "User-Agent": get_random_user_agent()
+        # "Referer": get_realistic_referer()
+    }
+
+    driver = WebDriverManager.setup_driver(headless=True)
+    driver.get(WebtoonConstants.MANGATOWN_DOMAIN)
+    session = WebDriverManager.get_session_from_driver(driver)
+    driver.quit()
 
     for attempt in range(retries):
         try:
-            response = requests.get(image_url, headers=headers, timeout=10)
+            response = session.get(image_url, headers=headers, timeout=10)
             response.raise_for_status()
             with open(save_path, "wb") as file:
                 file.write(response.content)
-            logging.info(f"Image downloaded successfully: {save_path}")
+            logging.info(f"Downloaded: {save_path}")
             return True
         except requests.RequestException as e:
             logging.warning(f"Attempt {attempt + 1} failed for {image_url}: {e}")
@@ -36,8 +49,8 @@ def download_image_without_header(image_url, save_path):
     try:
         response = requests.get(image_url, timeout=10)
         response.raise_for_status()
-        with open(save_path, "wb") as handler:
-            handler.write(response.content)
+        with open(save_path, "wb") as file:
+            file.write(response.content)
         logging.info(f"Downloaded: {save_path}")
         return True
     except requests.RequestException as e:
@@ -65,33 +78,43 @@ def compress_images(directory_path):
     return zip_path
 
 
-def process_images(driver, title, chapter, url, unique_dir, image_extension, url_prefix):
+def process_images(driver, title, chapter, url, unique_dir, image_extension, url_prefix, source):
     """Processes images by fetching them from a URL and downloading them in the correct sequence."""
     logging.info(f"Started processing images for {title}...")
-    xpath = "//img[@src and @fetchpriority='high']"  # Focus on high-priority images
+
+    if source == WebtoonSource.ASURA:
+        xpath = "//img[@src and @fetchpriority='high']"
+    else:
+        xpath = "//img[@src]"
+
     driver.get(url)
 
     try:
-        # Wait for all high-priority images to load
+        # Wait for all images to load
         WebDriverWait(driver, 20).until(
-            EC.presence_of_all_elements_located((By.XPATH, xpath))
+            expected_conditions.presence_of_all_elements_located((By.XPATH, xpath))
         )
     except Exception as e:
         logging.error(f"Error waiting for images: {e}")
         return False
 
     image_elements = driver.find_elements(By.XPATH, xpath)
-    logging.info(f"Found {len(image_elements)} image elements with fetchpriority='high'.")
+    logging.info(f"Found {len(image_elements)} image elements.")
 
     # Prepare a list of tuples containing image sequence and URL
     images = []
-    for image in image_elements:
-        image_url = image.get_attribute("data-src") or image.get_attribute("src")
-        if is_valid_image(image_url, image_extension, url_prefix):
-            # Extract sequence number from filename or other attributes (customize this as needed)
-            sequence = extract_sequence(image_url)
-            if sequence is not None:
-                images.append((sequence, image_url))
+
+    if source == WebtoonSource.ASURA:
+        for image in image_elements:
+            image_url = image.get_attribute("data-src") or image.get_attribute("src")
+            if is_valid_image(image_url, image_extension, url_prefix):
+                sequence = extract_sequence(image_url)
+                if sequence is not None:
+                    images.append((sequence, image_url))
+    else:
+        for image in image_elements:
+            image_url = image.get_attribute("src")
+            images.append((len(images) + 1, image_url))
 
     # Sort images by sequence
     images.sort(key=lambda x: x[0])
@@ -103,7 +126,7 @@ def process_images(driver, title, chapter, url, unique_dir, image_extension, url
 
         file_name = f"{title}-chapter-{chapter}-{str(index).zfill(3)}{image_extension}"
         save_path = os.path.join(unique_dir, file_name)
-        if download_image_without_header(image_url, save_path):
+        if download_image_with_header(image_url, save_path):
             logging.info(f"Downloaded: {file_name}")
 
     return len(images) > 0  # Returns True if any images were processed
