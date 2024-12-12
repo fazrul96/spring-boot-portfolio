@@ -7,6 +7,7 @@ class WebtoonConstants:
     IMAGE_EXTENSION_JPG = ".jpg"
     IMAGE_EXTENSION_PNG = ".png"
     URL_PATTERN_TEMPLATE = "{base_url}{title}{chapter_suffix}"
+    POSSIBLE_YEARS = ["2023", "2024"]
 
     HIVETOON_DOMAIN = "https://hivetoon.com"
     ASURA_DOMAIN = "https://asuracomic.net"
@@ -32,7 +33,7 @@ class WebtoonSource(Enum):
 
 class WebtoonConfig:
     BASE_URLS = {
-        WebtoonSource.HIVETOON: WebtoonConstants.HIVETOON_DOMAIN + "/2023/",
+        WebtoonSource.HIVETOON: WebtoonConstants.HIVETOON_DOMAIN + "/series/",
         WebtoonSource.ASURA: WebtoonConstants.ASURA_DOMAIN + "/series/",
         WebtoonSource.VORTEX: WebtoonConstants.VORTEX_DOMAIN + "/series/",
         WebtoonSource.MANGATOWN: WebtoonConstants.MANGATOWN_DOMAIN + "/manga/",

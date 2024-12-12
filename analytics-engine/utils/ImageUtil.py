@@ -78,12 +78,35 @@ def compress_images(directory_path):
     return zip_path
 
 
+def resolve_correct_url(base_url, chapter_number):
+    """Resolve the correct URL format for a chapter dynamically."""
+    for year in WebtoonConstants.POSSIBLE_YEARS:
+        test_url = base_url.replace("series", year)
+        try:
+            response = requests.head(test_url, timeout=5)  # HEAD request to test URL existence
+            if response.status_code == 200:
+                logging.info(f"Resolved URL: {test_url}")
+                return test_url
+        except requests.RequestException:
+            continue
+    logging.error(f"Unable to resolve a valid URL for chapter {chapter_number}.")
+    return None
+
+
 def process_images(driver, title, chapter, url, unique_dir, image_extension, url_prefix, source):
     """Processes images by fetching them from a URL and downloading them in the correct sequence."""
     logging.info(f"Started processing images for {title}...")
 
+    if source == WebtoonSource.HIVETOON:
+        url = resolve_correct_url(url, chapter)
+        if not url:
+            logging.error("Failed to resolve a valid URL.")
+            return False
+
     if source == WebtoonSource.ASURA:
         xpath = "//img[@src and @fetchpriority='high']"
+    elif source == WebtoonSource.HIVETOON:
+        xpath = "//img[@loading='lazy' and @decoding='async' and @src]"
     else:
         xpath = "//img[@src]"
 

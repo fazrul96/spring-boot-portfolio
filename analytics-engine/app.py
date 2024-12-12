@@ -6,6 +6,10 @@ import time
 import psutil
 from flask import Flask, request, send_file, jsonify
 from flask_cors import CORS
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
+
 from utils.file_handler import extract_blood_pressure_data
 from utils.graph_generator import generate_blood_pressure_plot
 from handlers.PatternHandler import PatternHandlerFactory
@@ -16,14 +20,14 @@ from config.WebtoonConfig import (
 from constants.GeneralConstant import (
     ERROR_MESSAGES,
     EXTRACTED_IMAGES_DIRECTORY,
-    DOWNLOAD_DIR,
+    DOWNLOAD_DIR, ROOT_DIR,
 )
 from routes.ApiRoute import (
     ApiRoutes
 )
-from data.form.WebtoonForm import webtoon_form_data
+from data.form.WebtoonForm import webtoon_form_data, latest_chapter_webtoon_form_data
 from dotenv import load_dotenv
-
+from service.WebDriverManagerService import WebDriverManager
 load_dotenv()
 
 
@@ -54,6 +58,15 @@ def validate_file_upload(file):
 def validate_webtoon_data(form_data):
     """Validate form data for webtoon download request."""
     required_fields = ["title", "chapter", "source", "suffix"]
+    for field in required_fields:
+        if not form_data.get(field):
+            return create_error_response(ERROR_MESSAGES["missing_fields"], 400)
+    return None
+
+
+def validate_latest_chapter_webtoon_data(form_data):
+    """Validate form data for webtoon download request."""
+    required_fields = ["title"]
     for field in required_fields:
         if not form_data.get(field):
             return create_error_response(ERROR_MESSAGES["missing_fields"], 400)
@@ -191,6 +204,39 @@ def cleanup_after_send(unique_dir, zip_path, response):
         logging.error(f"Failed to clean up: {zip_path}")
 
 
+def get_latest_chapter(driver, title):
+    """Uses Selenium to navigate to the site and retrieve the latest chapter."""
+    url = "https://asuracomic.net/series/nano-machine-04e9ab51"
+    xpath = "//a[contains(@href, 'chapter')]"
+    driver.get(url)
+
+    try:
+        # Wait for the element containing the latest chapter to load
+        WebDriverWait(driver, 20).until(
+            expected_conditions.presence_of_element_located((By.XPATH, xpath))
+        )
+        chapter_elements = driver.find_elements(By.XPATH, xpath)
+        logging.info(f"Found {len(chapter_elements)} chapter elements.")
+
+        chapters = []
+        for chapter_element in chapter_elements:
+            # Extract the chapter number from the href attribute
+            href = chapter_element.get_attribute("href")
+            chapter_number = int(href.split('/')[-1])  # Extract chapter number from URL
+            chapters.append((chapter_number, href))  # Save the chapter URL
+
+        # Sort by chapter number (descending) and get the latest chapter
+        latest_chapter = max(chapters, key=lambda x: x[0])
+
+        logging.info(f"Latest chapter found: {latest_chapter}")
+        return latest_chapter[0]
+    except Exception as e:
+        logging.error(f"Error retrieving the latest chapter: {e}")
+        return None
+    finally:
+        driver.quit()
+
+
 # ---- Webtoon Download API Endpoint ----
 @app.route(ApiRoutes.DOWNLOAD_WEBTOON, methods=['POST'])
 def download_webtoon():
@@ -204,9 +250,8 @@ def download_webtoon():
         title, chapter, source, suffix = webtoon_form_data(request.form)
 
         # Define directories
-        root_dir = "public"
         dir_name = f"{title}-chapter-{chapter}"
-        unique_dir = os.path.join(root_dir, DOWNLOAD_DIR, dir_name)
+        unique_dir = os.path.join(ROOT_DIR, DOWNLOAD_DIR, dir_name)
 
         # Cleanup directory before starting the download process
         # cleanup_directory(os.path.join(root_dir, DOWNLOAD_DIR))
@@ -228,6 +273,24 @@ def download_webtoon():
         return create_error_response(str(e), 400)
     except Exception:
         return create_error_response(ERROR_MESSAGES["unexpected_error"], 500)
+
+
+@app.route(ApiRoutes.LATEST_CHAPTER_WEBTOON, methods=['POST'])
+def fetch_latest_chapter():
+    """API endpoint to fetch the latest chapter."""
+
+    error_response = validate_latest_chapter_webtoon_data(request.form)
+    if error_response:
+        return error_response
+
+    title = latest_chapter_webtoon_form_data(request.form)
+
+    with WebDriverManager.setup_driver() as driver:
+        latest_chapter = get_latest_chapter(driver, title)
+    if latest_chapter:
+        return jsonify({"title": title, "latest_chapter": latest_chapter}), 200
+    else:
+        return jsonify({"error": "Failed to fetch latest chapter"}), 500
 
 
 # ---- Main Application Entry Point ----

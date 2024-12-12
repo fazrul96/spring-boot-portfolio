@@ -5,3 +5,9 @@ def webtoon_form_data(form):
     source = form.get("source")
     suffix = form.get("suffix")
     return title, chapter, source, suffix
+
+
+def latest_chapter_webtoon_form_data(form):
+    """Extract and return form data."""
+    title = form.get("title")
+    return title
