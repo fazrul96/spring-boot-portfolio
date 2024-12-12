@@ -1,10 +1,8 @@
 package com.example.demo.dto;
 
-import com.example.demo.data.BaseModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 @Builder

@@ -4,6 +4,8 @@ import com.example.demo.data.portfolio.repository.WebtoonRepository;
 import com.example.demo.properties.BatchProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,32 +37,44 @@ public class WebtoonBatchJobService {
         this.webtoonRepository = webtoonRepository;
     }
 
-    public void runWebtoonBatchJob() throws Exception {
+    public void runWebtoonBatchJob(
+        String title
+    ) {
         log.info("*** Started Processing for {} ***", WEBTOON_SYNC_BATCH);
-
-        initializeRepository(
-            webtoonRepository
-        );
-
-        JobParametersBuilder jobParametersBuilder = new JobParametersBuilder()
-                .addString(WEBTOON_SYNC_BATCH, String.valueOf(System.currentTimeMillis()));
-        jobParametersBuilder = retrieveParams(jobParametersBuilder);
-
-        try {
-            jobLauncher.run(webtoonSyncJob, jobParametersBuilder.toJobParameters());
-        } catch (EmptyResultDataAccessException e) {
-            log.warn("Expected data not found for job parameters. Skipping or handling accordingly.");
-            // Additional handling logic if required
-        }
-
+        initializeRepository(webtoonRepository);
+        JobParameters jobParameters = createJobParameters(title);
+        launchJob(jobParameters);
         log.info("*** Processing Completed for {} ***", WEBTOON_SYNC_BATCH);
     }
 
-    public JobParametersBuilder retrieveParams(JobParametersBuilder jobParametersBuilder) {
+    private JobParameters createJobParameters(
+        String title
+    ) {
+        JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
+        jobParametersBuilder.addString("title", title);
+
+        return addDefaultJobParameters(jobParametersBuilder);
+    }
+
+    private JobParameters addDefaultJobParameters(JobParametersBuilder jobParametersBuilder) {
         String fromDate = batchProperties.getFromDate();
         String toDate = batchProperties.getToDate();
+
         jobParametersBuilder.addString(FROM_DATE, fromDate);
         jobParametersBuilder.addString(TO_DATE, toDate);
-        return jobParametersBuilder;
+        jobParametersBuilder.addLong("timestamp", System.currentTimeMillis());
+        return jobParametersBuilder.toJobParameters();
+    }
+
+    private void launchJob(JobParameters jobParameters) {
+        try {
+            log.info("Launching job with parameters: {}", jobParameters);
+            JobExecution jobExecution = jobLauncher.run(webtoonSyncJob, jobParameters);
+            log.info("Job executed with status: {}", jobExecution.getStatus());
+        } catch (EmptyResultDataAccessException e) {
+            log.warn("No data found for job execution: {}", e.getMessage());
+        } catch (Exception e) {
+            log.error("Error executing job: ", e);
+        }
     }
 }

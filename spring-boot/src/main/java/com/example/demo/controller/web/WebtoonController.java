@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.demo.constants.ApiConstant.*;
 
@@ -48,7 +49,7 @@ public class WebtoonController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping(path = WEBTOONS_TITLE)
-    public ResponseEntity<WebtoonDto> getWebtoonByTitle(@PathVariable String title) {
+    public ResponseEntity<Optional<Webtoon>> getWebtoonByTitle(@PathVariable String title) {
         return webtoonService.getWebtoonByTitle(title)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -91,9 +92,14 @@ public class WebtoonController {
     @PostMapping(path = DOWNLOAD_WEBTOON)
     public ResponseEntity<String> downloadWebtoon(
             @RequestParam String title,
-            @RequestParam String chapter,
+            @RequestParam Integer chapter,
             @RequestParam String source,
             @RequestParam String suffix) {
         return webtoonService.downloadWebtoon(title, chapter, source, suffix);
+    }
+
+    @PostMapping(path = LATEST_CHAPTER_WEBTOON)
+    public ResponseEntity<String> fetchLatestChapterWebtoon() {
+        return webtoonService.fetchLatestChapter();
     }
 }

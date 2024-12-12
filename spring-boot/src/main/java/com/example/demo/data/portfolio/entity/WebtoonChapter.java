@@ -9,7 +9,7 @@ import org.hibernate.annotations.Immutable;
 
 import static com.example.demo.constants.ModelConstant.*;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Data
 @Builder
 @Entity
@@ -17,7 +17,7 @@ import static com.example.demo.constants.ModelConstant.*;
 @AllArgsConstructor
 @Table(name = TBL_WEBTOON_CHAPTER)
 @Immutable
-public class WebtoonChapter extends BaseModel {
+public class WebtoonChapter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = ID)
@@ -31,7 +31,7 @@ public class WebtoonChapter extends BaseModel {
 
     @Column(name = CHAPTER)
     @JsonProperty("chapter")
-    private String chapter;
+    private Integer chapter;
 
     @Column(name = STATUS)
     @JsonProperty("status")

@@ -22,7 +22,7 @@ public class BatchConfigurationUtility {
     public WebClient webClient() {
         return WebClient.builder()
                 .codecs(clientCodecConfigurer -> clientCodecConfigurer.defaultCodecs()
-                        .maxInMemorySize(10 * 1024 * 1024))
+                        .maxInMemorySize(30 * 1024 * 1024))
                 .build();
     }
 

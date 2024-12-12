@@ -57,31 +57,30 @@ public class BatchConfiguration extends DefaultBatchConfiguration {
             .build();
     }
 
-    // todo main batch
-//    @Bean
-//    public Job webtoonSyncBatchOriginal(
-//        JobRepository jobRepository,
-//        Step initLoggingStep,
-//        Step webtoonSyncStep,
-//        Step readFromDbStep,
-//        JobExecutionListener pushJobMetricsListener) {
-//        return new JobBuilder(WEBTOON_SYNC_BATCH, jobRepository)
-//            .incrementer(new RunIdIncrementer())
-//            .start(initLoggingStep)
-//            .next(webtoonSyncStep)
-//            .next(readFromDbStep)
-//            .listener(pushJobMetricsListener)
-//            .build();
-//    }
-
-    // todo testing batch
     @Bean
     public Job webtoonSyncBatch(
         JobRepository jobRepository,
         Step initLoggingStep,
+        Step webtoonSyncStep,
+        Step readFromDbStep,
         Step sampleStep,
         JobExecutionListener pushJobMetricsListener) {
         return new JobBuilder(WEBTOON_SYNC_BATCH, jobRepository)
+            .incrementer(new RunIdIncrementer())
+            .start(initLoggingStep)
+            .next(webtoonSyncStep)
+            .next(sampleStep)
+            .listener(pushJobMetricsListener)
+            .build();
+    }
+
+    @Bean
+    public Job sampleBatch(
+        JobRepository jobRepository,
+        Step initLoggingStep,
+        Step sampleStep,
+        JobExecutionListener pushJobMetricsListener) {
+        return new JobBuilder("sampleBatch", jobRepository)
             .incrementer(new RunIdIncrementer())
             .start(initLoggingStep)
             .next(sampleStep)

@@ -39,8 +39,10 @@ public final class GeneralConstant {
 
     public static final String CHAPTER_SEPARATOR = "-chapter-";
 
+    public static final String DEFAULT = "DEFAULT";
     public static final String SUCCESS = "SUCCESS";
     public static final String COMPLETED = "COMPLETED";
     public static final String FAILED = "FAILED";
+    public static final String PENDING = "PENDING";
     public static final String INPROGRESS = "INPROGRESS";
 }
