@@ -24,7 +24,7 @@ const SidebarDrawer = () => {
     ];
     const privateSidebarItems = [
       { text: 'GREDAVERSE',  icon: '', route: '/space' },
-      { text: 'Storage', icon: <BackupIcon />, route: '/storage' },
+      { text: 'Cloud Storage', icon: <BackupIcon />, route: '/storage' },
       { text: 'OpenAPI', icon: <OpenAPIIcon />, route: '/openapi' },
       { text: 'Webtoon', icon: <MenuBookIcon />, route: '/blog' },
     ];
