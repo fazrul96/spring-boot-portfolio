@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import {
-	Box,
-	Typography,
-} from '@mui/material';
+import React from 'react';
+import {Box, Typography,} from '@mui/material';
+
 const ProfilePage = () => {
 	const [value, setValue] = React.useState('1');
 

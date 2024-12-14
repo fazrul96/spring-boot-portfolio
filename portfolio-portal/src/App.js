@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, {useState} from 'react';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import './App.css';
-import { Box, CssBaseline, Drawer } from '@mui/material';
-import { useAuth0 } from '@auth0/auth0-react';
+import {Box, CssBaseline, Drawer} from '@mui/material';
+import {useAuth0} from '@auth0/auth0-react';
 // Routes
-import { publicRoutes, protectedRoutes } from './routes/AppRoutes';
+import {protectedRoutes, publicRoutes} from './routes/AppRoutes';
 // Pages
 import HomePage from './pages/HomePage';
 // Components

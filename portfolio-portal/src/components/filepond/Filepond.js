@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
-import { FilePond, registerPlugin } from "react-filepond";
-import { useAuth0 } from "@auth0/auth0-react"; // Import Auth0 hook
-import { API_BASE_URL, API_PRIVATE_URL, MINIO_UPLOAD_FILES } from './../../constants/ApiConstants';
+import React, {useEffect, useRef, useState} from "react";
+import {FilePond, registerPlugin} from "react-filepond";
+import {useAuth0} from "@auth0/auth0-react"; // Import Auth0 hook
+import {API_BASE_URL, API_PRIVATE_URL, MINIO_UPLOAD_FILES} from './../../constants/ApiConstants';
 import ApiService from './../../services/ApiService'; // Assuming this is a helper for API calls
 import "filepond/dist/filepond.min.css"; // FilePond styles
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";

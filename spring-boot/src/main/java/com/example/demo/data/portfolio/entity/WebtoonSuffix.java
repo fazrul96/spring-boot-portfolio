@@ -3,18 +3,17 @@ package com.example.demo.data.portfolio.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-import org.hibernate.annotations.Immutable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Getter
-@Setter
 @Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "webtoon_suffixes")
-@Immutable
 public class WebtoonSuffix {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

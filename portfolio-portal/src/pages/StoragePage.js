@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Box, Tab } from '@mui/material';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { STORAGE_TABS } from './../data/storageTabs';
+import React, {useState} from 'react';
+import {Box, Tab} from '@mui/material';
+import {TabContext, TabList, TabPanel} from '@mui/lab';
+import {STORAGE_TABS} from '../data/storageTabs';
 
 const StoragePage = () => {
     const [value, setValue] = useState(STORAGE_TABS[2].value);

@@ -15,7 +15,8 @@ from utils.graph_generator import generate_blood_pressure_plot
 from handlers.PatternHandler import PatternHandlerFactory
 from utils.url_builder import URLBuilder
 from config.WebtoonConfig import (
-    WebtoonSource
+    WebtoonSource,
+    WebtoonConfig
 )
 from constants.GeneralConstant import (
     ERROR_MESSAGES,
@@ -66,7 +67,7 @@ def validate_webtoon_data(form_data):
 
 def validate_latest_chapter_webtoon_data(form_data):
     """Validate form data for webtoon download request."""
-    required_fields = ["title"]
+    required_fields = ["title","suffix"]
     for field in required_fields:
         if not form_data.get(field):
             return create_error_response(ERROR_MESSAGES["missing_fields"], 400)
@@ -204,11 +205,13 @@ def cleanup_after_send(unique_dir, zip_path, response):
         logging.error(f"Failed to clean up: {zip_path}")
 
 
-def get_latest_chapter(driver, title):
+def get_latest_chapter(driver, title, suffix):
     """Uses Selenium to navigate to the site and retrieve the latest chapter."""
-    url = "https://asuracomic.net/series/nano-machine-04e9ab51"
+    url = WebtoonConfig.BASE_URLS.get(WebtoonSource.ASURA)
+    if url:
+        generated_url = f"{url}{title}{suffix}"
     xpath = "//a[contains(@href, 'chapter')]"
-    driver.get(url)
+    driver.get(generated_url)
 
     try:
         # Wait for the element containing the latest chapter to load
@@ -283,10 +286,10 @@ def fetch_latest_chapter():
     if error_response:
         return error_response
 
-    title = latest_chapter_webtoon_form_data(request.form)
+    title, suffix = latest_chapter_webtoon_form_data(request.form)
 
     with WebDriverManager.setup_driver() as driver:
-        latest_chapter = get_latest_chapter(driver, title)
+        latest_chapter = get_latest_chapter(driver, title, suffix)
     if latest_chapter:
         return jsonify({"title": title, "latest_chapter": latest_chapter}), 200
     else:

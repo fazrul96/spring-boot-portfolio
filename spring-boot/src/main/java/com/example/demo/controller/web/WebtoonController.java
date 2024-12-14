@@ -49,10 +49,9 @@ public class WebtoonController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping(path = WEBTOONS_TITLE)
-    public ResponseEntity<Optional<Webtoon>> getWebtoonByTitle(@PathVariable String title) {
-        return webtoonService.getWebtoonByTitle(title)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    public ResponseEntity<Webtoon> getWebtoonByTitle(@PathVariable String title) {
+        Webtoon webtoon = webtoonService.getWebtoonByTitle(title);
+        return ResponseEntity.status(HttpStatus.CREATED).body(webtoon);
     }
 
     @Operation(summary = "Create a new webtoon")
@@ -68,13 +67,11 @@ public class WebtoonController {
     }
 
     @PutMapping(path = WEBTOONS_TITLE)
-    public ResponseEntity<WebtoonDto> updateWebtoon(
+    public ResponseEntity<String> updateWebtoon(
             @PathVariable String title,
             @RequestBody WebtoonDto webtoonDto) {
 
-        return webtoonService.updateWebtoon(title, webtoonDto)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return webtoonService.updateWebtoon(title, webtoonDto);
     }
 
     @Operation(summary = "Delete an webtoon by ID")
@@ -98,8 +95,10 @@ public class WebtoonController {
         return webtoonService.downloadWebtoon(title, chapter, source, suffix);
     }
 
-    @PostMapping(path = LATEST_CHAPTER_WEBTOON)
-    public ResponseEntity<String> fetchLatestChapterWebtoon() {
-        return webtoonService.fetchLatestChapter();
+    @PatchMapping(path = LATEST_CHAPTER_WEBTOON)
+    public ResponseEntity<String> fetchLatestChapterWebtoon(
+            @RequestParam String title
+    ) {
+        return webtoonService.fetchLatestChapter(title);
     }
 }

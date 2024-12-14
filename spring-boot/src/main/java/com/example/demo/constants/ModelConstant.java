@@ -15,6 +15,8 @@ public class ModelConstant {
     public static final String ARTIST = "artist";
     public static final String CHAPTER_COUNT = "chapter_count";
     public static final String SOURCE = "source";
+    public static final String CREATED_AT = "created_at";
+    public static final String UPDATED_AT = "updated_at";
     public static final String CREATED_DATE = "created_date";
     public static final String UPDATED_DATE = "updated_date";
     public static final String STATUS = "status";

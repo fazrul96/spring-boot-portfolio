@@ -1,17 +1,16 @@
 package com.example.demo.data.portfolio.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.Immutable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Getter
-@Setter
 @Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Immutable
 @Table(name = "items")
 public class Item {
     @Id

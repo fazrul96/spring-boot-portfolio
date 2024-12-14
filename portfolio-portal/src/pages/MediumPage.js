@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Grid, CircularProgress, Typography } from '@mui/material';
+import React, {useEffect, useState} from 'react';
+import {Box, CircularProgress, Grid, Typography} from '@mui/material';
 import MediumContent from './MediumContent';
 
 const MediumPage = () => {

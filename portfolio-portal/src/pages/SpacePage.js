@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Typography, Grid, Divider } from '@mui/material';
+import {Box, Divider, Grid, Typography} from '@mui/material';
 import CardComponent from './../components/common/CardComponent';
-import { cardsData } from '../data/cardsData';
+import {cardsData} from '../data/cardsData';
 
 const SpacePage = () => {
 	return (

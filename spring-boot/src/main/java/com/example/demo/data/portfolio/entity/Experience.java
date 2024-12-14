@@ -1,11 +1,8 @@
 package com.example.demo.data.portfolio.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Immutable;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.List;
 
 @Data
 @Getter
@@ -14,7 +11,6 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Immutable
 @Table(name = "experiences")
 public class Experience {
     @Id

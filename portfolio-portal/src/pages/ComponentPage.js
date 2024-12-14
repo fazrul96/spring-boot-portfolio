@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Typography, Divider, Grid } from '@mui/material';
-import { componentsData } from './../data/cardsData';
+import {Box, Divider, Grid, Typography} from '@mui/material';
+import {componentsData} from '../data/cardsData';
 import ComponentItems from './../components/ComponentItems';
 
 const ComponentPage = () => {

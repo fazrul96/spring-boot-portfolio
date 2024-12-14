@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, CardMedia, Typography, CardActionArea, CardActions, Button } from '@mui/material';
+import {Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography} from '@mui/material';
 
 const cardStyles = {
 	completed: { color: 'green' },

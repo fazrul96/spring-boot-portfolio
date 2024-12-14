@@ -64,7 +64,8 @@ const Sidebar = () => {
       'Module': '/module',
       'OpenAPI': '/openapi',
       'Pipeline': '/jenkins',
-      'Webtoon': '/blog',
+      'Webtoon': '/webtoon',
+      'Mosque': '/mosque',
       'Movie': '/movie'
     };
     navigate(routes[text] || '/');
@@ -75,6 +76,7 @@ const Sidebar = () => {
     { text: 'Component', icon: <ProjectIcon /> },
     { text: 'Medium', icon: <MediumIcon /> },
     { text: 'Module', icon: <MediumIcon /> },
+    { text: 'Mosque', icon: <MediumIcon /> },
   ];
 
   const privateSidebarItems = [

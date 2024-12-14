@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Typography } from '@mui/material';
+import {Paper, Typography} from '@mui/material';
 
 // Function to get the styles for the Paper component
 const getPaperStyles = () => ({

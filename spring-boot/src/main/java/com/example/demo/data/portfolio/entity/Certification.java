@@ -1,9 +1,8 @@
 package com.example.demo.data.portfolio.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Immutable;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Data
 @Getter
@@ -12,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Immutable
 @Table(name = "certifications")
 public class Certification {
     @Id

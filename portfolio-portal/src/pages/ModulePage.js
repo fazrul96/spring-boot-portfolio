@@ -1,12 +1,7 @@
 import React from 'react';
-import {
-	Typography,
-	Divider,
-	Box,
-	Grid,
-} from '@mui/material';
+import {Box, Divider, Grid, Typography,} from '@mui/material';
 import CardComponent from '../components/CardComponent';
-import { cardData } from '../data/moduleData';
+import {cardData} from '../data/moduleData';
 
 const ModulePage = () => {
 	const categories = [...new Set(cardData.map((card) => card.category))];

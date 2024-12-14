@@ -2,8 +2,11 @@ package com.example.demo.data.portfolio.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.Immutable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import static com.example.demo.constants.ModelConstant.*;
 
@@ -11,8 +14,9 @@ import static com.example.demo.constants.ModelConstant.*;
 @Builder
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = TBL_WEBTOONS)
-@Immutable
+@DynamicUpdate
 public class Webtoon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -83,9 +87,4 @@ public class Webtoon {
     @Column(name = COVER_IMAGE)
     @JsonProperty("coverImage")
     private String coverImage;
-
-    public Webtoon() {
-        this.chapterCount = 1;
-        this.source = "asura";
-    }
 }

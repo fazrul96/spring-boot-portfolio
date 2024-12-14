@@ -1,107 +1,59 @@
-import React, { useState } from 'react';
-import {
-	Card,
-	CardActionArea,
-	CardMedia,
-	CardContent,
-	CardActions,
-	Typography,
-	Button,
-	Grid,
-} from '@mui/material';
-import { FilePond } from 'react-filepond';
+import React, {useMemo, useState} from 'react';
+import {Card, CardContent, Grid} from '@mui/material';
 
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import OCRImageGallery from './../components/common/OCRImageGallery';
+import OCRResultDisplay from './../components/common/OCRResultDisplay';
+import {OCR_ERROR_MESSAGES, OCR_IMAGES} from '../constants/AppConstants';
 
-import Swiper from '../components/Swiper';
+import {API_BASE_URL, API_PUBLIC_URL, PROCESS_OCR} from '../constants/ApiConstants';
+import ApiService from './../services/ApiService';
+import {useAuth0} from '@auth0/auth0-react';
 
-import sampleJpg from './../assets/img/ocrSample/sampleJpg.jpg';
-import samplePng from './../assets/img/ocrSample/samplePng.png';
+import {FilePond} from 'react-filepond';
 
 const OCRPage = () => {
 	const [ocrResult, setOcrResult] = useState(null);
+	const [errorMessage, setErrorMessage] = useState('');
 
-    const handleFileUpload = async (file) => {
-        try {
-            if (!file) {
-                console.error('No file selected.');
-                return;
-            }
+	const { getAccessTokenSilently } = useAuth0();
 
-            const baseUrl = process.env.REACT_APP_BASE_URL;
-            const formData = new FormData();
-            formData.append('file', file.file); // Use file.file to get the actual file object
+    const apiService = useMemo(
+        () => new ApiService(API_BASE_URL + API_PUBLIC_URL, getAccessTokenSilently),
+        [getAccessTokenSilently]
+    );
 
-            const response = await fetch(`${baseUrl}/api/v1/processOCR`, {
-                method: 'POST',
-                body: formData,
-            });
+	const handleFileUpload = async (file) => {
+		if (!file) {
+			setErrorMessage(OCR_ERROR_MESSAGES.NO_FILE);
+			return;
+		}
 
-	        if (response.ok) {
-	            const result = await response.text();
-	            setOcrResult(result);
-	        } else {
-	            console.error('OCR process failed');
-	        }
-        } catch (error) {
-            console.error('Error during OCR process:', error.message);
-        }
-  };
-
-// Format OCR result with line breaks
-const formattedResult = ocrResult ? ocrResult.replace(/\n/g, '<br />') : null;
-
-const latestUpdates = [
-	{
-		id: 1,
-		image: sampleJpg,
-		title: 'Sample JPG',
-	},
-	{
-		id: 2,
-		image: samplePng,
-		title: 'Sample PNG',
-	},
-];
+		try {
+			const formData = new FormData();
+			formData.append('file', file.file); // file.file to get the actual file object
+			const response = await apiService.createResource(PROCESS_OCR, formData);
+			setOcrResult(response);
+			setErrorMessage('');
+		} catch (error) {
+			setErrorMessage(OCR_ERROR_MESSAGES.PROCESS_FAILURE);
+			console.error('OCR processing error:', error);
+		}
+	};
 
 	return (
-    <Grid container spacing={2}>
-	    {latestUpdates.map((update, index) => (
-	        <Grid item xs={6} md={6} key={index}>
-		        <Card>
-		            <CardActionArea>
-			            <CardMedia
-			                component="img"
-			                height="150"
-			                image={update.image}
-			                alt={update.title}
-			            />
-		            </CardActionArea>
-		        </Card>
-	        </Grid>
-	    ))}
-	      <Grid item xs={12} md={12}>
-	        <Card >
-	          <CardActionArea>
-	            <CardContent>
-	              <FilePond onupdatefiles={(fileItems) => handleFileUpload(fileItems[0])} />
-	              {/*
-	               <Button onClick={() => handleFileUpload()}>Trigger OCR</Button>
-	               */}
-	              {formattedResult && (
-	              <Typography variant="body1" component="div">
-	                <div dangerouslySetInnerHTML={{ __html: formattedResult }} />
-	              </Typography>
-	//                 <SyntaxHighlighter language="plaintext" style={vs}>
-	//                  {formattedResult}
-	//                </SyntaxHighlighter>
-	              )}
-	            </CardContent>
-	          </CardActionArea>
-	        </Card>
-	      </Grid>
-    </Grid>
+		<Grid container spacing={2}>
+			<OCRImageGallery images={OCR_IMAGES} />
+
+			<Grid item xs={12} md={12}>
+				<Card>
+					<CardContent>
+						<FilePond onupdatefiles={(fileItems) => handleFileUpload(fileItems[0])} />
+						{errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+						<OCRResultDisplay result={ocrResult} />
+					</CardContent>
+				</Card>
+			</Grid>
+		</Grid>
 	);
 };
 

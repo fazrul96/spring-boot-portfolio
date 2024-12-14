@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
-import { API_FLASK_BASE_URL, GENERATE_GRAPH_BLOOD_PRESSURE } from './../../constants/ApiConstants';
-import { SLASH } from './../../constants/AppConstants';
-import { GRAPH_FILE_NAME } from './../../constants/AppConstants';
+import {API_FLASK_BASE_URL, GENERATE_GRAPH_BLOOD_PRESSURE} from '../../constants/ApiConstants';
+import {GRAPH_FILE_NAME, SLASH} from '../../constants/AppConstants';
 import GraphDisplay from './../../components/common/GraphDisplay';
 import ExcelPreview from './../../components/common/ExcelPreview';
 import './../../assets/css/graph-generator.css';

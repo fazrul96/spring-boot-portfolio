@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-} from '@mui/material';
+import {FormControl, InputLabel, MenuItem, Select,} from '@mui/material';
 
 const StatusSelector = ({ status, availableStatuses, onStatusChange }) => (
     <FormControl fullWidth variant="standard" margin="dense">

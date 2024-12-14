@@ -2,7 +2,7 @@ export const APP_NAME = "Portfolio";
 export const APP_REGION = "MY";
 export const DRAWER_WIDTH = 240;
 
-export const PUBLIC_PAGES = ['Component', 'Medium', 'Module'];
+export const PUBLIC_PAGES = ['Component', 'Medium', 'Module', 'Mosque'];
 export const PRIVATE_PAGES = ['Storage', 'OpenApi', 'Webtoon'];
 export const GENERAL_SETTINGS = ['Profile', 'Settings'];
 
@@ -15,7 +15,7 @@ export const SNAPSYNCH_FILE_NAME = process.env.REACT_APP_SNAPSYNCH_FILE_NAME || 
 export const PDF_WORKER_URL = process.env.REACT_APP_PDF_WORKER_URL || 'https://unpkg.com/pdfjs-dist@3.6.172/build/pdf.worker.min.js';
 export const GRAPH_FILE_NAME = 'blood_pressure_graph.png';
 
-export const API_BASE_URL_TEST = "http://localhost:8080/api/v1";
+export const API_BASE_URL_TEST = "https://spring-boot-app.mfzrl.cyou/api/v1";
 export const SYNC_WEBTOON_URL = `${API_BASE_URL_TEST}/`;
 export const SLASH = '/';
 export const DASH = '-';

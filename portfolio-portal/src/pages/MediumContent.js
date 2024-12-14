@@ -1,17 +1,17 @@
 import React from 'react';
 import {
+	Accordion,
+	AccordionDetails,
+	AccordionSummary,
 	Box,
+	Button,
 	Card,
 	CardActionArea,
-	CardMedia,
-	CardContent,
 	CardActions,
-	Typography,
-	Button,
-	Accordion,
-	AccordionSummary,
-	AccordionDetails,
+	CardContent,
+	CardMedia,
 	Grid,
+	Typography,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 

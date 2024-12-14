@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -23,7 +22,7 @@ public class WebtoonSuffixService {
         return webtoonSuffixRepository.findAll();
     }
 
-    public Optional<String> getWebtoonSuffixByTitle(String title) {
-        return webtoonSuffixRepository.findByTitle(title).map(WebtoonSuffix::getSuffix);
+    public WebtoonSuffix getWebtoonSuffixByTitle(String title) {
+        return webtoonSuffixRepository.findByTitle(title);
     }
 }

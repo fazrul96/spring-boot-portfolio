@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.annotations.Immutable;
 
 import static com.example.demo.constants.ModelConstant.*;
 
@@ -16,7 +15,6 @@ import static com.example.demo.constants.ModelConstant.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = TBL_WEBTOON_CHAPTER)
-@Immutable
 public class WebtoonChapter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,4 +34,12 @@ public class WebtoonChapter {
     @Column(name = STATUS)
     @JsonProperty("status")
     private String status;
+
+    @Column(name = CREATED_AT)
+    @JsonProperty("createdAt")
+    private String createdAt;
+
+    @Column(name = UPDATED_AT)
+    @JsonProperty("updatedAt")
+    private String updatedAt;
 }

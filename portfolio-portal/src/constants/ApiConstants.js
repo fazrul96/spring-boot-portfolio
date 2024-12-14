@@ -1,4 +1,4 @@
-export const API_BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:8080';
+export const API_BASE_URL = process.env.REACT_APP_BASE_URL || "https://spring-boot-app.mfzrl.cyou" || 'http://localhost:8080';
 export const API_PRIVATE_URL = process.env.REACT_APP_API_PRIVATE_URL;
 export const API_PUBLIC_URL = process.env.REACT_APP_API_PUBLIC_URL;
 

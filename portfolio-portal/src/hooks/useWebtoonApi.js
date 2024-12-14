@@ -1,6 +1,6 @@
-import { useState, useCallback, useMemo } from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import ApiService from './../services/ApiService';
-import { API_BASE_URL, API_PRIVATE_URL, WEBTOONS } from './../constants/ApiConstants';
+import {API_BASE_URL, API_PRIVATE_URL, WEBTOONS} from '../constants/ApiConstants';
 
 const useWebtoonApi = (getAccessTokenSilently) => {
     const apiService = useMemo(

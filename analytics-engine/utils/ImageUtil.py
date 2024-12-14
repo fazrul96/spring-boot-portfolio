@@ -95,7 +95,7 @@ def resolve_correct_url(base_url, chapter_number):
 
 def process_images(driver, title, chapter, url, unique_dir, image_extension, url_prefix, source):
     """Processes images by fetching them from a URL and downloading them in the correct sequence."""
-    logging.info(f"Started processing images for {title}...")
+    logging.info(f"Started processing images for {title} and source {source}...")
 
     if source == WebtoonSource.HIVETOON:
         url = resolve_correct_url(url, chapter)

@@ -2,8 +2,7 @@ spring:
   #  batch:
   #    initialize-schema: never
   profiles:
-#    active: ${ACTIVE_PROFILE:@activeProfiles@}
-    active: local
+    active: ${ACTIVE_PROFILE:@activeProfiles@}
   #  main:
   #    web-application-type: NONE
   application:

@@ -1,5 +1,5 @@
 import videoFile from '../assets/video/Project.mp4';
-  
+
 export function fetchVideo() {
   const response = [
     {

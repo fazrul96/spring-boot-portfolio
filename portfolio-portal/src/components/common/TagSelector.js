@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-} from '@mui/material';
+import {FormControl, InputLabel, MenuItem, Select,} from '@mui/material';
 
 const TagSelector = ({ tags, availableTags, onTagChange }) => (
     <FormControl fullWidth variant="standard" margin="dense">

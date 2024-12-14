@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,9 +40,8 @@ public class WebtoonSuffixController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping(path = "webtoon-suffix/{title}")
-    public ResponseEntity<String> getWebtoonSuffixByTitle(@PathVariable String title) {
-        return webtoonSuffixService.getWebtoonSuffixByTitle(title)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    public ResponseEntity<WebtoonSuffix> getWebtoonSuffixByTitle(@PathVariable String title) {
+        WebtoonSuffix webtoonsSuffix = webtoonSuffixService.getWebtoonSuffixByTitle(title);
+        return ResponseEntity.ok(webtoonsSuffix);
     }
 }

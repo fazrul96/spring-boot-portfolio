@@ -10,4 +10,5 @@ def webtoon_form_data(form):
 def latest_chapter_webtoon_form_data(form):
     """Extract and return form data."""
     title = form.get("title")
-    return title
+    suffix = form.get("suffix")
+    return title, suffix

@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
-	Box,
-	Typography,
-	Grid,
-	Paper,
-	Divider,
 	Avatar,
+	Box,
 	Button,
-	TextField,
-	FormControl,
-	InputLabel,
-	Select,
-	MenuItem,
 	Checkbox,
+	Divider,
+	FormControl,
 	FormControlLabel,
+	Grid,
+	InputLabel,
+	MenuItem,
+	Paper,
+	Select,
+	TextField,
+	Typography,
 } from '@mui/material';
 
 // Component for individual profile field

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Stack, Chip, Dialog, DialogContent, Typography, Paper } from '@mui/material';
+import {useState} from 'react';
+import {Chip, Dialog, DialogContent, Paper, Stack, Typography} from '@mui/material';
 import CardItem from './CardItem';
 
 const ChipList = ({ title, data }) => {

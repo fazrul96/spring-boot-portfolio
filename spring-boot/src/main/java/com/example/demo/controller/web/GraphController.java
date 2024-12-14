@@ -19,8 +19,9 @@ public class GraphController {
     public ResponseEntity<byte[]> uploadCsvFile(
             @RequestParam("file") MultipartFile file) {
         try {
-            RestTemplate restTemplate = new RestTemplate();
-            String pythonApiUrl = "http://localhost:5001/generate-graph";
+            RestTemplate restTemplate = new RestTemplate(); // todo change to env
+            // String pythonApiUrl = "http://localhost:5001/generate-graph";
+            String pythonApiUrl = "https://flask-app.mfzrl.cyou/generate-graph";
 
             // Set up headers for the request
             HttpHeaders headers = new HttpHeaders();

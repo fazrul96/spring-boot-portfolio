@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface WebtoonRepository extends JpaRepository<Webtoon, String> {
+public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
     Webtoon findByTitle(String title);
 
     @Query("""

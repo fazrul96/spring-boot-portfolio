@@ -17,7 +17,8 @@ import java.util.zip.ZipInputStream;
 @Service
 public class ZipFileService {
 
-    private final String flaskZipUrl = "http://localhost:5001/download-zip";
+    // private final String flaskZipUrl = "http://localhost:5001/download-zip";
+    private final String flaskZipUrl = "https://flask-app.mfzrl.cyou/download-zip";
     private Map<String, byte[]> extractedFiles = new HashMap<>();
 
     // Method to download, extract, and store files in memory

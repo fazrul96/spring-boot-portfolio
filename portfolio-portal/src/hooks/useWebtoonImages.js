@@ -1,6 +1,6 @@
-import { useState, useEffect, useMemo } from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import ApiService from './../services/ApiService';
-import { extractChapterNumber } from './../utils/stringUtils';
+import {extractChapterNumber} from '../utils/stringUtils';
 
 export const useWebtoonImages = (baseApiUrl, title, chapter, getAccessTokenSilently) => {
     const [images, setImages] = useState([]);

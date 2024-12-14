@@ -31,7 +31,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.example.demo.constants.ApiConstant.DOWNLOAD_WEBTOON;
 import static com.example.demo.constants.ApiConstant.LATEST_CHAPTER_WEBTOON;
@@ -114,50 +113,51 @@ public class WebtoonService {
 
     @Transactional
     public void deleteWebtoonByTitle(String title) {
-        Optional<WebtoonSuffix> webtoonSuffixOpt = webtoonSuffixRepository.findByTitle(title);
-        webtoonSuffixOpt.ifPresent(webtoonSuffixRepository::delete);
+        WebtoonSuffix webtoonSuffix = webtoonSuffixRepository.findByTitle(title);
+        if (webtoonSuffix != null) {
+            webtoonSuffixRepository.delete(webtoonSuffix);
+        }
 
         List<WebtoonChapter> webtoonChapters = webtoonChapterRepository.findByTitle(title);
         if (!webtoonChapters.isEmpty()) {
             webtoonChapterRepository.deleteAll(webtoonChapters);
         }
 
-        Optional<Webtoon> webtoonOpt = Optional.ofNullable(webtoonRepository.findByTitle(title));
-        webtoonOpt.ifPresent(webtoonRepository::delete);
+        Webtoon webtoon = webtoonRepository.findByTitle(title);
+        if (webtoon != null) {
+            webtoonRepository.delete(webtoon);
+        }
     }
 
-    public Optional<Optional<Webtoon>> getWebtoonByTitle(String title) {
-        Optional<Webtoon> webtoonOpt = Optional.ofNullable(webtoonRepository.findByTitle(title));
-        Optional<WebtoonSuffix> suffixOpt = webtoonSuffixRepository.findByTitle(title);
-
-        return Optional.of(webtoonOpt);
+    public Webtoon getWebtoonByTitle(String title) {
+        Webtoon webtoon = webtoonRepository.findByTitle(title);
+        if (webtoon == null) {
+            throw new IllegalArgumentException("Webtoon is empty");
+        }
+        return webtoon;
     }
 
     @Transactional
-    public ResponseEntity<String> fetchLatestChapter() {
+    public ResponseEntity<String> fetchLatestChapter(String title) {
         try {
-            log.debug("Calling external API to fetch latest chapter for Webtoon.");
-            byte[] response = initiateFetchLatestChapter();
-            log.debug("Response received: {}", new String(response));
+            Webtoon webtoon = webtoonRepository.findByTitle(title);
+            if (webtoon == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Webtoon not found");
+            }
+
+            WebtoonSuffix webtoonSuffix = webtoonSuffixRepository.findByTitle(title);
+            if (webtoonSuffix == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Webtoon suffix not found");
+            }
+
+            byte[] response = initiateFetchLatestChapter(webtoon.getTitle(), webtoonSuffix.getSuffix());
+            log.info("Response received: {}", new String(response));
 
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(response);
-            String title = jsonNode.get("title").asText();
             int latestChapter = jsonNode.get("latest_chapter").asInt();
 
-            Webtoon webtoon = webtoonRepository.findByTitle(title);
-            if (webtoon == null) {
-                log.error("Webtoon with title '{}' not found.", title);
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Webtoon with title '" + title + "' not found");
-            }
-
-            log.debug("Updating Webtoon '{}' with latest chapter: {}", title, latestChapter);
-            webtoon.setChapterCount(latestChapter);
-            webtoonRepository.save(webtoon);
-            webtoonRepository.flush();
-
-            log.info("Webtoon successfully updated: {}", webtoon);
+            updateWebtoonChapter(webtoon, latestChapter);
             return ResponseEntity.ok("Webtoon updated latest chapter successfully");
         } catch (Exception e) {
             log.error("Error during Webtoon update latest chapter: {}", e.getMessage(), e);
@@ -166,14 +166,20 @@ public class WebtoonService {
         }
     }
 
+    @Transactional
+    public void updateWebtoonChapter(Webtoon webtoon, int latestChapter) {
+        log.info("Updating Webtoon '{}' with latest chapter: {}", webtoon.getTitle(), latestChapter);
+        webtoon.setChapterCount(latestChapter);
+        webtoonRepository.saveAndFlush(webtoon);
+    }
 
-    public byte[] initiateFetchLatestChapter() {
+    public byte[] initiateFetchLatestChapter(String title, String suffix) {
         log.info("Requesting webtoon fetch latest chapter");
         try {
             return webClient.post()
                     .uri(appProperties.getBaseFlaskPath() + SLASH + LATEST_CHAPTER_WEBTOON)
                     .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                    .bodyValue(createRequestBodyForFetchLatestChapter())
+                    .bodyValue(createRequestBodyForFetchLatestChapter(title, suffix))
                     .retrieve()
                     .bodyToMono(byte[].class)
                     .block();
@@ -199,9 +205,10 @@ public class WebtoonService {
         }
     }
 
-    private MultiValueMap<String, Object> createRequestBodyForFetchLatestChapter() {
+    private MultiValueMap<String, Object> createRequestBodyForFetchLatestChapter(String title, String suffix) {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("title", "nano-machine");
+        body.add("title", title);
+        body.add("suffix", suffix);
         return body;
     }
 
@@ -226,6 +233,13 @@ public class WebtoonService {
             throw new IllegalArgumentException("WebtoonDto is empty");
         }
 
+        // todo temporary solution, get suffix from db, later only param title the rest can get from db
+        WebtoonSuffix webtoonSuffix = webtoonSuffixRepository.findByTitle(title);
+        if (webtoonSuffix == null) {
+            throw new IllegalArgumentException("Webtoon suffix is empty");
+        }
+        suffix = webtoonSuffix.getSuffix();
+
         try {
             log.debug("Calling external API to download Webtoon data.");
             byte[] zipData = initiateWebtoonDownload(title, chapter, source, suffix);
@@ -243,7 +257,7 @@ public class WebtoonService {
             List<MultipartFile> files = new ArrayList<>();
             files.add(multipartFile);
             List<String> uploadedFileNames = minioService.uploadFiles(files, title);
-            log.info("File uploaded to MinIO successfully: {}", uploadedFileNames);
+            log.info("File ad completed and uploaded to MinIO successlly: {}", uploadedFileNames);
 
             saveCompletedWebtoonChapter(webtoonDto, chapter);
             return ResponseEntity.ok("Download completed and uploaded to MinIO successfully: " + uploadedFileNames);
@@ -281,16 +295,24 @@ public class WebtoonService {
 
     // todo not working
     @Transactional
-    public Optional<WebtoonDto> updateWebtoon(String title, WebtoonDto webtoonDto) {
-        // Retrieve Webtoon and WebtoonSuffix by title
-        Optional<Webtoon> webtoonOpt = Optional.ofNullable(webtoonRepository.findByTitle(title));
-        Optional<WebtoonSuffix> suffixOpt = webtoonSuffixRepository.findByTitle(title);
+    public ResponseEntity<String> updateWebtoon(String title, WebtoonDto webtoonDto) {
+        Webtoon webtoon = webtoonRepository.findByTitle(title);
+        if (webtoon != null) {
+            webtoonRepository.delete(webtoon);
+        }
+
+        WebtoonSuffix webtoonSuffix = webtoonSuffixRepository.findByTitle(title);
+        if (webtoonSuffix != null) {
+            webtoonSuffixRepository.delete(webtoonSuffix);
+        }
+
+        List<WebtoonChapter> webtoonChapters = webtoonChapterRepository.findByTitle(title);
+        if (!webtoonChapters.isEmpty()) {
+            webtoonChapterRepository.deleteAll(webtoonChapters);
+        }
 
         // Check if both entities are present
-        if (webtoonOpt.isPresent() && suffixOpt.isPresent()) {
-            Webtoon webtoon = webtoonOpt.get();
-            WebtoonSuffix webtoonSuffix = suffixOpt.get();
-
+        if (webtoon != null && webtoonSuffix != null) {
             // Update fields in Webtoon
             webtoon.setTitle(webtoonDto.getTitle());
             webtoon.setAlias(webtoonDto.getAlias());
@@ -300,15 +322,12 @@ public class WebtoonService {
             // Update fields in WebtoonSuffix
             webtoonSuffix.setSuffix(webtoonDto.getSuffix());
 
-            webtoonRepository.save(webtoon);
-            webtoonRepository.flush();
-            webtoonSuffixRepository.save(webtoonSuffix);
-            webtoonSuffixRepository.flush();
+            webtoonRepository.saveAndFlush(webtoon);
+            webtoonSuffixRepository.saveAndFlush(webtoonSuffix);
 
-            return Optional.of(webtoonDto);
+            return ResponseEntity.ok("Successfully update webtoon and webtoon suffix");
         } else {
-            // Handle the case where either the webtoon or suffix does not exist
-            return Optional.empty(); // or throw an appropriate exception
+            throw new IllegalArgumentException("Webtoon or Webtoon suffix connot be null");
         }
     }
 }

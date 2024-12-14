@@ -1,13 +1,13 @@
 import React from 'react';
-import { Breadcrumbs, Box, Typography, CircularProgress } from '@mui/material';
-import { Link, useParams } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
-import { ROUTE_BLOG, ROUTE_SERIES } from './../constants/AppRoutes';
-import { PLACEHOLDER_TITLE, PLACEHOLDER_CHAPTER } from './../constants/ImageConstants';
-import { API_BASE_URL, API_PRIVATE_URL } from './../constants/ApiConstants';
+import {Box, Breadcrumbs, CircularProgress, Typography} from '@mui/material';
+import {Link, useParams} from 'react-router-dom';
+import {useAuth0} from '@auth0/auth0-react';
+import {ROUTE_BLOG, ROUTE_SERIES} from '../constants/AppRoutes';
+import {PLACEHOLDER_CHAPTER, PLACEHOLDER_TITLE} from '../constants/ImageConstants';
+import {API_BASE_URL, API_PRIVATE_URL} from '../constants/ApiConstants';
 
-import { toProperCase, formatImages } from './../utils/stringUtils';
-import { useWebtoonImages } from './../hooks/useWebtoonImages';
+import {formatImages, toProperCase} from '../utils/stringUtils';
+import {useWebtoonImages} from '../hooks/useWebtoonImages';
 
 const WebtoonReaderPage = () => {
     const { title, chapter } = useParams();
