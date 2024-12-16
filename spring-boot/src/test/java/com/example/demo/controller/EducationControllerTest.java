@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.data.entity.Education;
+import com.example.demo.data.portfolio.entity.Education;
 import com.example.demo.service.modules.EducationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

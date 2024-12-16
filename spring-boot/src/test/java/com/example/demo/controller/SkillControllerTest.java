@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.data.entity.Skill;
+import com.example.demo.data.portfolio.entity.Skill;
 import com.example.demo.service.modules.SkillService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

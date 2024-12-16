@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.data.entity.Certification;
-import com.example.demo.data.entity.Project;
+import com.example.demo.data.portfolio.entity.Project;
 import com.example.demo.service.modules.ProjectService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

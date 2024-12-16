@@ -11,9 +11,9 @@ spring:
         static: ${AWS_DEFAULT_REGION:ap-southeast-1}
   datasource:
     batch:
-      jdbc-url: ${DATASOURCE_JDBC_URL_BASE:jdbc:mysql://localhost:3306/batch_db}
-      username: ${DATASOURCE_DB_APP_USERNAME:root}
-      password: ${DATASOURCE_DB_APP_PASSWORD:password}
+      jdbc-url: ${DATASOURCE_BATCH_JDBC_URL_BASE:jdbc:mysql://localhost:3306/batch_db}
+      username: ${DATASOURCE_BATCH_DB_APP_USERNAME:root}
+      password: ${DATASOURCE_BATCH_DB_APP_PASSWORD:password}
       connection-timeout: ${DATASOURCE_CONN_TIMEOUT:5000}
       maximum-pool-size: ${DATASOURCE_READER_POOL_SIZE:5}
       idle-timeout: ${DATASOURCE_READER_POOL_IDLE_TIMEOUT:120000}
@@ -21,9 +21,19 @@ spring:
       max-lifetime: ${DATASOURCE_MAX_LIFETIME:30000}
       driver-class-name: com.mysql.cj.jdbc.Driver
     portfolio:
-      jdbc-url: ${DATASOURCE_JDBC_URL_BASE:jdbc:mysql://localhost:3306/portfolio}
-      username: ${DATASOURCE_DB_APP_USERNAME:root}
-      password: ${DATASOURCE_DB_APP_PASSWORD:password}
+      jdbc-url: ${DATASOURCE_PORTFOLIO_JDBC_URL_BASE:jdbc:mysql://localhost:3306/portfolio}
+      username: ${DATASOURCE_PORTFOLIO_DB_APP_USERNAME:root}
+      password: ${DATASOURCE_PORTFOLIO_DB_APP_PASSWORD:password}
+      connection-timeout: ${DATASOURCE_CONN_TIMEOUT:5000}
+      maximum-pool-size: ${DATASOURCE_READER_POOL_SIZE:5}
+      idle-timeout: ${DATASOURCE_READER_POOL_IDLE_TIMEOUT:120000}
+      minimum-idle: ${DATASOURCE_READER_POOL_MINIMUM_IDLE:2}
+      max-lifetime: ${DATASOURCE_MAX_LIFETIME:30000}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    management:
+      jdbc-url: ${DATASOURCE_MANAGEMENT_JDBC_URL_BASE:jdbc:mysql://localhost:3306/management}
+      username: ${DATASOURCE_MANAGEMENT_DB_APP_USERNAME:root}
+      password: ${DATASOURCE_MANAGEMENT_DB_APP_PASSWORD:password}
       connection-timeout: ${DATASOURCE_CONN_TIMEOUT:5000}
       maximum-pool-size: ${DATASOURCE_READER_POOL_SIZE:5}
       idle-timeout: ${DATASOURCE_READER_POOL_IDLE_TIMEOUT:120000}
@@ -39,7 +49,6 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
         jdbc.time_zone: Asia/Singapore
         format_sql: true
-#        dialect.storage_engine: innodb
     open-in-view: false
   data:
     rest:
@@ -54,26 +63,26 @@ spring:
       enabled: true
       max-file-size: 50MB
       max-request-size: 50MB
+  config:
+    import: file:C:\\Users\\ICAM\\workspace\\spring-boot-portfolio\\common-config\\spring-boot\\local\\deployment.properties
 
 app:
-#  basePath: ${APP_BASE_PATH:http://localhost:3000} # For development environment
-  basePath: ${APP_BASE_PATH:https://portfolio-portal.mfzrl.cyou} # For production environment
-#  base-flask-path: ${APP_BASE_FLASK_PATH:http://localhost:5001}
-  base-flask-path: ${APP_BASE_FLASK_PATH:https://flask-app.mfzrl.cyou}
+  basePath: ${APP_REACT_BASE_PATH:http://localhost:3000}
+  base-flask-path: ${APP_FLASK_BASE_PATH:http://localhost:5001}
   apiPath: ${APP_API_PATH:/api/}
   privateApiPath: ${APP_PRIVATE_API_PATH:/api/v1/}
   publicApiPath: ${APP_PUBLIC_API_PATH:/api/v2/}
 
 logging:
   level:
-#    com.example.demo: ${LOGGING_LEVEL_APP_DEMO:TRACE}
+    #    com.example.demo: ${LOGGING_LEVEL_APP_DEMO:TRACE}
     org.springframework.web: ${LOGGING_LEVEL_APP_WEB:ERROR}
     org.springframework.security: ${LOGGING_LEVEL_APP_SECURITY:DEBUG}
     org.springframework.web.cors: ${LOGGING_LEVEL_APP_WEB_CORS:DEBUG}
     io.minio: ${LOGGING_LEVEL_APP_MINIO:DEBUG}
     org.springframework.jdbc.core: DEBUG
-#    org.hibernate.SQL: DEBUG
-#    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    #    org.hibernate.SQL: DEBUG
+    #    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.springframework.batch: ERROR
     root: ${LOGGING_LEVEL_APP_ROOT:ERROR}
   file: app.log
@@ -109,7 +118,7 @@ batch:
       region: ${AWS_REGION:us-east-1}
       sftp-host: ${SFTP_HOST:localhost}
       sftp-username: ${SFTP_USERNAME:test}
-      sftp-port: ${SFT[_PORT:2222}
+      sftp-port: ${SFTP_PORT:2222}
       bucket-name-slift: ${BUCKET_NAME_SLIFT:local-bucket-slift}
       temp-file: ${BATCH_TEMP_FILE:C:\\Users\\ICAM\Downloads\\localtemp}
       folder-name: ${AWS_S3_FOLDER_NAME:slift}

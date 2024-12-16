@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.data.entity.Certification;
-import com.example.demo.data.entity.ProjectItem;
+import com.example.demo.data.portfolio.entity.ProjectItem;
 import com.example.demo.service.modules.ProjectItemService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
