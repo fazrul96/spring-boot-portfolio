@@ -1,15 +1,14 @@
 package com.example.demo.data.portfolio.entity;
 
+import com.example.demo.data.BaseModel;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
 import static com.example.demo.constants.ModelConstant.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
 @Entity
@@ -17,7 +16,7 @@ import static com.example.demo.constants.ModelConstant.*;
 @NoArgsConstructor
 @Table(name = TBL_WEBTOONS)
 @DynamicUpdate
-public class Webtoon {
+public class Webtoon extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = ID)
@@ -63,14 +62,6 @@ public class Webtoon {
     @Column(name = SOURCE)
     @JsonProperty("source")
     private String source;
-
-    @Column(name = CREATED_DATE)
-    @JsonProperty("createdDate")
-    private String createdDate;
-
-    @Column(name = UPDATED_DATE)
-    @JsonProperty("updatedDate")
-    private String updatedDate;
 
     @Column(name = STATUS)
     @JsonProperty("status")

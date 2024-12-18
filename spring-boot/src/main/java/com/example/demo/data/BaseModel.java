@@ -1,5 +1,6 @@
 package com.example.demo.data;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
@@ -11,7 +12,8 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import static com.example.demo.constants.BatchConstant.*;
+import static com.example.demo.constants.ModelConstant.CREATED_AT;
+import static com.example.demo.constants.ModelConstant.UPDATED_AT;
 
 @Getter
 @Setter
@@ -23,15 +25,11 @@ public class BaseModel implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Column(name = CREATED_BY)
-    private String createdBy;
+    @Column(name = CREATED_AT)
+    @JsonProperty("createdAt")
+    private LocalDateTime createdAt;
 
-    @Column(name = CREATED_DATE)
-    private LocalDateTime createdDate;
-
-    @Column(name = UPDATED_BY)
-    private String updatedBy;
-
-    @Column(name = UPDATED_DATE)
-    private LocalDateTime updatedDate;
+    @Column(name = UPDATED_AT)
+    @JsonProperty("updatedAt")
+    private LocalDateTime  updatedAt;
 }

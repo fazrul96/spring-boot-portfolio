@@ -11,6 +11,7 @@ public final class SecurityConstant {
     public static final String GET = "GET";
     public static final String POST = "POST";
     public static final String PUT = "PUT";
+    public static final String PATCH = "PATCH";
     public static final String DELETE = "DELETE";
     public static final String OPTIONS = "OPTIONS";
     public static final String AUTHORIZATION = "Authorization";
@@ -20,7 +21,7 @@ public final class SecurityConstant {
 
     public static final List<String> ALLOWED_ORIGINS = Arrays.asList("http://localhost:3000",
         "https://portfolio-portal.mfzrl.cyou");
-    public static final List<String> ALLOWED_METHODS = Arrays.asList(GET, POST, PUT, DELETE, OPTIONS);
+    public static final List<String> ALLOWED_METHODS = Arrays.asList(GET, POST, PUT, PATCH, DELETE, OPTIONS);
     //public static final String[] ALLOWED_HEADERS = {"*"};
     public static final List<String> ALLOWED_HEADERS = Arrays.asList(AUTHORIZATION, CONTENT_TYPE);;
 }

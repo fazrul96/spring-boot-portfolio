@@ -8,14 +8,14 @@ import lombok.*;
 
 import static com.example.demo.constants.ModelConstant.*;
 
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = TBL_WEBTOON_CHAPTER)
-public class WebtoonChapter {
+public class WebtoonChapter extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = ID)
@@ -34,12 +34,4 @@ public class WebtoonChapter {
     @Column(name = STATUS)
     @JsonProperty("status")
     private String status;
-
-    @Column(name = CREATED_AT)
-    @JsonProperty("createdAt")
-    private String createdAt;
-
-    @Column(name = UPDATED_AT)
-    @JsonProperty("updatedAt")
-    private String updatedAt;
 }

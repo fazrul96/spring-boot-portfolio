@@ -4,6 +4,9 @@ public class ModelConstant {
     public static final String TBL_WEBTOONS = "webtoons";
     public static final String TBL_WEBTOON_CHAPTER = "webtoon_chapters";
 
+    public static final String TBL_USER_DONATIONS = "user_donations";
+    public static final String TBL_LOGISTIC_INVENTORY = "logistics_inventory";
+
     public static final String ID = "id";
     public static final String ALIAS = "alias";
     public static final String IMAGE = "image";
