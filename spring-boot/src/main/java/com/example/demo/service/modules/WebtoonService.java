@@ -8,6 +8,7 @@ import com.example.demo.data.portfolio.repository.WebtoonRepository;
 import com.example.demo.data.portfolio.repository.WebtoonSuffixRepository;
 import com.example.demo.dto.WebtoonDto;
 import com.example.demo.properties.AppProperties;
+import com.example.demo.service.auth.AuthWebClient;
 import com.example.demo.service.storage.MinioService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,15 +16,12 @@ import io.minio.errors.MinioException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -35,7 +33,8 @@ import java.util.List;
 import static com.example.demo.constants.ApiConstant.DOWNLOAD_WEBTOON;
 import static com.example.demo.constants.ApiConstant.LATEST_CHAPTER_WEBTOON;
 import static com.example.demo.constants.GeneralConstant.*;
-import static com.example.demo.constants.ModelConstant.ASURA;
+import static com.example.demo.util.RequestBodyUtil.createRequestBodyForFetchLatestChapter;
+import static com.example.demo.util.RequestBodyUtil.createRequestBodyForWebtoon;
 
 @Slf4j
 @Service
@@ -45,7 +44,7 @@ public class WebtoonService {
     private final WebtoonChapterRepository webtoonChapterRepository;
     private final WebtoonSuffixRepository webtoonSuffixRepository;
     private final MinioService minioService;
-    private final WebClient webClient;
+    private final AuthWebClient authWebClient;
 
     @Autowired
     public WebtoonService(
@@ -53,14 +52,13 @@ public class WebtoonService {
             WebtoonRepository webtoonRepository,
             WebtoonChapterRepository webtoonChapterRepository,
             WebtoonSuffixRepository webtoonSuffixRepository,
-            MinioService minioService,
-            WebClient webClient) {
+            MinioService minioService, AuthWebClient authWebClient) {
         this.appProperties = appProperties;
         this.webtoonRepository = webtoonRepository;
         this.webtoonChapterRepository = webtoonChapterRepository;
         this.webtoonSuffixRepository = webtoonSuffixRepository;
         this.minioService = minioService;
-        this.webClient = webClient;
+        this.authWebClient = authWebClient;
     }
 
     public List<Webtoon> getAllWebtoons() {
@@ -94,14 +92,6 @@ public class WebtoonService {
         log.info("Webtoon chapter saved: {}", webtoonChapter);
     }
 
-    public void saveDefaultWebtoonChapter(WebtoonDto webtoonDto) {
-        saveWebtoonChapter(webtoonDto, 1, DEFAULT);
-    }
-
-    public void saveCompletedWebtoonChapter(WebtoonDto webtoonDto, Integer chapter) {
-        saveWebtoonChapter(webtoonDto, chapter, COMPLETED);
-    }
-
     @Transactional
     public void saveWebtoonSuffix(WebtoonDto webtoonDto) {
         WebtoonSuffix webtoonSuffix = new WebtoonSuffix();
@@ -109,6 +99,14 @@ public class WebtoonService {
         webtoonSuffix.setSuffix(webtoonDto.getSuffix());
         webtoonSuffixRepository.save(webtoonSuffix);
         log.info("Webtoon suffix have been saved: {}", webtoonSuffix);
+    }
+
+    public void saveDefaultWebtoonChapter(WebtoonDto webtoonDto) {
+        saveWebtoonChapter(webtoonDto, 1, DEFAULT);
+    }
+
+    public void saveCompletedWebtoonChapter(WebtoonDto webtoonDto, Integer chapter) {
+        saveWebtoonChapter(webtoonDto, chapter, COMPLETED);
     }
 
     @Transactional
@@ -174,53 +172,15 @@ public class WebtoonService {
     }
 
     public byte[] initiateFetchLatestChapter(String title, String suffix) {
-        log.info("Requesting webtoon fetch latest chapter");
-        try {
-            return webClient.post()
-                    .uri(appProperties.getBaseFlaskPath() + SLASH + LATEST_CHAPTER_WEBTOON)
-                    .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                    .bodyValue(createRequestBodyForFetchLatestChapter(title, suffix))
-                    .retrieve()
-                    .bodyToMono(byte[].class)
-                    .block();
-        } catch (Exception e) {
-            log.error("Failed to fetch latest chapter for this webtoon: {}", e.getMessage());
-            throw new RuntimeException("Failed to fetch latest chapter for this webtoon", e);
-        }
+        String endpoint = appProperties.getBaseFlaskPath() + SLASH + LATEST_CHAPTER_WEBTOON;
+        MultiValueMap<String, Object> requestBody = createRequestBodyForFetchLatestChapter(title, suffix);
+        return authWebClient.initiateWebtoonRequest(endpoint, requestBody);
     }
 
     private byte[] initiateWebtoonDownload(String title, Integer chapter, String source, String suffix) {
-        log.info("Requesting webtoon download: title={}, chapter={}, source={}", title, chapter, source);
-        try {
-            return webClient.post()
-                    .uri(appProperties.getBaseFlaskPath() + SLASH + DOWNLOAD_WEBTOON)
-                    .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                    .bodyValue(createRequestBody(title, chapter, source, suffix))
-                    .retrieve()
-                    .bodyToMono(byte[].class)
-                    .block();
-        } catch (Exception e) {
-            log.error("Failed to download webtoon: {}", e.getMessage());
-            throw new RuntimeException("Failed to download webtoon", e);
-        }
-    }
-
-    private MultiValueMap<String, Object> createRequestBodyForFetchLatestChapter(String title, String suffix) {
-        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("title", title);
-        body.add("suffix", suffix);
-        return body;
-    }
-
-    private MultiValueMap<String, Object> createRequestBody(
-            String title, Integer chapter, String source, String suffix) {
-
-        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("title", title);
-        body.add("chapter", chapter == null ? "1" : chapter.toString());
-        body.add("source", source == null ? ASURA : source);
-        body.add("suffix", suffix == null ? EMPTY_STRING : suffix);
-        return body;
+        String endpoint = appProperties.getBaseFlaskPath() + SLASH + DOWNLOAD_WEBTOON;
+        MultiValueMap<String, Object> requestBody = createRequestBodyForWebtoon(title, chapter, source, suffix);
+        return authWebClient.initiateWebtoonRequest(endpoint, requestBody);
     }
 
     @Transactional
