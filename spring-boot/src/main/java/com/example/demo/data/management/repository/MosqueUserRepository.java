@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MosqueUserRepository extends JpaRepository<UserDonation, String> {
+public interface MosqueUserRepository extends JpaRepository<UserDonation, Long> {
     @Query("SELECT userDonation FROM UserDonation userDonation ORDER BY userDonation.updatedAt DESC")
     List<UserDonation> findAllOrderedByUpdatedAt();
 

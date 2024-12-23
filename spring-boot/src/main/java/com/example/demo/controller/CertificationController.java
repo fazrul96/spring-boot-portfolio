@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.data.portfolio.entity.Certification;
-import com.example.demo.service.modules.CertificationService;
+import com.example.demo.service.web.modules.CertificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

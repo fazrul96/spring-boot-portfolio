@@ -1,7 +1,7 @@
 package com.example.demo.controller.web;
 
 import com.example.demo.data.portfolio.entity.WebtoonSuffix;
-import com.example.demo.service.modules.WebtoonSuffixService;
+import com.example.demo.service.web.modules.WebtoonSuffixService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

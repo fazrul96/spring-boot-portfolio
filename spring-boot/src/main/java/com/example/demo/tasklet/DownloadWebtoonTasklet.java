@@ -3,7 +3,7 @@ package com.example.demo.tasklet;
 import com.example.demo.data.portfolio.repository.WebtoonRepository;
 import com.example.demo.dto.WebtoonDto;
 import com.example.demo.exception.BaseException;
-import com.example.demo.service.modules.WebtoonService;
+import com.example.demo.service.web.modules.WebtoonService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepContribution;
@@ -13,7 +13,7 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.stereotype.Component;
 
-import static com.example.demo.exception.BatchErrorType.GENERIC_ERROR;
+import static com.example.demo.exception.errorType.BatchErrorType.GENERIC_ERROR;
 
 @StepScope
 @Component

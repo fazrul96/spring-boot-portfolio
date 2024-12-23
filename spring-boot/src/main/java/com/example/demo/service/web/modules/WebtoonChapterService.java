@@ -1,4 +1,4 @@
-package com.example.demo.service.modules;
+package com.example.demo.service.web.modules;
 
 import com.example.demo.data.portfolio.entity.WebtoonChapter;
 import com.example.demo.data.portfolio.repository.WebtoonChapterRepository;

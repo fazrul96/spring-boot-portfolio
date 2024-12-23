@@ -9,8 +9,10 @@ public class ApiConstant {
     public static final String LATEST_CHAPTER_WEBTOON = "latest-chapter-webtoon";
 
     public static final String MOSQUE_USER_DONATIONS = "mosque-user-donations";
-    public static final String MOSQUE_INVENTORIES = "mosque-inventories";
+    public static final String MOSQUE_USER_DONATIONS_ID = "mosque-user-donations/{id}";
     public static final String MOSQUE_USER_DONATIONS_NRIC = "mosque-user-donations/{nric}";
+
+    public static final String MOSQUE_INVENTORIES = "mosque-inventories";
     public static final String MOSQUE_INVENTORIES_STATUS = "mosque-inventories/{status}";
     public static final String MOSQUE_INVENTORIES_ID = "mosque-inventories/{id}";
 

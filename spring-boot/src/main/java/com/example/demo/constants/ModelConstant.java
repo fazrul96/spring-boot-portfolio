@@ -6,6 +6,10 @@ public class ModelConstant {
 
     public static final String TBL_USER_DONATIONS = "user_donations";
     public static final String TBL_LOGISTIC_INVENTORY = "logistics_inventory";
+    public static final String TBL_PRAYER_TIMES = "prayer_times";
+    public static final String TBL_EVENTS = "events";
+    public static final String TBL_SPONSORS = "sponsors";
+    public static final String TBL_ANNOUNCEMENTS = "announcements";
 
     public static final String ID = "id";
     public static final String ALIAS = "alias";

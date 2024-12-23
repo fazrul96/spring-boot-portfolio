@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.data.portfolio.entity.ProjectItem;
-import com.example.demo.service.modules.ProjectItemService;
+import com.example.demo.service.web.modules.ProjectItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

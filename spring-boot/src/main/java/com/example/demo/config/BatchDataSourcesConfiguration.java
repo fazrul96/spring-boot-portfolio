@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
-import static com.example.demo.exception.BatchErrorType.GENERIC_ERROR;
+import static com.example.demo.exception.errorType.BatchErrorType.GENERIC_ERROR;
 
 @Configuration
 @EnableTransactionManagement

@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.data.portfolio.entity.Experience;
-import com.example.demo.service.modules.ExperienceService;
+import com.example.demo.service.web.modules.ExperienceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

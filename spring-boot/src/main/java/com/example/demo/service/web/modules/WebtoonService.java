@@ -1,4 +1,4 @@
-package com.example.demo.service.modules;
+package com.example.demo.service.web.modules;
 
 import com.example.demo.data.portfolio.entity.Webtoon;
 import com.example.demo.data.portfolio.entity.WebtoonChapter;
@@ -27,6 +27,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +79,8 @@ public class WebtoonService {
         webtoon.setAlias(webtoonDto.getAlias());
         webtoon.setChapterCount(webtoonDto.getMaxChapter());
         webtoon.setSource(webtoonDto.getSource());
+        webtoon.setCreatedAt(LocalDateTime.now());
+        webtoon.setUpdatedAt(LocalDateTime.now());
         webtoonRepository.save(webtoon);
         log.info("Webtoon have been saved: {}", webtoon);
     }
@@ -88,6 +91,8 @@ public class WebtoonService {
         webtoonChapter.setTitle(webtoonDto.getTitle());
         webtoonChapter.setChapter(chapter);
         webtoonChapter.setStatus(status);
+        webtoonChapter.setCreatedAt(LocalDateTime.now());
+        webtoonChapter.setUpdatedAt(LocalDateTime.now());
         webtoonChapterRepository.save(webtoonChapter);
         log.info("Webtoon chapter saved: {}", webtoonChapter);
     }
@@ -97,6 +102,8 @@ public class WebtoonService {
         WebtoonSuffix webtoonSuffix = new WebtoonSuffix();
         webtoonSuffix.setTitle(webtoonDto.getTitle());
         webtoonSuffix.setSuffix(webtoonDto.getSuffix());
+        webtoonSuffix.setCreatedAt(LocalDateTime.now());
+        webtoonSuffix.setUpdatedAt(LocalDateTime.now());
         webtoonSuffixRepository.save(webtoonSuffix);
         log.info("Webtoon suffix have been saved: {}", webtoonSuffix);
     }

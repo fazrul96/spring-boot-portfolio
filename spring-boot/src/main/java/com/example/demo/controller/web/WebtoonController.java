@@ -2,7 +2,7 @@ package com.example.demo.controller.web;
 
 import com.example.demo.data.portfolio.entity.Webtoon;
 import com.example.demo.dto.WebtoonDto;
-import com.example.demo.service.modules.WebtoonService;
+import com.example.demo.service.web.modules.WebtoonService;
 import com.example.demo.service.storage.MinioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

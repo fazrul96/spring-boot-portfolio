@@ -1,4 +1,4 @@
-package com.example.demo.service.modules;
+package com.example.demo.service.web.modules;
 
 import com.example.demo.data.portfolio.entity.WebtoonSuffix;
 import com.example.demo.data.portfolio.repository.WebtoonSuffixRepository;
