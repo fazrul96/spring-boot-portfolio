@@ -12,7 +12,8 @@ export const CV_URL = process.env.REACT_APP_CV_URL || `${process.env.PUBLIC_URL}
 export const SNAPSYNCH_URL = process.env.REACT_APP_SNAPSYNCH_URL || `${process.env.PUBLIC_URL}/snapSynch.pdf`;
 export const CV_FILE_NAME = process.env.REACT_APP_CV_FILE_NAME || 'CV.pdf';
 export const SNAPSYNCH_FILE_NAME = process.env.REACT_APP_SNAPSYNCH_FILE_NAME || 'SnapSynch.pdf';
-export const PDF_WORKER_URL = process.env.REACT_APP_PDF_WORKER_URL || 'https://unpkg.com/pdfjs-dist@3.6.172/build/pdf.worker.min.js';
+// export const PDF_WORKER_URL = process.env.REACT_APP_PDF_WORKER_URL || 'https://unpkg.com/pdfjs-dist@3.6.172/build/pdf.worker.min.js';
+export const PDF_WORKER_URL = process.env.REACT_APP_PDF_WORKER_URL || 'https://unpkg.com/pdfjs-dist@2.16.105/build/pdf.worker.min.js';
 export const GRAPH_FILE_NAME = 'blood_pressure_graph.png';
 
 export const API_BASE_URL_TEST = "https://spring-boot-app.mfzrl.cyou/api/v1";

@@ -1,4 +1,4 @@
-import { DASH, EMPTY_STRING, SINGLE_SPACE } from './../constants/AppConstants';
+import { DASH, EMPTY_STRING, SINGLE_SPACE } from '../constants/AppConstants';
 
 export const toProperCase = (text, delimiter = DASH) => {
     return text

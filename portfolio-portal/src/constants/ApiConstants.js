@@ -21,9 +21,14 @@ export const SKILLS = 'skills';
 export const GENERATE_GRAPH_BLOOD_PRESSURE = 'generate-graph';
 export const WEBTOON_SYNC = 'webtoon-sync';
 export const DOWNLOAD_WEBTOON = 'download-webtoon';
+export const LATEST_CHAPTER_WEBTOON = 'latest-chapter-webtoon';
 export const PROCESS_ZIP = 'process-zip';
 export const WEBTOONS = 'webtoons';
 export const PROCESS_OCR = 'processOCR';
+export const MOSQUE_USERS = 'mosque-user-donations';
+export const MOSQUE_USER_ID = 'mosque-user-donations/{id}';
+export const MOSQUE_INVENTORIES = 'mosque-inventories';
+export const MOSQUE_INVENTORY_ID = 'mosque-inventories/{id}';
 
 export const MINIO_LIST_FILES = 'listFiles';
 export const MINIO_DOWNLOAD_FILE = 'downloadFile';

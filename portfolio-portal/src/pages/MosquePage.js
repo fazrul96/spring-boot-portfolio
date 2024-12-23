@@ -1,140 +1,66 @@
 import React from 'react';
-import {Box, Breadcrumbs, Button, Card, CardActions, CardContent, Grid, Typography} from '@mui/material';
-import {Link, useNavigate} from 'react-router-dom';
-import {styled} from '@mui/system';
-
-const StyledCard = styled(Card)(({ theme }) => ({
-    backgroundColor: theme.palette.background,
-    border: `1px solid ${theme.palette.divider}`,
-    transition: 'transform 0.3s',
-    '&:hover': {
-        transform: 'scale(1.05)',
-    },
-}));
+import { Box, Grid, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import SectionCard from './../components/common/SectionCard';
+import SectionPaper from './../components/common/SectionPaper';
+import { sectionsData } from '../data/mosqueData';
 
 const MosquePage = () => {
-    const navigate = useNavigate();
-
-    const handleNavigate = (path) => {
-        navigate(path);
-    };
+    const { t } = useTranslation();
+    const sections = sectionsData(t, useNavigate());
 
     return (
         <Box sx={{ flexGrow: 1, padding: 2, marginTop: '70px' }}>
-            <Breadcrumbs aria-label="breadcrumb" sx={{ marginBottom: 3 }}>
-                <Link
-                    color="inherit"
-                    onClick={() => handleNavigate('/')}
-                    underline="hover"
-                    style={{ cursor: 'pointer' }}
-                 to={'/'}>
-                    Home
-                </Link>
-                <Typography color="textPrimary">Mosque Management</Typography>
-            </Breadcrumbs>
+            <Box
+                sx={{
+                    backgroundImage: `url(/management/mosque.jpg)`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    height: 400,
+                    borderRadius: '8px',
+                    marginBottom: 3,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    color: 'white',
+                }}
+            >
+            </Box>
 
-            <Grid container spacing={4} justifyContent="center">
+            <Grid container justifyContent="center">
                 <Grid item xs={12}>
                     <Box textAlign="center">
-                        <Typography variant="h3" gutterBottom fontWeight="bold">
-                            Mosque Management System
+                        <Typography variant="h4" gutterBottom fontWeight="bold">
+                            {t('homepage.title')}
                         </Typography>
-                        <Typography variant="subtitle1" color="textSecondary">
-                            Streamline mosque operations with ease and efficiency.
+                        <Typography variant="subtitle1" color="textSecondary" sx={{ marginBottom: 4 }}>
+                            {t('homepage.subtitle')}
                         </Typography>
                     </Box>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={4}>
-                    <StyledCard>
-                        <CardContent>
-                            <Typography variant="h6" gutterBottom fontWeight="bold">
-                                User Management
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" gutterBottom>
-                                Add and manage user details for mosque operations.
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                fullWidth
-                                onClick={() => handleNavigate('/mosque/users')}
-                            >
-                                Manage Users
-                            </Button>
-                        </CardActions>
-                    </StyledCard>
-                </Grid>
-
-                <Grid item xs={12} sm={6} md={4}>
-                    <StyledCard>
-                        <CardContent>
-                            <Typography variant="h6" gutterBottom fontWeight="bold">
-                                Logistics
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" gutterBottom>
-                                Track mosque resources and inventory.
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                fullWidth
-                                onClick={() => handleNavigate('/mosque/logistic')}
-                            >
-                                Manage Logistics
-                            </Button>
-                        </CardActions>
-                    </StyledCard>
-                </Grid>
-
-                <Grid item xs={12} sm={6} md={4}>
-                    <StyledCard>
-                        <CardContent>
-                            <Typography variant="h6" gutterBottom fontWeight="bold">
-                                Sponsors
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" gutterBottom>
-                                View and manage sponsor details and contributions.
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                fullWidth
-                                onClick={() => alert('Sponsors feature coming soon!')}
-                            >
-                                Manage Sponsors
-                            </Button>
-                        </CardActions>
-                    </StyledCard>
-                </Grid>
-
-                <Grid item xs={12} sm={6} md={4}>
-                    <StyledCard>
-                        <CardContent>
-                            <Typography variant="h6" gutterBottom fontWeight="bold">
-                                Events
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" gutterBottom>
-                                Schedule and track events.
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                fullWidth
-                                onClick={() => alert('Events feature coming soon!')}
-                            >
-                                Manage Events
-                            </Button>
-                        </CardActions>
-                    </StyledCard>
+                <Grid container spacing={4} justifyContent="center">
+                    {sections.map((section, index) => (
+                        <Grid item xs={12} sm={6} md={4} key={index}>
+                            {section.type === 'card' ? (
+                                <SectionCard
+                                    image={section.image}
+                                    title={section.title}
+                                    description={section.description}
+                                    buttonText={section.buttonText}
+                                    onClick={section.onClick}
+                                />
+                            ) : (
+                                <SectionPaper
+                                    title={section.title}
+                                    description={section.description}
+                                    buttonText={section.buttonText}
+                                    onClick={section.onClick}
+                                />
+                            )}
+                        </Grid>
+                    ))}
                 </Grid>
             </Grid>
         </Box>

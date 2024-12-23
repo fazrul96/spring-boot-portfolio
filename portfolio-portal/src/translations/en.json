@@ -1,0 +1,187 @@
+{
+    "header": {
+        "donation": "Add New Donation Record",
+        "logistic": "Add New Logistic Record"
+    },
+    "languageSwitcher": {
+        "text": "Switch to Malay"
+    },
+    "confirmation": {
+        "delete": {
+            "title": "Are you sure?",
+            "text": "This action cannot be undone. Do you want to delete this record?",
+            "confirmButtonText": "Yes, delete it!",
+            "cancelButtonText": "No, keep it"
+        }
+    },
+    "buttons": {
+        "save": "Save",
+        "addDonation": "Add Donation",
+        "addLogistic": "Add Logistic",
+        "adding": "Adding...",
+        "delete": "Delete"
+    },
+    "search": {
+        "label": "Search by Name, Address, or Item Code"
+    },
+    "dialog": {
+        "donation": {
+            "title": "Donation Record Details",
+            "form": {
+                "name": "Recipient Name",
+                "nric": "Recipient NRIC",
+                "date": "Date",
+                "address": "Recipient Address",
+                "donationAmount": "Donation Amount (RM)"
+            },
+            "tooltip": {
+                "name": "Enter the recipient's full name",
+                "nric": "Enter the recipient's NRIC",
+                "date": "Select the date of donation",
+                "address": "Enter the recipient's address",
+                "donation": "Enter the donation amount",
+                "addDonation": "Click to add a new donation"
+            }
+        },
+        "logistic": {
+            "title": "Logistic Record Details",
+            "form": {
+                "itemName": "Item Name",
+                "itemCode": "Item Code",
+                "status": "Item Status",
+                "description": "Item Description",
+                "quantity": "Quantity",
+                "supplier": "Supplier Name",
+                "dateReceived": "Date Received",
+                "storageLocation": "Storage Location",
+                "available": "Available",
+                "inUse": "In Use",
+                "outOfStock": "Out Of Stock"
+            },
+            "tooltip": {
+                "itemName": "Enter the name of the item",
+                "itemCode": "Enter a unique item code",
+                "status": "Enter the status of the item",
+                "description": "Enter the description of the item",
+                "quantity": "Enter the number of items received",
+                "supplier": "Enter the supplier's name",
+                "dateReceived": "Select the date the item was received",
+                "storageLocation": "Enter the storage location of the item",
+                "addLogistic": "Click to add a new logistic record"
+            }
+        }
+    },
+    "tableHeaders": {
+        "donation": {
+            "title": "Donation Record Details",
+            "name": "Recipient Name",
+            "address": "Recipient Address",
+            "nric": "Recipient NRIC",
+            "donation": "Donation Amount (RM)",
+            "date": "Date",
+            "age": "Age"
+        },
+        "logistic": {
+            "title": "Logistic Record Details",
+            "itemName": "Item Name",
+            "itemCode": "Item Code",
+            "quantity": "Quantity",
+            "supplier": "Supplier Name",
+            "dateReceived": "Date Received",
+            "storageLocation": "Storage Location"
+        },
+        "action": "Action"
+    },
+    "homepage": {
+        "title": "Mosque Management System",
+        "subtitle": "Streamline mosque operations with ease and efficiency."
+    },
+    "breadcrumb": {
+        "home": "Home",
+        "mosqueManagement": "Mosque Management",
+        "mosque": "Mosque",
+        "donationManagement": "Donation Management",
+        "logisticManagement": "Logistic Management"
+    },
+    "sections": {
+        "donations": {
+            "title": "Donation Management",
+            "description": "Manage donations to the mosque.",
+            "button": "Manage Donations",
+            "comingSoon": "Donations feature coming soon!"
+        },
+        "logistics": {
+            "title": "Logistics Management",
+            "description": "Track mosque resources, inventory, and supplies.",
+            "button": "Manage Logistics",
+            "comingSoon": "Logistics feature coming soon!"
+        },
+        "sponsors": {
+            "title": "Sponsors",
+            "description": "View and manage sponsor details and contributions.",
+            "button": "Manage Sponsors",
+            "comingSoon": "Sponsors feature coming soon!"
+        },
+        "events": {
+            "title": "Events",
+            "description": "Schedule and track events.",
+            "button": "Manage Events",
+            "comingSoon": "Events feature coming soon!"
+        },
+        "prayerTimes": {
+            "title": "Prayer Times",
+            "description": "View daily prayer times for the mosque.",
+            "button": "View Prayer Times",
+            "comingSoon": "Prayer times feature coming soon!"
+        },
+        "announcements": {
+            "title": "Announcements",
+            "description": "Manage mosque announcements.",
+            "button": "Manage Announcements",
+            "comingSoon": "Announcements feature coming soon!"
+        }
+    },
+    "tabs": {
+        "donation": {
+            "donationManagement": "Donation Management",
+            "addDonation": "Add Donation Record",
+            "viewDonations": "View Donation Records",
+            "donationAnalysis": "Donation Analysis"
+        },
+        "logistic": {
+            "logisticManagement": "Logistic Management",
+            "addLogistic": "Add Logistic Record",
+            "viewLogistics": "View Inventory Records",
+            "logisticAnalysis": "Inventory Analysis"
+        }
+    },
+    "analysis": {
+        "donation": {
+            "x-axis": "Yearly Donations",
+            "y-axis": "Total Donations (RM)",
+            "title": "Donation Analysis",
+            "description": "The graph below shows the total donations received by individuals over the years. This helps in understanding the donation trends and patterns."
+        },
+        "topDonors": {
+            "x-axis": "Top Recipient",
+            "y-axis": "Total Donations (RM)",
+            "title": "Top Recipient Analysis",
+            "description": "The graph below shows the top 5 individuals who have received the highest total donations."
+        },
+        "logistic": {
+            "x-axis": "Top Item",
+            "y-axis": "Total Quantity",
+            "title": "Logistics Inventory Analysis",
+            "description": "The graph below shows the most tracked items in the mosque inventory, helping to understand item usage patterns."
+        }
+    },
+    "user": {
+        "addSuccess": "User added successfully",
+        "addError": "Error adding user",
+        "deleteSuccess": "User deleted successfully",
+        "deleteError": "Error deleting user"
+    },
+    "error": {
+        "nricFormat": "Invalid NRIC format. Expected format: 901010-10-1234"
+    }
+}

@@ -14,8 +14,9 @@ import WebtoonChaptersPage from '../pages/WebtoonChaptersPage';
 import WebtoonReaderPage from '../pages/WebtoonReaderPage';
 import WebtoonPage from "../pages/WebtoonPage";
 import MosquePage from "../pages/MosquePage";
-import UserDetailsPage from "../components/section/mosque/UserDetailsPage";
-import LogisticsPage from "../components/section/mosque/LogisticsPage";
+import DonationManagementPage from "../components/section/mosque/DonationManagementPage";
+import LogisticManagementPage from "../components/section/mosque/LogisticManagementPage";
+import PrayerTimesPage from "../components/section/mosque/PrayerTimesPage";
 
 export const publicRoutes = [
   { path: '/component', component: <ComponentPage /> },
@@ -23,8 +24,9 @@ export const publicRoutes = [
   { path: '/module', component: <ModulePage /> },
   { path: '/module/ocr', component: <OCRPage /> },
   { path: '/mosque', component: <MosquePage /> },
-  { path: '/mosque/users', component: <UserDetailsPage /> },
-  { path: '/mosque/logistic', component: <LogisticsPage /> },
+  { path: '/mosque/users', component: <DonationManagementPage /> },
+  { path: '/mosque/logistic', component: <LogisticManagementPage /> },
+  { path: '/mosque/prayerTimes', component: <PrayerTimesPage /> },
 //  { path: '/module/calendar', component: <CalendarPage /> },
 ];
 

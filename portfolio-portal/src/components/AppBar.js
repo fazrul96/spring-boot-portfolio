@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { AppBar, Box, Container, Toolbar, IconButton, Typography, Avatar, Tooltip } from '@mui/material';
+import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
+import {AppBar, Avatar, Box, Container, IconButton, Toolbar, Tooltip, Typography} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
-import { useAuth0 } from '@auth0/auth0-react';
+import {useAuth0} from '@auth0/auth0-react';
 import ReactCountryFlag from "react-country-flag";
 
 import NavigationMenu from './NavigationMenu';
 import UserMenu from './UserMenu';
 
-import { APP_NAME, APP_REGION, DRAWER_WIDTH } from '../constants/AppConstants';
+import {APP_NAME, APP_REGION, DRAWER_WIDTH} from '../constants/AppConstants';
 
 const ResponsiveAppBar = () => {
 	const { user, isAuthenticated } = useAuth0();

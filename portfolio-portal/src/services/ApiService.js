@@ -6,6 +6,7 @@ class ApiService {
         this.api = axios.create({
             baseURL,
             withCredentials: true,
+            timeout: 1000000 // 1000 sec
         });
         this.getAccessTokenSilently = getAccessTokenSilently;
         this.token = null; // Cache for token
@@ -112,6 +113,38 @@ class ApiService {
         }
     }
 
+    async patchResource(resourceType, data, isFormData = false, options = {}) {
+        const headers = await this.setHeaders(true);
+
+        let requestData;
+        if (isFormData) {
+            requestData = new FormData();
+            for (const key in data) {
+                requestData.append(key, data[key]);
+            }
+            delete headers['Content-Type'];
+        } else {
+            requestData = data;
+            headers['Content-Type'] = 'application/json';
+        }
+
+        try {
+            const response = await this.api.patch(`/${resourceType}`, requestData, {
+                headers,
+                ...options,
+            });
+            return response.data;
+        } catch (error) {
+            console.error(`Error patching resource at /${resourceType}:`, error.response || error.message);
+            if (error.response) {
+                console.error('Response data:', error.response.data);
+                console.error('Response status:', error.response.status);
+                console.error('Response headers:', error.response.headers);
+            }
+            throw error;
+        }
+    }
+
     // Update a resource (e.g., PUT /webtoons/:id)
     async updateResource(resourceType, id, data) {
         const headers = await this.setHeaders(true);
@@ -131,6 +164,16 @@ class ApiService {
             await this.api.delete(`/${resourceType}/${id}`, { headers });
         } catch (error) {
             console.error(`Error deleting resource at /${resourceType}/${id}:`, error.response || error.message);
+            throw error;
+        }
+    }
+
+    async deleteResourceMosque(resourceType) {
+        const headers = await this.setHeaders(true);
+        try {
+            await this.api.delete(`/${resourceType}`, { headers });
+        } catch (error) {
+            console.error(`Error deleting resource at /${resourceType}:`, error.response || error.message);
             throw error;
         }
     }

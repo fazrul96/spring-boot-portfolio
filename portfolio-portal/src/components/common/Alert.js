@@ -17,14 +17,14 @@ const Alert = {
             confirmButtonText: 'OK',
         });
     },
-    confirm: async (title, text) => {
+    confirm: async (title, text, t) => {
         const result = await Swal.fire({
             title: title,
             text: text,
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, keep it',
+            confirmButtonText: t('confirmation.delete.confirmButtonText'),
+            cancelButtonText: t('confirmation.delete.cancelButtonText'),
         });
         return result.isConfirmed;
     }

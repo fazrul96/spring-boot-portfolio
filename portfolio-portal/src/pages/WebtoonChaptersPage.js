@@ -1,6 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {
+    Alert,
     Box,
     Breadcrumbs,
     Button,
@@ -12,10 +13,11 @@ import {
     Grid,
     Paper,
     Rating,
+    Snackbar,
     Typography
 } from '@mui/material';
 import {SYNC_WEBTOON_URL} from '../constants/AppConstants';
-import {DOWNLOAD_WEBTOON, WEBTOON_SYNC, WEBTOONS} from '../constants/ApiConstants';
+import {DOWNLOAD_WEBTOON, LATEST_CHAPTER_WEBTOON, WEBTOON_SYNC, WEBTOONS} from '../constants/ApiConstants';
 import ApiService from './../services/ApiService';
 import {useAuth0} from '@auth0/auth0-react';
 import WebtoonHeader from "../components/section/webtoons/WebtoonHeader";
@@ -55,13 +57,16 @@ const WebtoonChaptersPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [syncingChapter, setSyncingChapter] = useState(null);
     const [isSyncing, setIsSyncing] = useState(false);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success'); // 'success' or 'error'
 
     const apiService = useMemo(
         () => new ApiService(SYNC_WEBTOON_URL, getAccessTokenSilently),
         [getAccessTokenSilently]
     );
 
-    const { syncWebtoon, error: syncError } = useWebtoonSync(apiService);
+    const { syncWebtoon, error: syncError, isLoading: isSyncLoading } = useWebtoonSync(apiService);
 
     useEffect(() => {
         const fetchWebtoonData = async () => {
@@ -87,14 +92,28 @@ const WebtoonChaptersPage = () => {
     const handleSync = async (chapter) => {
         setSyncingChapter(chapter);
         setIsSyncing(true);
+        setSnackbarMessage('Sync in progress... Please wait.');
+        setSnackbarSeverity('info');
+        setSnackbarOpen(true);
 
-        const success = await syncWebtoon(webtoon.title, chapter, webtoon.source, webtoon.suffix);
-        if (success) {
-            setWebtoon({ ...webtoon }); // Refresh the webtoon data if needed
+        try {
+            const success = await syncWebtoon(webtoon.title, chapter, webtoon.source, webtoon.suffix);
+            if (success) {
+                setSnackbarMessage('Sync Successful!');
+                setSnackbarSeverity('success');
+            } else {
+                setSnackbarMessage('Sync Failed!');
+                setSnackbarSeverity('error');
+            }
+        } catch (error) {
+            setSnackbarMessage('Sync Failed!');
+            setSnackbarSeverity('error');
+            console.error('Error syncing webtoon:', error);
+        } finally {
+            setSyncingChapter(null);
+            setIsSyncing(false);
+            setSnackbarOpen(true);
         }
-
-        setSyncingChapter(null);
-        setIsSyncing(false);
     };
 
     const handleSyncChapter = async () => {
@@ -111,6 +130,20 @@ const WebtoonChaptersPage = () => {
         }
     };
 
+    const handleFetchNewChapter = async () => {
+        setIsLoading(true);
+        try {
+            const response = await apiService.patchResource(LATEST_CHAPTER_WEBTOON, { title }, true);
+            console.log('Get new chapter chapter successful:', response);
+            return true;
+        } catch (err) {
+            console.error("Error get new chapter:", err.response?.data || err.message);
+            return false;
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     if (isLoading) return <CircularProgress />;
 
     const totalChapter = webtoon?.chapterCount || 0;
@@ -120,6 +153,7 @@ const WebtoonChaptersPage = () => {
 
     const firstChapter = chapters[0];
     const latestChapter = chapters[chapters.length - 1];
+
     return (
         <Box sx={{ flexGrow: 1, padding: 5 }}>
             <Grid container spacing={2} mt={3}>
@@ -134,60 +168,69 @@ const WebtoonChaptersPage = () => {
                 <Grid item xs={12}>
                     <Card>
                         <WebtoonHeader webtoon={webtoon} />
-					    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' } }}>
+                        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' } }}>
                             <CardContent sx={{ flex: 1, p: 2 }}>
-	                            <Typography variant="h5" component="div">
+                                <Typography variant="h5" component="div">
                                     {webtoon?.alias || 'Webtoon Title'}
-	                            </Typography>
-	                            <Rating value={webtoon?.rating || 0} readOnly precision={0.5} sx={{ mb: 1 }} />
-	                            <Typography variant="body2" color="text.secondary">
-	                                {webtoon?.description || 'Description of the webtoon will go here.'}
-	                            </Typography>
-	                            <Divider sx={{ my: 1 }} />
-	                            <Box sx={{ flexGrow: 1, mb: 2 }}>
-                                    <WebtoonDetails webtoon={webtoon}/>
+                                </Typography>
+                                <Rating value={webtoon?.rating || 0} readOnly precision={0.5} sx={{ mb: 1 }} />
+                                <Typography variant="body2" color="text.secondary">
+                                    {webtoon?.description || 'Description of the webtoon will go here.'}
+                                </Typography>
+                                <Divider sx={{ my: 1 }} />
+                                <Box sx={{ flexGrow: 1, mb: 2 }}>
+                                    <WebtoonDetails webtoon={webtoon} />
                                 </Box>
-	                        </CardContent>
+                            </CardContent>
                         </Box>
                         <CardActions>
                             <Button
-	                            size="small"
-	                            variant="outlined"
-	                            color="secondary"
-	                            onClick={handleSyncChapter}
-	                            sx={{ textTransform: 'none', px: 3 }}
+                                size="small"
+                                variant="outlined"
+                                color="primary"
+                                onClick={handleFetchNewChapter}
+                                sx={{ textTransform: 'none', px: 3 }}
+                            >
+                                Get New Chapter
+                            </Button>
+                            <Button
+                                size="small"
+                                variant="outlined"
+                                color="secondary"
+                                onClick={handleSyncChapter}
+                                sx={{ textTransform: 'none', px: 3 }}
                             >
                                 Sync All Chapter
                             </Button>
                             <Button
-	                            size="small"
-	                            variant="contained"
-	                            color="success"
-	                            onClick={() => navigate(`/series/${title}/chapter-${latestChapter}`)}
-	                            sx={{
-	                                textTransform: 'none',
-	                                bgcolor: 'success.main',
-	                                '&:hover': { bgcolor: 'success.dark' },
-	                                px: 3,
-	                            }}
+                                size="small"
+                                variant="contained"
+                                color="success"
+                                onClick={() => navigate(`/series/${title}/chapter-${latestChapter}`)}
+                                sx={{
+                                    textTransform: 'none',
+                                    bgcolor: 'success.main',
+                                    '&:hover': { bgcolor: 'success.dark' },
+                                    px: 3,
+                                }}
                             >
                                 First Chapter {latestChapter}
                             </Button>
-	                        <Button
-	                            variant="contained"
-	                            size="small"
-	                            color="primary"
-	                            onClick={() => navigate(`/series/${title}/chapter-${firstChapter}`)}
-	                            sx={{ textTransform: 'none', px: 3 }}
-	                        >
-	                            New Chapter {firstChapter}
+                            <Button
+                                variant="contained"
+                                size="small"
+                                color="primary"
+                                onClick={() => navigate(`/series/${title}/chapter-${firstChapter}`)}
+                                sx={{ textTransform: 'none', px: 3 }}
+                            >
+                                New Chapter {firstChapter}
                             </Button>
                         </CardActions>
                     </Card>
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Paper elevation={5} sx={{ padding: 2}}>
+                    <Paper elevation={5} sx={{ padding: 2 }}>
                         {syncError && <Typography color="error">{syncError}</Typography>}
 
                         <WebtoonChapterList
@@ -203,6 +246,17 @@ const WebtoonChaptersPage = () => {
                     </Paper>
                 </Grid>
             </Grid>
+
+            {/* Snackbar for Sync Notifications */}
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={() => setSnackbarOpen(false)}
+            >
+                <Alert onClose={() => setSnackbarOpen(false)} severity={snackbarSeverity} sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };

@@ -66,7 +66,7 @@ const Profile = ({
 							{/* Render PDFViewer */}
 							<PDFViewer
 								fileUrl={tabs[activeTab].fileUrl}
-								workerUrl={workerUrl}
+								 workerUrl={workerUrl}
 							/>
 						</div>
 					</div>

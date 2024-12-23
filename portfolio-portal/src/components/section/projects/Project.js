@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Box, Grid, Paper, Button, Typography, IconButton } from '@mui/material';
+import React, {useEffect, useMemo, useState} from 'react';
+import {Box, Button, Grid, IconButton, Paper, Typography} from '@mui/material';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
-import { useAuth0 } from '@auth0/auth0-react';
+import {useAuth0} from '@auth0/auth0-react';
 
 import Alert from '../../../components/common/Alert';
 import ProjectCard from './ProjectCard';
 import ProjectForm from './ProjectForm';
 import ApiService from './../../../services/ApiService';
-import { API_BASE_URL, API_PUBLIC_URL, PROJECTS } from './../../../constants/ApiConstants';
+import {API_BASE_URL, API_PUBLIC_URL, PROJECTS} from '../../../constants/ApiConstants';
+import {useTranslation} from "react-i18next";
 
 const Project = () => {
     const [data, setData] = useState([]);
@@ -16,7 +17,7 @@ const Project = () => {
     const [openForm, setOpenForm] = useState(false);
     const [selectedProject, setSelectedProject] = useState(null);
     const { getAccessTokenSilently } = useAuth0();
-
+    const { t } = useTranslation();
     const apiService = useMemo(
         () => new ApiService(API_BASE_URL + API_PUBLIC_URL, getAccessTokenSilently),
         [getAccessTokenSilently]
@@ -83,7 +84,12 @@ const Project = () => {
     };
 
     const handleDeleteProject = async (id) => {
-        const isConfirmed = await Alert.confirm('Are you sure?', 'You won\'t be able to revert this!');
+        const isConfirmed = await Alert.confirm(
+            t("confirmation.delete.title"),
+            t("confirmation.delete.text"),
+            t
+        );
+
         if (isConfirmed) {
             try {
                 await apiService.deleteResource(PROJECTS, id);

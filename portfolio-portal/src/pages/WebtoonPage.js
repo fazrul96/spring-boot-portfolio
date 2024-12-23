@@ -30,6 +30,7 @@ const WebtoonPage = () => {
 
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('card');
 
@@ -37,20 +38,24 @@ const WebtoonPage = () => {
         fetchWebtoons();
     }, [fetchWebtoons]);
 
+    const showSnackbar = (message, severity) => {
+        setSnackbarMessage(message);
+        setSnackbarSeverity(severity);
+        setSnackbarOpen(true);
+    };
+
     const handleCardClick = (webtoonTitle) => {
         navigate(`/series/${webtoonTitle}/chapters`);
     };
 
     const handleDeleteWebtoon = (webtoonTitle) => {
         deleteWebtoon(webtoonTitle);
-        setSnackbarMessage('Webtoon deleted successfully');
-        setSnackbarOpen(true);
+        showSnackbar('Webtoon deleted successfully', 'error')
     };
 
     const handleAddWebtoon = (newWebtoon) => {
         addWebtoon(newWebtoon);
-        setSnackbarMessage('Webtoon added successfully');
-        setSnackbarOpen(true);
+        showSnackbar('Webtoon added successfully', 'success')
     };
 
     const handleSnackbarClose = () => {
