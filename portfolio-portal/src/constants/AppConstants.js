@@ -1,6 +1,7 @@
 export const APP_NAME = "Portfolio";
 export const APP_REGION = "MY";
 export const DRAWER_WIDTH = 240;
+export const BACKGROUND_IMAGE = 'https://wallpapercave.com/wp/wp2708351.jpg';
 
 export const PUBLIC_PAGES = ['Component', 'Medium', 'Module', 'Mosque'];
 export const PRIVATE_PAGES = ['Storage', 'OpenApi', 'Webtoon'];

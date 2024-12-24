@@ -12,10 +12,16 @@ import {SIDEBAR_ICONS, SIDEBAR_TEXT} from '../constants/SidebarConstants';
 
 export const publicSidebarItems = [
     { text: SIDEBAR_TEXT.public.dashboard, icon: SIDEBAR_ICONS.dashboard, route: ROUTE_HOME },
-    { text: SIDEBAR_TEXT.public.component, icon: SIDEBAR_ICONS.component, route: ROUTE_COMPONENT },
     { text: SIDEBAR_TEXT.public.medium, icon: SIDEBAR_ICONS.medium, route: ROUTE_MEDIUM },
-    { text: SIDEBAR_TEXT.public.module, icon: SIDEBAR_ICONS.module, route: ROUTE_MODULE },
-    { text: SIDEBAR_TEXT.public.mosque, icon: SIDEBAR_ICONS.mosque, route: ROUTE_MOSQUE },
+    {
+        text: SIDEBAR_TEXT.public.module,
+        icon: SIDEBAR_ICONS.module,
+        route: ROUTE_MODULE,
+        children: [
+            { text: SIDEBAR_TEXT.public.component, icon: SIDEBAR_ICONS.component, route: ROUTE_COMPONENT },
+            { text: SIDEBAR_TEXT.public.mosque, icon: SIDEBAR_ICONS.mosque, route: ROUTE_MOSQUE },
+        ],
+    },
 ];
 
 export const privateSidebarItems = [
