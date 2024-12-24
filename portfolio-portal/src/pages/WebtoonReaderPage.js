@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Box, Breadcrumbs, Button, CircularProgress, Grid, IconButton, TextField, Typography} from '@mui/material';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useAuth0} from '@auth0/auth0-react';
-import {ROUTE_BLOG, ROUTE_SERIES} from '../constants/AppRoutes';
+import {ROUTE_WEBTOON, ROUTE_SERIES} from '../constants/AppRoutes';
 import {PLACEHOLDER_CHAPTER, PLACEHOLDER_TITLE} from '../constants/ImageConstants';
 import {API_BASE_URL, API_PRIVATE_URL} from '../constants/ApiConstants';
 
@@ -129,7 +129,7 @@ const WebtoonReaderPage = () => {
                         </IconButton>
                     </Box>
                     <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
-                        <Link color="inherit" to={ROUTE_BLOG}>
+                        <Link color="inherit" to={ROUTE_WEBTOON}>
                             Series
                         </Link>
                         <Link color="inherit" to={`${ROUTE_SERIES}/${title}/chapters`}>

@@ -30,6 +30,13 @@ const App = () => {
 		setMobileOpen(!mobileOpen);
 	};
 
+
+	const [sidebarOpen, setSidebarOpen] = useState(false);
+
+	const toggleSidebar = () => {
+		setSidebarOpen((prev) => !prev);
+	};
+
 	return (
 		<Router>
 	        <Box sx={{ display: 'flex' }}>
@@ -40,27 +47,6 @@ const App = () => {
 		            sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
 		            aria-label="mailbox folders"
 		        >
-				    {/*
-				      <Drawer
-				        variant="temporary"
-				        open={mobileOpen}
-				        onClose={handleDrawerToggle}
-				        ModalProps={{
-				          keepMounted: true, // Better open performance on mobile.
-				        }}
-				        sx={{
-				          display: { xs: 'block', sm: 'none' },
-				          '& .MuiDrawer-paper': {
-				            boxSizing: 'border-box',
-				            width: drawerWidth,
-				            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 1)), url("${'https://wallpapercave.com/wp/wp2708351.jpg'}")`,
-				            backgroundSize: 'cover',
-				          },
-				        }}
-				      >
-				        <SidebarDrawer />
-				      </Drawer>
-				    */}
 			        <Drawer
 			            variant="permanent"
 			            sx={{
@@ -74,7 +60,7 @@ const App = () => {
 			            }}
 			            open
 			        >
-			            <SidebarDrawer />
+						<SidebarDrawer isOpen={sidebarOpen} onClose={toggleSidebar} />
 			        </Drawer>
 		        </Box>
 			    <Box component="main">
