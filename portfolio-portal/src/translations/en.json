@@ -132,7 +132,17 @@
             "title": "Prayer Times",
             "description": "View daily prayer times for the mosque.",
             "button": "View Prayer Times",
-            "comingSoon": "Prayer times feature coming soon!"
+            "comingSoon": "Prayer times feature coming soon!",
+            "inCity": "Prayer Times in",
+            "selectState": "State",
+            "selectCity": "City",
+            "city": "City",
+            "Fajr": "Fajr",
+            "Sunrise": "Sunrise",
+            "Dhuhr": "Dhuhr",
+            "Asr": "Asr",
+            "Maghrib": "Maghrib",
+            "Isha": "Isha"
         },
         "announcements": {
             "title": "Announcements",

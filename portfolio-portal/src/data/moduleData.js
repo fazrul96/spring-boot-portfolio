@@ -1,5 +1,5 @@
 import OCRPage from '../pages/OCRPage';
-// import CalendarPage from '../pages/CalendarPage';
+import CalendarPage from "../pages/CalendarPage";
 import { Typography } from '@mui/material';
 
 export const cardData = [
@@ -19,7 +19,7 @@ export const cardData = [
 		title: 'Calendar',
 		category: 'Module',
 		image: 'https://wallpapercave.com/wp/wp2708351.jpg',
-		content: '', // <CalendarPage />
+		content: <CalendarPage />,
 		tag: 'calendar',
 		details: (
 	        <Typography variant="body2" color="text.secondary">

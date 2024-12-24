@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import React, { useEffect, useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     Box,
-    debounce,
     Fab,
     Grid,
     IconButton,
@@ -12,8 +11,12 @@ import {
     ToggleButton,
     ToggleButtonGroup,
     Tooltip,
+    CircularProgress,
+    Typography,
+    Skeleton,
+    InputAdornment,
 } from '@mui/material';
-import {useAuth0} from '@auth0/auth0-react';
+import { useAuth0 } from '@auth0/auth0-react';
 import WebtoonCard from '../components/section/webtoons/WebtoonCard';
 import useWebtoonApi from './../hooks/useWebtoonApi';
 import SnackbarComponent from './../components/common/SnackbarComponent';
@@ -33,10 +36,21 @@ const WebtoonPage = () => {
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState('card');
+    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
+    const [searching, setSearching] = useState(false);
 
     useEffect(() => {
         fetchWebtoons();
     }, [fetchWebtoons]);
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setDebouncedSearchQuery(searchQuery);
+            setSearching(false);
+        }, 300);
+
+        return () => clearTimeout(timeoutId);
+    }, [searchQuery]);
 
     const showSnackbar = (message, severity) => {
         setSnackbarMessage(message);
@@ -50,12 +64,12 @@ const WebtoonPage = () => {
 
     const handleDeleteWebtoon = (webtoonTitle) => {
         deleteWebtoon(webtoonTitle);
-        showSnackbar('Webtoon deleted successfully', 'error')
+        showSnackbar('Webtoon deleted successfully', 'error');
     };
 
     const handleAddWebtoon = (newWebtoon) => {
         addWebtoon(newWebtoon);
-        showSnackbar('Webtoon added successfully', 'success')
+        showSnackbar('Webtoon added successfully', 'success');
     };
 
     const handleSnackbarClose = () => {
@@ -63,11 +77,67 @@ const WebtoonPage = () => {
     };
 
     const { showAddWebtoonForm } = WebtoonForm(handleAddWebtoon);
-    const handleSearchChange = debounce((query) => setSearchQuery(query), 300);
 
-    const filteredWebtoons = webtoonsData.filter((webtoon) => {
-        return webtoon.title.toLowerCase().includes(searchQuery.toLowerCase());
-    });
+    // Debounced search handler
+    const handleSearchChange = (query) => {
+        setSearching(true);
+        setSearchQuery(query);
+    };
+
+    // Memoized filtered list based on the debounced search query
+    const filteredWebtoons = useMemo(() => {
+        return webtoonsData.filter((webtoon) => {
+            return webtoon.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
+        });
+    }, [webtoonsData, debouncedSearchQuery]);
+
+    // UI and UX improvements for empty search results
+    const renderWebtoonList = () => {
+        if (filteredWebtoons.length === 0) {
+            return (
+                <Box sx={{ textAlign: 'center', padding: 2 }}>
+                    <Typography variant="h6">No Webtoons Found</Typography>
+                    <Typography variant="body2">Try adjusting your search criteria.</Typography>
+                </Box>
+            );
+        }
+
+        return viewMode === 'card' ? (
+            <Grid container spacing={2}>
+                {filteredWebtoons.map((webtoon, index) => (
+                    <Grid item xs={12} sm={12} md={4} lg={2} key={index}>
+                        <WebtoonCard
+                            webtoon={webtoon}
+                            onClick={() => handleCardClick(webtoon.title)}
+                            onDelete={() => handleDeleteWebtoon(webtoon.title)}
+                        />
+                    </Grid>
+                ))}
+            </Grid>
+        ) : (
+            <Grid container spacing={2}>
+                {filteredWebtoons.map((webtoon, index) => (
+                    <ListItem
+                        key={index}
+                        button
+                        onClick={() => handleCardClick(webtoon.title)}
+                        secondaryAction={
+                            <Tooltip title="Delete">
+                                <IconButton edge="end" color="error" onClick={() => handleDeleteWebtoon(webtoon.title)}>
+                                    <DeleteForeverOutlinedIcon />
+                                </IconButton>
+                            </Tooltip>
+                        }
+                    >
+                        <ListItemText
+                            primary={webtoon.alias}
+                            secondary={`Genre: ${webtoon.genre} | Rating: ${webtoon.rating}`}
+                        />
+                    </ListItem>
+                ))}
+            </Grid>
+        );
+    };
 
     return (
         <Box sx={{ flexGrow: 1, padding: 2 }} mt={9}>
@@ -76,7 +146,22 @@ const WebtoonPage = () => {
                     label="Search Webtoons"
                     variant="outlined"
                     size="small"
+                    value={searchQuery}
                     onChange={(e) => handleSearchChange(e.target.value)}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                {searchQuery && (
+                                    <IconButton
+                                        onClick={() => setSearchQuery('')}
+                                        edge="end"
+                                    >
+                                        <DeleteForeverOutlinedIcon />
+                                    </IconButton>
+                                )}
+                            </InputAdornment>
+                        ),
+                    }}
                 />
                 <ToggleButtonGroup
                     value={viewMode}
@@ -93,51 +178,35 @@ const WebtoonPage = () => {
                 </ToggleButtonGroup>
             </Box>
 
+            {/* Loading state with skeleton loader */}
             {loading ? (
-                <p>Loading...</p>
+                <Box sx={{ textAlign: 'center', marginTop: 3 }}>
+                    <CircularProgress />
+                    <Typography variant="body2">Loading Webtoons...</Typography>
+                    <Skeleton variant="rectangular" height={200} />
+                </Box>
             ) : error ? (
-                <p>{error}</p>
-            ) : viewMode === 'card' ? (
-                <Grid container spacing={2}>
-                    {filteredWebtoons.map((webtoon, index) => (
-                        <Grid item xs={12} sm={12} md={4} lg={2} key={index}>
-                            <WebtoonCard
-                                webtoon={webtoon}
-                                onClick={() => handleCardClick(webtoon.title)}
-                                onDelete={() => handleDeleteWebtoon(webtoon.title)}
-                            />
-                        </Grid>
-                    ))}
-                </Grid>
+                <Box sx={{ textAlign: 'center', marginTop: 3 }}>
+                    <Typography color="error">{error}</Typography>
+                </Box>
             ) : (
-                <Grid container spacing={2}>
-                    {filteredWebtoons.map((webtoon, index) => (
-                        <ListItem
-                            key={index}
-                            button
-                            onClick={() => handleCardClick(webtoon.title)}
-                            secondaryAction={
-                                <Tooltip title="Delete">
-                                    <IconButton edge="end" color="error" onDelete={() => handleDeleteWebtoon(webtoon.title)}>
-                                        <DeleteForeverOutlinedIcon />
-                                    </IconButton>
-                                </Tooltip>
-                            }
-                        >
-                            <ListItemText
-                                primary={webtoon.alias}
-                                secondary={`Genre: ${webtoon.genre} | Rating: ${webtoon.rating}`}
-                            />
-                        </ListItem>
-                    ))}
-                </Grid>
+                renderWebtoonList()
             )}
 
             <Fab
                 color="primary"
                 aria-label="add"
                 onClick={() => showAddWebtoonForm()}
-                sx={{ position: 'fixed', bottom: 16, right: 16 }}
+                sx={{
+                    position: 'fixed',
+                    bottom: 16,
+                    right: 16,
+                    boxShadow: 3,
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                        boxShadow: 6,
+                    },
+                }}
             >
                 <Tooltip title="Add New Webtoon">
                     <AddIcon />
@@ -148,6 +217,7 @@ const WebtoonPage = () => {
                 open={snackbarOpen}
                 message={snackbarMessage}
                 onClose={handleSnackbarClose}
+                severity={snackbarSeverity}
             />
         </Box>
     );

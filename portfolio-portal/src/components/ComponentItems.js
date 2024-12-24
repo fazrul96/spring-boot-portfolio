@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
+	Accordion,
+	AccordionDetails,
+	AccordionSummary,
 	Card,
 	CardActionArea,
 	CardContent,
-	Typography,
-	Accordion,
-	AccordionSummary,
-	AccordionDetails,
 	Grid,
+	Typography,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
+import {vs} from 'react-syntax-highlighter/dist/esm/styles/prism';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 import ContentLoader from './../components/ContentLoader';
 
 const ComponentItems = ({ title, image, contentComponent, description, markdown }) => {
