@@ -9,8 +9,8 @@ import java.util.List;
 
 @Repository
 public interface MosqueUserRepository extends JpaRepository<UserDonation, Long> {
-    @Query("SELECT userDonation FROM UserDonation userDonation ORDER BY userDonation.updatedAt DESC")
-    List<UserDonation> findAllOrderedByUpdatedAt();
+    @Query("SELECT userDonation FROM UserDonation userDonation ORDER BY userDonation.id DESC")
+    List<UserDonation> findAllOrderedById();
 
     UserDonation findByNric(String nric);
 }

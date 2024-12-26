@@ -21,7 +21,7 @@ public class MosqueUserDonationService {
 
     public List<UserDonation> getAllUserDonations() {
         log.debug("Fetching all user donations");
-        List<UserDonation> donations = mosqueUserRepository.findAllOrderedByUpdatedAt();
+        List<UserDonation> donations = mosqueUserRepository.findAllOrderedById();
         log.debug("Fetched {} user donations", donations.size());
         return donations;
     }
