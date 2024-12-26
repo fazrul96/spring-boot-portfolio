@@ -21,7 +21,7 @@ const CardComponent = ({ title, category, tag, content, details }) => {
 	};
 
 	return (
-	    <Grid item xs={12} md={6}>
+	    <Grid>
             <Card sx={{ marginTop: '10px' }}>
 	            <CardActionArea>
 		            {/*

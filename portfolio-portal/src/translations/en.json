@@ -142,7 +142,9 @@
             "Dhuhr": "Dhuhr",
             "Asr": "Asr",
             "Maghrib": "Maghrib",
-            "Isha": "Isha"
+            "Isha": "Isha",
+            "nextPrayer": "Next Prayer",
+            "remainingTime": "Remaining Time"
         },
         "announcements": {
             "title": "Announcements",

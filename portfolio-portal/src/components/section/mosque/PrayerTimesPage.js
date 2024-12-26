@@ -1,109 +1,73 @@
-import React, {useEffect, useState} from 'react';
-import {
-    Box,
-    Breadcrumbs,
-    Card,
-    CardContent,
-    CardMedia,
-    CircularProgress,
-    Divider,
-    Grid,
-    Typography
-} from '@mui/material';
-import {useTranslation} from "react-i18next";
-import {Link} from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Box, Breadcrumbs, Card, CardContent, CircularProgress, Divider, Grid, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import PrayerTimeCard from './../mosque/prayerTimes/PrayerTimeCard';
 import StateCitySelector from './../mosque/prayerTimes/StateCitySelector';
-import {STATES} from '../../../data/stateData';
-import {DEFAULT_IMAGE} from "../../../constants/AppConstants";
+import { STATES } from '../../../data/stateData';
+import { DEFAULT_IMAGE } from "../../../constants/AppConstants";
+import { fetchPrayerTimes, findNextPrayer } from '../../../utils/prayerTimes';
 
-const PrayerTimes = () => {
-    const { t } = useTranslation();
+// Custom hook to manage prayer times fetching and processing
+const usePrayerData = (selectedCity) => {
     const [prayerTimes, setPrayerTimes] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [selectedCity, setSelectedCity] = useState("Kuala Lumpur");
-    const [selectedState, setSelectedState] = useState("Wilayah Persekutuan");
 
     useEffect(() => {
-        const fetchPrayerTimes = async () => {
+        const getPrayerTimes = async () => {
             try {
-                const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${selectedCity}&country=Malaysia&method=8`);
-                const data = await response.json();
-                if (data.code === 200) {
-                    setPrayerTimes(data.data.timings);
-                } else {
-                    setError('Failed to fetch prayer times.');
-                }
+                const data = await fetchPrayerTimes(selectedCity);
+                setPrayerTimes(data);
             } catch (err) {
-                setError('Error fetching prayer times.');
+                setError(err.message);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchPrayerTimes();
+        getPrayerTimes();
     }, [selectedCity]);
 
-    // Helper function to format time into a human-readable format
-    const formatTime = (time) => {
-        const date = new Date(`1970-01-01T${time}:00`);
-        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
-    };
+    return { prayerTimes, loading, error };
+};
 
-    // Ensure we don’t try to format undefined prayer times
-    const relevantPrayers = prayerTimes ? {
-        Fajr: prayerTimes.Fajr ? formatTime(prayerTimes.Fajr) : null,
-        Sunrise: prayerTimes.Sunrise ? formatTime(prayerTimes.Sunrise) : null,
-        Dhuhr: prayerTimes.Dhuhr ? formatTime(prayerTimes.Dhuhr) : null,
-        Asr: prayerTimes.Asr ? formatTime(prayerTimes.Asr) : null,
-        Maghrib: prayerTimes.Maghrib ? formatTime(prayerTimes.Maghrib) : null,
-        Isha: prayerTimes.Isha ? formatTime(prayerTimes.Isha) : null,
-    } : {};
+const PrayerTimes = () => {
+    const { t } = useTranslation();
+    const [selectedCity, setSelectedCity] = useState("Kuala Lumpur");
+    const [selectedState, setSelectedState] = useState("Wilayah Persekutuan");
 
+    // Fetch prayer times using custom hook
+    const { prayerTimes, loading, error } = usePrayerData(selectedCity);
+
+    // Get the current date and time
     const todayDate = new Date().toLocaleDateString("en-GB", {
         weekday: "long", year: "numeric", month: "short", day: "numeric"
     });
-
     const currentTime = new Date();
     const currentTimeString = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+    const currentTime24 = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }).replace(":", "");
 
-    // Function to convert time to minutes for comparison
-    const convertToMinutes = (time) => {
-        if (!time) return 0; // Add a check if the time is undefined or null
-        const [hours, minutes] = time.split(':').map(num => parseInt(num));
-        return hours * 60 + minutes;
-    };
+    // Default values for the next prayer
+    let nextPrayer = null;
+    let nextPrayerTime = null;
+    let remainingTime = null;
 
-    // Function to calculate remaining time until the next prayer (e.g., Dhuhr)
-    const getTimeDifference = (prayerTime) => {
-        if (!prayerTime) return 0; // If there's no valid prayer time, return 0
-        const currentTimeInMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
-        const prayerTimeInMinutes = convertToMinutes(prayerTime);
+    if (prayerTimes) {
+        const { nextPrayerDetails } = findNextPrayer(['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'], prayerTimes, currentTime24);
+        nextPrayer = nextPrayerDetails.prayer;
+        nextPrayerTime = nextPrayerDetails.prayerTime;
+        remainingTime = 2400 - nextPrayerDetails.diff;
 
-        let diff = prayerTimeInMinutes - currentTimeInMinutes;
+        const hours = Math.floor(remainingTime / 60); // Get the number of hours
+        const minutes = remainingTime % 60;         // Get the remaining minutes
+        const seconds = 0;                          // No seconds in this case, but you could implement it if needed
 
-        // If the prayer time has already passed today, calculate for the next day
-        if (diff < 0) {
-            diff += 1440; // Add 1440 minutes (1 full day) to make the next prayer time happen
-        }
+        // Format the remaining time
+        remainingTime = `${hours}h ${minutes}m ${seconds}s`;
+    }
 
-        return diff;
-    };
-
-    // Function to calculate remaining time in hours, minutes, and seconds
-    const formatRemainingTime = (remainingMinutes) => {
-        const hours = Math.floor(remainingMinutes / 60);
-        const minutes = remainingMinutes % 60;
-        const seconds = Math.floor((remainingMinutes - Math.floor(remainingMinutes)) * 60); // Convert fraction of minute into seconds
-
-        return `${hours > 0 ? `${hours}h ` : ''}${minutes}m ${seconds}s`;
-    };
-
-    // Get the remaining time for Dhuhr prayer
-    const dhuhrRemainingTime = getTimeDifference(prayerTimes?.Dhuhr);
-    const formattedDhuhrRemainingTime = formatRemainingTime(dhuhrRemainingTime);
-
+    // Loading and error handling
     if (loading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="100vh" bgcolor="background.paper">
@@ -122,6 +86,16 @@ const PrayerTimes = () => {
         );
     }
 
+    // Relevant prayers data to be displayed
+    const relevantPrayers = prayerTimes ? {
+        Fajr: prayerTimes.Fajr || null,
+        Sunrise: prayerTimes.Sunrise || null,
+        Dhuhr: prayerTimes.Dhuhr || null,
+        Asr: prayerTimes.Asr || null,
+        Maghrib: prayerTimes.Maghrib || null,
+        Isha: prayerTimes.Isha || null,
+    } : {};
+
     return (
         <Box sx={{ flexGrow: 1, padding: 3, marginTop: 8, backgroundColor: 'background.paper' }}>
             <Breadcrumbs aria-label="breadcrumb" sx={{ marginBottom: 3 }}>
@@ -132,6 +106,7 @@ const PrayerTimes = () => {
             <Card elevation={5} sx={{ backgroundColor: 'rgba(255, 255, 255, 0.85)', borderRadius: 3 }}>
                 <CardContent>
                     <Grid container spacing={3}>
+                        {/* City & State Selector */}
                         <Grid item xs={12} md={6}>
                             <Typography variant="h4" gutterBottom align="left" fontWeight="bold" color="primary" sx={{ fontSize: '1.8rem' }}>
                                 {t('sections.prayerTimes.inCity')} {selectedCity}
@@ -146,6 +121,7 @@ const PrayerTimes = () => {
                             />
                         </Grid>
 
+                        {/* Date and Time */}
                         <Grid item xs={12} md={6}>
                             <Box sx={{ textAlign: 'right', paddingRight: 3 }}>
                                 <Typography variant="h6" color="textSecondary" sx={{ fontWeight: 600, fontSize: '1rem' }}>
@@ -173,7 +149,7 @@ const PrayerTimes = () => {
                                     borderRadius: 2,
                                     textAlign: 'center',
                                     position: 'relative',
-                                    height: '100%',  // Ensure it takes the full height
+                                    height: '100%', // Ensure it takes the full height
                                     '&::before': {
                                         content: '""',
                                         position: 'absolute',
@@ -193,47 +169,39 @@ const PrayerTimes = () => {
                                             fontWeight: 'bold',
                                             color: 'white',
                                             zIndex: 1, // Ensure it stays on top of the background
-                                            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.7)', // Add text shadow for better contrast
+                                            textShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)',
                                         }}
                                     >
-                                        Next Prayer: Dhuhr
+                                        {t('sections.prayerTimes.nextPrayer')}
                                     </Typography>
                                     <Typography
                                         variant="h4"
-                                        color="primary"
                                         sx={{
+                                            color: 'white',
                                             fontWeight: 'bold',
-                                            zIndex: 1,
-                                            color: 'white',
-                                            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.7)',
+                                            fontSize: '2rem',
+                                            textShadow: '2px 2px 5px rgba(0, 0, 0, 0.7)',
                                         }}
                                     >
-                                        {prayerTimes?.Dhuhr}
+                                        {nextPrayer} {nextPrayerTime}
                                     </Typography>
-                                    <Typography
-                                        variant="body2"
-                                        sx={{
-                                            fontSize: '1.2rem',
-                                            zIndex: 1,
-                                            color: 'white',
-                                            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.7)',
-                                        }}
-                                    >
-                                        {formattedDhuhrRemainingTime} Left
+                                    <Typography variant="h6" sx={{ color: 'white', marginTop: 1, textShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)' }}>
+                                        {t('sections.prayerTimes.remainingTime')}:
+                                        <span style={{ fontWeight: 'bold', color: 'yellow' }}> {/* You can change color here */}
+                                            {remainingTime}
+                                        </span>
                                     </Typography>
+
                                 </CardContent>
                             </Card>
                         </Grid>
+                    </Grid>
 
-                        {/* Display prayer times */}
-                        {Object.keys(relevantPrayers).map((prayer, index) => (
-                            <Grid item xs={12} sm={6} md={2} key={index}>
-                                <PrayerTimeCard
-                                    prayer={prayer}
-                                    time={relevantPrayers[prayer]}
-                                    highlight={prayer === 'Dhuhr'}
-                                    t={t}
-                                />
+                    {/* Display prayer times */}
+                    <Grid container spacing={2} justifyContent="center" sx={{ marginTop: 3 }}>
+                        {Object.keys(relevantPrayers).map((prayer) => (
+                            <Grid item xs={12} sm={6} md={4} key={prayer}>
+                                <PrayerTimeCard prayer={prayer} time={relevantPrayers[prayer]} t={t} />
                             </Grid>
                         ))}
                     </Grid>

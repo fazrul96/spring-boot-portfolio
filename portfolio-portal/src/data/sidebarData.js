@@ -4,7 +4,7 @@ import {
     ROUTE_MEDIUM,
     ROUTE_MODULE,
     ROUTE_MOSQUE,
-    ROUTE_OPENAPI,
+    ROUTE_OPENAPI, ROUTE_SPACE,
     ROUTE_STORAGE,
     ROUTE_WEBTOON
 } from '../constants/AppRoutes';
@@ -25,7 +25,14 @@ export const publicSidebarItems = [
 ];
 
 export const privateSidebarItems = [
-    { text: SIDEBAR_TEXT.private.webtoon, icon: SIDEBAR_ICONS.webtoon, route: ROUTE_WEBTOON },
-    { text: SIDEBAR_TEXT.private.storage, icon: SIDEBAR_ICONS.storage, route: ROUTE_STORAGE },
-    { text: SIDEBAR_TEXT.private.openapi, icon: SIDEBAR_ICONS.openapi, route: ROUTE_OPENAPI },
+    {
+        text: SIDEBAR_TEXT.private.workspace,
+        icon: SIDEBAR_ICONS.workspace,
+        route: ROUTE_SPACE,
+        children: [
+            { text: SIDEBAR_TEXT.private.webtoon, icon: SIDEBAR_ICONS.webtoon, route: ROUTE_WEBTOON },
+            { text: SIDEBAR_TEXT.private.storage, icon: SIDEBAR_ICONS.storage, route: ROUTE_STORAGE },
+            { text: SIDEBAR_TEXT.private.openapi, icon: SIDEBAR_ICONS.openapi, route: ROUTE_OPENAPI }
+        ],
+    },
 ];

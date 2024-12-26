@@ -4,6 +4,8 @@ import MediumIcon from '@mui/icons-material/Book';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import BackupIcon from '@mui/icons-material/Backup';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import MosqueIcon from '@mui/icons-material/Mosque';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import OpenAPIIcon from '@mui/icons-material/Api';
 
 export const SIDEBAR_TEXT = {
@@ -15,6 +17,7 @@ export const SIDEBAR_TEXT = {
         mosque: 'Mosque',
     },
     private: {
+        workspace: 'GREDAVERSE',
         webtoon: 'Webtoon',
         storage: 'Cloud Storage',
         openapi: 'OpenAPI',
@@ -26,7 +29,8 @@ export const SIDEBAR_ICONS = {
     component: <ProjectIcon />,
     medium: <MediumIcon />,
     module: <ViewModuleIcon />,
-    mosque: <ViewModuleIcon />,
+    mosque: <MosqueIcon />,
+    workspace: <WorkspacePremiumIcon />,
     webtoon: <MenuBookIcon />,
     storage: <BackupIcon />,
     openapi: <OpenAPIIcon />,
