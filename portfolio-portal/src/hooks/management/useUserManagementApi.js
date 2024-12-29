@@ -1,6 +1,6 @@
 import {useCallback, useMemo, useState} from 'react';
 import ApiService from './../../services/ApiService';
-import {API_BASE_URL, API_PRIVATE_URL, MOSQUE_USERS} from '../../constants/ApiConstants';
+import {ACCOUNT_MESSAGES, API_BASE_URL, API_PRIVATE_URL, MOSQUE_USERS} from '../../constants/ApiConstants';
 
 const useUserManagementApi = (getAccessTokenSilently) => {
     const apiService = useMemo(
@@ -19,6 +19,20 @@ const useUserManagementApi = (getAccessTokenSilently) => {
             setUsersData(response);
         } catch (error) {
             setError(error.message || 'Failed to load users data');
+            console.error('Error fetching users data:', error);
+        } finally {
+            setLoading(false);
+        }
+    }, [apiService]);
+
+    const fetchMessages = useCallback(async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await apiService.fetchResource(ACCOUNT_MESSAGES);
+            setUsersData(response);
+        } catch (error) {
+            setError('Failed to load users data');
             console.error('Error fetching users data:', error);
         } finally {
             setLoading(false);
@@ -76,7 +90,8 @@ const useUserManagementApi = (getAccessTokenSilently) => {
         fetchUsers,
         addUser,
         deleteUser,
-        editUser
+        editUser,
+        fetchMessages
     };
 };
 

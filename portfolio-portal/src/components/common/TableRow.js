@@ -86,6 +86,7 @@ const TableRowComponent = ({
         <TableRow
             key={item.id}
             hover
+            role="checkbox" tabIndex={-1}
             onClick={handleRowClick}
             sx={{ backgroundColor: "#f9f9f9", borderLeft: `5px solid ${ageColor}` }}
         >

@@ -30,6 +30,8 @@ export const MOSQUE_USER_ID = 'mosque-user-donations/{id}';
 export const MOSQUE_INVENTORIES = 'mosque-inventories';
 export const MOSQUE_INVENTORY_ID = 'mosque-inventories/{id}';
 
+export const ACCOUNT_MESSAGES = 'accounts/messages';
+
 export const MINIO_LIST_FILES = 'listFiles';
 export const MINIO_DOWNLOAD_FILE = 'downloadFile';
 export const MINIO_UPLOAD_FILES = 'uploadFiles';

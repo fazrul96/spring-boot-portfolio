@@ -19,7 +19,16 @@
         "addDonation": "Add Donation",
         "addLogistic": "Add Logistic",
         "adding": "Adding...",
-        "delete": "Delete"
+        "delete": "Delete",
+        "cancel": "Cancel",
+        "add": "Add",
+        "update": "Update",
+        "edit": "Edit",
+        "download": "Download",
+        "close": "Close",
+        "confirm": "Confirm",
+        "addNewProject": "Add New Project",
+        "deleteProject": "Delete Project"
     },
     "search": {
         "label": "Search by Name, Address, or Item Code"
@@ -92,6 +101,13 @@
         },
         "action": "Action"
     },
+    "pagination": {
+        "rowsPerPage": "Rows per page",
+        "option10": "10",
+        "option25": "25",
+        "option50": "50",
+        "pageInfo": "Displaying {{start}}-{{end}} of {{total}}"
+    },
     "homepage": {
         "title": "Mosque Management System",
         "subtitle": "Streamline mosque operations with ease and efficiency."
@@ -163,8 +179,42 @@
         "logistic": {
             "logisticManagement": "Logistic Management",
             "addLogistic": "Add Logistic Record",
-            "viewLogistics": "View Inventory Records",
-            "logisticAnalysis": "Inventory Analysis"
+            "viewLogistics": "Manage Logistics Record",
+            "logisticAnalysis": "Analytics & Insights",
+            "logisticReport": "Reports & Settings"
+        }
+    },
+    "projects": {
+        "categories": {
+            "title": "Project Categories",
+            "description": "Manage and categorize your projects.",
+            "button": "Add Category",
+            "comingSoon": "Categories feature coming soon!"
+        },
+        "categoryTypes": {
+            "education": "Education",
+            "healthcare": "Healthcare",
+            "community": "Community",
+            "infrastructure": "Infrastructure",
+            "others": "Others"
+        },
+        "delete": {
+            "title": "Delete Project",
+            "confirmationText": "Are you sure you want to delete this project? This action cannot be undone.",
+            "cancelButtonText": "Cancel",
+            "confirmButtonText": "Yes, delete it!"
+        },
+        "addNew": {
+            "title": "Add New Project",
+            "form": {
+                "name": "Project Name",
+                "description": "Project Description",
+                "category": "Project Category",
+                "status": "Project Status",
+                "tags": "Project Tags",
+                "dateCreated": "Date Created"
+            },
+            "button": "Add Project"
         }
     },
     "analysis": {
@@ -194,6 +244,9 @@
         "deleteError": "Error deleting user"
     },
     "error": {
-        "nricFormat": "Invalid NRIC format. Expected format: 901010-10-1234"
+        "nricFormat": "Invalid NRIC format. Expected format: 901010-10-1234",
+        "saveFailed": "Failed to save data. Please try again.",
+        "deleteFailed": "Failed to delete data. Please try again.",
+        "fetchFailed": "Failed to load data. Please check your internet connection or try again later."
     }
 }

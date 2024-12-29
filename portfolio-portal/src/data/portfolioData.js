@@ -1,6 +1,6 @@
 export const SUMMARIES = [
     { label: 'Expected Salary & Notice', value: 'MYR 102,000 pa\n1 month' },
-    { label: 'Nationality & Visa', value: 'Malaysia\n(Malaysia) National/Permanent Resident' },
+    { label: 'Nationality & Visa', value: 'Malaysia\nNational/Permanent Resident' },
     { label: '5.5', value: 'Years Experience' },
     { label: '6-10', value: 'People Managed' },
     { label: '60-100%', value: 'Willing to Travel' },

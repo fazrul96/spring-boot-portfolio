@@ -1,15 +1,64 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { AppBar, Avatar, Box, Container, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
+import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
+import {AppBar, Avatar, Box, Container, IconButton, Toolbar, Tooltip, Typography} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
-import { useAuth0 } from '@auth0/auth0-react';
-import ReactCountryFlag from 'react-country-flag';
+import {useAuth0} from '@auth0/auth0-react';
 
 import NavigationMenu from './NavigationMenu';
 import UserMenu from './UserMenu';
 
-import { APP_NAME, APP_REGION, DRAWER_WIDTH, BACKGROUND_IMAGE } from '../constants/AppConstants';
+import {APP_NAME, APP_REGION, BACKGROUND_IMAGE, DRAWER_WIDTH} from '../constants/AppConstants';
+import LanguageSwitcherI18n from "./common/LanguageSwitcherI18n";
+import {useTranslation} from "react-i18next";
+import ReactCountryFlag from "react-country-flag";
+
+const UserAvatarMenu = ({ isAuthenticated, user, handleOpenUserMenu, anchorElUser, handleCloseUserMenu }) => {
+	return (
+		<>
+			<Tooltip title="Open settings">
+				<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+					{isAuthenticated ? (
+						<Avatar alt={user.name} src={user.picture} />
+					) : (
+						<Avatar alt="Unknown" />
+					)}
+				</IconButton>
+			</Tooltip>
+			<UserMenu anchorElUser={anchorElUser} handleCloseUserMenu={handleCloseUserMenu} />
+		</>
+	);
+};
+
+const LanguageSwitcher = () => {
+	const { t } = useTranslation();
+	return (
+		<Tooltip title={t("languageSwitcher.text")} arrow>
+			<IconButton sx={{ justifyContent: 'space-between' }} aria-label={t("languageSwitcher.switchLanguage")}>
+				<LanguageSwitcherI18n />
+			</IconButton>
+		</Tooltip>
+	);
+};
+
+const UserFlagCountry = ({ isAuthenticated }) => {
+	return (
+		<>
+			{isAuthenticated && (
+				<ReactCountryFlag
+					countryCode={APP_REGION}
+					svg
+					title={APP_REGION}
+					style={{
+						width: '2em',
+						height: '2em',
+						marginRight: '8px',
+					}}
+				/>
+			)}
+		</>
+	);
+};
 
 const ResponsiveAppBar = () => {
 	const { user, isAuthenticated } = useAuth0();
@@ -99,31 +148,12 @@ const ResponsiveAppBar = () => {
 
 					{/* User Menu & Flag */}
 					<Box sx={{ flexGrow: 0 }}>
-						<Tooltip title="Open settings">
-							<div>
-								{isAuthenticated && (
-									<ReactCountryFlag
-										countryCode={APP_REGION}
-										svg
-										title={APP_REGION}
-										style={{
-											width: '2em',
-											height: '2em',
-											marginRight: '8px',
-										}}
-									/>
-								)}
-								<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-									{isAuthenticated ? (
-										<Avatar alt={user.name} src={user.picture} />
-									) : (
-										<Avatar alt="Unknown" />
-									)}
-								</IconButton>
-							</div>
-						</Tooltip>
-
-						<UserMenu
+						<LanguageSwitcher />
+						{/*<UserFlagCountry isAuthenticated={isAuthenticated} />*/}
+						<UserAvatarMenu
+							isAuthenticated={isAuthenticated}
+							user={user}
+							handleOpenUserMenu={handleOpenUserMenu}
 							anchorElUser={anchorElUser}
 							handleCloseUserMenu={handleCloseUserMenu}
 						/>

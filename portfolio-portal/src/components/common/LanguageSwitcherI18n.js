@@ -23,6 +23,11 @@ const LanguageSwitcherI18n = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                backgroundColor: "white",
+                '&:hover': {
+                    backgroundColor: "lightgray", // Optional: Add hover effect
+                    borderColor: "lightgray",     // Change border color on hover
+                }
             }}>
                 {i18n.language === 'en' ? "MS" : "EN"}
         </Button>

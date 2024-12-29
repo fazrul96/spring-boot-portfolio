@@ -1,19 +1,24 @@
 import React from "react";
-import {Card, CardContent, TextField} from "@mui/material";
+import {InputAdornment, TextField} from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
 
 const SearchBar = ({ searchQuery, onSearchChange, t }) => {
     return (
-        <Card sx={{ marginBottom: 3 }}>
-            <CardContent>
-                <TextField
-                    fullWidth
-                    label={t("search.label")}
-                    variant="outlined"
-                    value={searchQuery}
-                    onChange={onSearchChange}
-                />
-            </CardContent>
-        </Card>
+        <TextField
+            label={t("search.label")}
+            value={searchQuery}
+            onChange={onSearchChange}
+            variant="outlined"
+            size="small"
+            InputProps={{
+                startAdornment: (
+                    <InputAdornment position="start">
+                        <SearchIcon />
+                    </InputAdornment>
+                ),
+            }}
+            fullWidth
+        />
     );
 };
 
