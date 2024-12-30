@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "${app.apiPath}")
+@RequestMapping(path = "${app.privateApiPath}")
 @CrossOrigin(origins = "${app.basePath}")
 public class MapDataController {
     @Operation(summary = "Get Map")

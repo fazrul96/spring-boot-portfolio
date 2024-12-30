@@ -1,17 +1,19 @@
 package com.example.demo.controller;
 
-import com.example.demo.data.entity.Education;
-import com.example.demo.service.modules.EducationService;
+import com.example.demo.data.portfolio.entity.Education;
+import com.example.demo.service.web.modules.EducationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "${app.apiPath}")
+@RequestMapping(path = "${app.publicApiPath}")
 @CrossOrigin(origins = "${app.basePath}")
 public class EducationController {
     private final EducationService educationService;
@@ -21,33 +23,54 @@ public class EducationController {
         this.educationService = educationService;
     }
 
-    @Operation(summary = "Get list of educations")
+    @Operation(summary = "Retrieve all educations")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Successfully retrieved educations"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @GetMapping(path = "getEducations")
-    public List<Education> getEducations() {
-        return educationService.getEducations();
+    @GetMapping(path = "educations")
+    public ResponseEntity<List<Education>> getAllEducations() {
+        List<Education> educations = educationService.getAllEducations();
+        return ResponseEntity.ok(educations);
     }
 
-    @Operation(summary = "Get list of educations using id")
+    @Operation(summary = "Retrieve an education by ID")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved educations using id"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the education"),
+            @ApiResponse(responseCode = "404", description = "Education not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @GetMapping(path = "getEducations/{id}")
-    public Education getEducationById(@PathVariable Integer id) {
-        return educationService.getEducationById(id);
+    @GetMapping(path = "educations/{id}")
+    public ResponseEntity<Education> getEducationById(@PathVariable Integer id) {
+        return educationService.getEducationById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    @PostMapping(path = "postEducations")
-    public Education saveEducation(@RequestBody Education education) {
-        return educationService.saveEducation(education);
+    @Operation(summary = "Create a new education")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Successfully created education"),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @PostMapping(path = "educations")
+    public ResponseEntity<Education> createEducation(@RequestBody Education education) {
+        Education createdEducation = educationService.saveEducation(education);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdEducation);
     }
 
-    @DeleteMapping(path = "deleteEducations/{id}")
-    public void deleteEducation(@PathVariable Integer id) {
-        educationService.deleteEducation(id);
+    @Operation(summary = "Delete an education by ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Successfully deleted the education"),
+            @ApiResponse(responseCode = "404", description = "Education not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @DeleteMapping(path = "educations/{id}")
+    public ResponseEntity<Void> deleteEducation(@PathVariable Integer id) {
+        if (educationService.deleteEducation(id)) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }

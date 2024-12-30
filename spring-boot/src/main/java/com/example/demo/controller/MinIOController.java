@@ -1,7 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.service.ImageService;
 import com.example.demo.service.storage.MinioService;
-import io.minio.errors.*;
+import io.minio.errors.MinioException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,43 +15,80 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "${app.apiPath}")
+@RequestMapping(path = "${app.privateApiPath}")
 @CrossOrigin(origins = "${app.basePath}")
 @SuppressWarnings({"PMD.SignatureDeclareThrowsException"})
 public class MinIOController {
+
     @Autowired
     private MinioService minioService;
+
+    @Autowired
+    private ImageService imageService;
 
     @PostMapping(path = "uploadFiles")
     public ResponseEntity<String> uploadFiles(@RequestParam("files") List<MultipartFile> files) {
         try {
-            List<String> uploadedFileNames = minioService.uploadFiles(files);
+            if (files == null || files.isEmpty()) {
+                return ResponseEntity.badRequest().body("No files uploaded");
+            }
+            List<String> uploadedFileNames = minioService.uploadFiles(files, null);
             return ResponseEntity.ok("Upload successful for files: " + uploadedFileNames);
         } catch (IOException | NoSuchAlgorithmException | InvalidKeyException | MinioException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
+            log.error("File upload failed", e); // Logging the error for debugging
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed: " + e.getMessage());
         }
     }
 
     @DeleteMapping(path = "deleteFile")
-    public void delete(@RequestParam("fileName") String fileName) throws
-            ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException,
-            InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        minioService.deleteFile(fileName);
+    public ResponseEntity<String> deleteFile(@RequestParam("fileName") String fileName) {
+        try {
+            minioService.deleteFile(fileName);
+            return ResponseEntity.ok("File deleted successfully");
+        } catch (Exception e) {
+            log.error("File deletion failed", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("File deletion failed: " + e.getMessage());
+        }
     }
 
     @GetMapping(path = "getFileInfo")
-    public String getFileInfo(@RequestParam("fileName") String fileName) throws
-            ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException,
-            InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        return minioService.getFileInfo(fileName);
+    public ResponseEntity<String> getFileInfo(@RequestParam("fileName") String fileName) {
+        try {
+            String fileInfo = minioService.getFileInfo(fileName);
+            return ResponseEntity.ok(fileInfo);
+        } catch (Exception e) {
+            log.error("Error retrieving file info", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error retrieving file info: " + e.getMessage());
+        }
     }
 
-    @GetMapping(path = "downloadFile")
-    public void downloadFile(@RequestParam("fileName") String fileName, HttpServletResponse response) throws
-            Exception {
-        minioService.downloadFile(fileName, response);
+    @PostMapping(path = "downloadFile")
+    public ResponseEntity<Void> downloadFile(@RequestParam("fileName") String fileName, HttpServletResponse response) {
+        try {
+            minioService.downloadFile(fileName, response);
+            return ResponseEntity.ok().build(); // No content to return for the download
+        } catch (Exception e) {
+            log.error("Error downloading file", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping(path = "listFiles")
+    public ResponseEntity<?> listFiles(@RequestParam(required = false) String prefix) {
+        try {
+            List<String> fileNames = minioService.listFiles(prefix);
+            List<Map<String, Object>> processedFiles = minioService.processFiles(fileNames, prefix);
+            return ResponseEntity.ok(processedFiles);
+        } catch (Exception e) {
+            log.error("Error listing files from MinIO", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Error listing files from MinIO", "throwable", e.getMessage()));
+        }
     }
 }

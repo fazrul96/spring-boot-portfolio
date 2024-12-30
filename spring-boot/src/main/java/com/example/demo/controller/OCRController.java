@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "${app.apiPath}")
+@RequestMapping(path = "${app.publicApiPath}")
 @CrossOrigin(origins = "${app.basePath}")
 @SuppressWarnings({"PMD.AvoidDuplicateLiterals","PMD.SignatureDeclareThrowsException","PMD.UnusedPrivateMethod"})
 public class OCRController {

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import React, {Component} from "react";
+import {Calendar, momentLocalizer} from "react-big-calendar";
 import moment from "moment";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 

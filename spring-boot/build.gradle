@@ -1,35 +1,38 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+import java.text.DecimalFormat
+
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.2.3'
-	id 'io.spring.dependency-management' version '1.1.4'
-//	id 'findbugs' // analysis tool for identifying potential issues
+	id 'org.springframework.boot' version '3.4.0'
+	id 'io.spring.dependency-management' version '1.1.6'
 	id 'jacoco'
-	id 'checkstyle' // enforce coding style and standards
-	id 'pmd' // source code analyze
+	id 'checkstyle'
+	id 'pmd'
 	id "org.sonarqube" version "4.4.1.3373"
-	id 'com.github.spotbugs' version '6.0.7' // analysis tool for identifying potential issues
-	id 'org.owasp.dependencycheck' version '9.0.9'
+	id 'com.github.spotbugs' version '6.0.12'
+	id 'org.owasp.dependencycheck' version '9.1.0'
 	id 'maven-publish'
-//	id 'io.franzbecker.gradle-lombok' version '5.0.0'
 }
 
 group = 'com.example'
-version = '0.0.1-SNAPSHOT'
+version = project.hasProperty('version') ? project.getProperty('version') : '1.0.0'
 
 java {
-	sourceCompatibility = 17
-	targetCompatibility = 17
+	sourceCompatibility = 21
+	targetCompatibility = 21
 }
 
 ext {
-	SPRING_BOOT_VERSION = '3.2.3'
-	LOMBOK_VERSION = '1.18.22'
+	snippetsDir = file('build/generated-snippets')
+
+	SPRING_BOOT_VERSION = '3.4.0'
+	LOMBOK_VERSION = '1.18.36'
 	OKTA_SPRING_BOOT_STARTER_VERSION = '3.0.6'
 	SWAGGER_ANNOTATIONS_VERSION = '2.2.20'
 	SPRINGDOC_OPENAPI_VERSION = '2.4.0'
 	MOCKITO_VERSION = '5.11.0'
 	TESS4J_VERSION = '5.11.0'
-	MINIO_VERSION = '8.5.9'
+	MINIO_VERSION = '8.5.14'
 	GOOGLE_API_CLIENT_VERSION = '2.4.0'
 	GOOGLE_OAUTH_CLIENT_JETTY_VERSION = '1.35.0'
 	GOOGLE_API_SERVICES_DRIVE_VERSION = 'v3-rev197-1.25.0'
@@ -37,15 +40,17 @@ ext {
 	JACKSON_VERSION = '2.12.3'
 	SSHJ_VERSION = '0.38.0'
 
-	COMMONS_COLLECTIONS = '4.4'
+	COMMONS_COLLECTIONS = '4.5.0-M2'
 	SPRING_CLOUD_IO_AWS_VERSION = '3.1.0'
 	SPRING_CLOUD_ORG_AWS_VERSION = '2.2.6.RELEASE'
 	SPRING_CLOUD_VERSION = '2022.0.0'
 }
 
+ext['tess4j.version'] = '5.11.0'
+
 repositories {
 	mavenCentral()
-	mavenLocal ()
+//	mavenLocal ()
 }
 
 configurations.configureEach {
@@ -67,11 +72,9 @@ dependencies {
 
 	// Spring Boot Starters
 	implementation "org.springframework.boot:spring-boot-starter-hateoas:${SPRING_BOOT_VERSION}"
-	implementation "org.springframework.boot:spring-boot-starter-web:$SPRING_BOOT_VERSION"
+	implementation "org.springframework.boot:spring-boot-starter-web:${SPRING_BOOT_VERSION}"
 	implementation 'org.springframework.boot:spring-boot-starter-batch'
 	implementation "org.springframework.boot:spring-boot-starter-webflux:${SPRING_BOOT_VERSION}"
-	implementation "org.springframework.boot:spring-boot-starter-security"
-	implementation "org.springframework.boot:spring-boot-starter-oauth2-client"
 	implementation "org.springframework.boot:spring-boot-starter-mail:${SPRING_BOOT_VERSION}"
 	implementation "org.springframework.boot:spring-boot-starter-thymeleaf:${SPRING_BOOT_VERSION}"
 	implementation "org.springframework.batch:spring-batch-test"
@@ -79,16 +82,23 @@ dependencies {
 	testImplementation "org.springframework.boot:spring-boot-starter-test"
 	testImplementation "org.mockito:mockito-inline:5.0.0"
 
+	implementation 'org.apache.commons:commons-csv:1.12.0'
 	// Okta Auth0
+	implementation "org.springframework.boot:spring-boot-starter-security"
+	implementation "org.springframework.boot:spring-boot-starter-oauth2-client"
+	implementation "org.springframework.boot:spring-boot-starter-oauth2-resource-server"
 	implementation "com.okta.spring:okta-spring-boot-starter:${OKTA_SPRING_BOOT_STARTER_VERSION}"
-	implementation 'com.auth0:java-jwt:3.18.3'
-	implementation 'io.jsonwebtoken:jjwt-api:0.11.3'
-	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.3'
-	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.3'
+	// Add this line for OAuth2 Resource Server JWT validation support
+	implementation 'org.springframework.security:spring-security-oauth2-jose'
+	// JWT libraries (for custom JWT handling if needed)
+	implementation 'com.auth0:java-jwt:4.4.0'
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 
 	// Email
-	implementation "org.springframework:spring-context:6.1.5"
-	implementation "org.springframework:spring-context-support:6.1.5"
+	implementation "org.springframework:spring-context:6.2.1"
+	implementation "org.springframework:spring-context-support:6.2.1"
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
@@ -167,10 +177,21 @@ dependencyManagement {
 	}
 }
 
+jar {
+	enabled = false
+}
 // Reference https://docs.gradle.org/current/userguide/jacoco_plugin.html
 jacoco {
 	toolVersion = "0.8.9"
 //	reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+def activeProfiles = project.properties['activeProfiles'] ?: "local"
+
+processResources {
+	filter ReplaceTokens, tokens: [
+			activeProfiles: activeProfiles
+	]
 }
 
 test {
@@ -181,45 +202,12 @@ test {
 	reports {
 		html.required = true
 	}
-//	outputs.dir snippetsDir
+	outputs.dir snippetsDir
 	systemProperty'flyway.scripts.location', System.getProperty(
 			'flyway.scripts.location', 'filesystem:./src/test/resources/sql-scripts')
 	systemProperty "user.country", "MY"
 	systemProperty "user.language", "en"
 	systemProperty "user.timeznone", "Asia/Singapore"
-	finalizedBy jacocoTestReport
-}
-
-jacocoTestReport {
-	reports {
-		xml.required = false
-		csv.required = false
-		html.required = true
-//		html.outputLocation = layout.buildDirectory.dir('reports/tests/test/jacocoHtml') // custom location
-	}
-}
-
-jacocoTestCoverageVerification {
-	violationRules {
-		// This rule specifies a minimum code coverage requirement of 50%.
-		rule {
-			limit {
-				minimum = 0.5
-			}
-		}
-
-		rule {
-			enabled = false
-			element = 'CLASS'
-			includes = ['org.gradle.*']
-
-			limit {
-				counter = 'LINE'
-				value = 'TOTALCOUNT'
-				maximum = 0.3
-			}
-		}
-	}
 }
 
 checkstyle {
@@ -266,10 +254,6 @@ tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
 	}
 }
 
-tasks.named('test') {
-	finalizedBy jacocoTestReport
-}
-
 sonar {
 	properties {
 		property "sonar.sourceEncoding", "UTF-8"
@@ -282,9 +266,49 @@ sonar {
 		property "sonar.java.checkstyle.reportPaths", "build/reports/checkstyle/main.xml"
 		property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
 		property "sonar.coverage.exclusions", "**/*Application.*,**/dto/*,**/config/*,**/constant/*" +
-				",**/exception/*,**/properties/*" + ",**/data/model/*"
+				",**/exception/*,**/properties/*" + ",**/data/**"
 	}
 }
+
+jacocoTestReport {
+	dependsOn jacocoTestCoverageVerification
+	shouldRunAfter spotbugsMain, spotbugsTest, pmdTest
+	reports {
+		xml.required = true
+		csv.required = false
+		html.required = true
+//		html.outputLocation = layout.buildDirectory.dir('reports/tests/test/jacocoHtml') // custom location
+	}
+}
+
+jacocoTestCoverageVerification {
+	def minCov = findProperty('minCov') ?: '0.10'
+	DecimalFormat decimalFormat = new DecimalFormat('#')
+	def minimumCoverage = decimalFormat.parse(minCov).doubleValue()
+	violationRules {
+		failOnViolation = true
+		rule {
+			limit {
+				minimum = minimumCoverage
+			}
+		}
+	}
+	def exclusions = [
+			"**/*Application.*",
+			"**/dto/**",
+			"**/config/**",
+			"**/constants/**",
+			"**/properties/**",
+			"**/data/**",
+	]
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, excludes: exclusions)
+		}))
+	}
+}
+
+check.dependsOn jacocoTestReport
 
 task wrapperUpdate(type: Wrapper) {
 	gradleVersion = '8.7'

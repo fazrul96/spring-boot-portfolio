@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.data.entity.ExperienceItem;
-import com.example.demo.service.modules.ExperienceItemService;
+import com.example.demo.data.portfolio.entity.ExperienceItem;
+import com.example.demo.service.web.modules.ExperienceItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "${app.apiPath}")
+@RequestMapping(path = "${app.publicApiPath}")
 @CrossOrigin(origins = "${app.basePath}")
 public class ExperienceItemController {
     private final ExperienceItemService experienceItemService;

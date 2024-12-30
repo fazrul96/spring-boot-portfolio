@@ -12,7 +12,7 @@ import org.thymeleaf.context.Context;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "${app.apiPath}")
+@RequestMapping(path = "${app.privateApiPath}")
 @CrossOrigin(origins = "${app.basePath}")
 @SuppressWarnings({"PMD.UseObjectForClearerAPI"})
 public class EmailController {
