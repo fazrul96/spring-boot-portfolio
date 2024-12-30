@@ -52,7 +52,7 @@ const Sidebar = () => {
     { to: '#skills', icon: faTools, text: "Skill & Tools", iconType: "solid", type: "submenu" },
     { to: '#contacts', icon: faEnvelope, text: "Contact", iconType: "solid", type: "submenu" },
     {
-      href: 'http://localhost:8080/swagger-ui/index.html',
+      href: 'https://spring-boot-app.mfzrl.cyou/swagger-ui/index.html',
       icon: "th-large",
       text: 'OpenAPI',
       target: '_blank',

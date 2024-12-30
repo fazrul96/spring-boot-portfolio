@@ -3,7 +3,7 @@ import { Box, Grid } from '@mui/material';
 import ExperienceCard from '../../../components/section/experiences/ExperienceCard';
 import ExperienceCarousel from '../../../components/section/experiences/ExperienceCarousel';
 
-const Experience = ({ experiences }) => {
+const Experience = ({ experiencesWithItems }) => {
   return (
     <Box sx={{ flexGrow: 1, padding: 2 }}>
       <section id="experience">
@@ -13,9 +13,9 @@ const Experience = ({ experiences }) => {
         </h1>
         <p className="portfolio-subheading">Here are my previous experiences</p> */}
         <Grid container spacing={2} justifyContent="center" alignItems="center">
-          {experiences.map((experience, index) => (
+          {experiencesWithItems.map((experiencesWithItem, index) => (
             <Grid item xs={12} md={4} key={index}>
-              <ExperienceCard experience={experience} />
+              <ExperienceCard experiencesWithItem={experiencesWithItem} />
             </Grid>
           ))}
         </Grid>

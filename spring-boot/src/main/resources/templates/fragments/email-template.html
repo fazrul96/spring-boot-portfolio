@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>LinkedIn Introduction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .icon {
+            font-size: 48px;
+            color: #007BFF;
+        }
+
+        .title {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+
+        .content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .project {
+            margin: 20px 0;
+        }
+
+        .project a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 3px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <span class="icon">&#x2709;</span>
+        <h1 class="title">LinkedIn Introduction</h1>
+    </div>
+    <p class="content" th:text="${message}"></p>
+    <div class="project">
+        <ul>
+            <li><a th:href="@{${linkedInProfileLink}}">LinkedIn Profile</a> - Connect with me on LinkedIn</li>
+            <li><a th:href="@{'https://www.example-project-1.com'}">Project 1</a> - Role: Full Stack Developer</li>
+            <li><a th:href="@{'https://www.example-project-2.com'}">Project 2</a> - Role: Software Engineer</li>
+            <li><a th:href="@{'https://www.example-project-3.com'}">Project 3</a> - Role: Web Developer</li>
+        </ul>
+    </div>
+    <a class="button" href="https://linkedin.com/your-profile-link">Connect on LinkedIn</a>
+</div>
+</body>
+</html>

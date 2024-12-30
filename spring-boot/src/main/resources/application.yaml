@@ -1,0 +1,150 @@
+spring:
+  batch:
+    initialize-schema: always
+    job:
+      enabled: true
+  profiles:
+    active: ${ACTIVE_PROFILE:@activeProfiles@}
+  #  main:
+  #    web-application-type: NONE
+  application:
+    name: react-spring-portfolio
+  cloud:
+    aws:
+      region:
+        static: ${AWS_DEFAULT_REGION}
+  datasource:
+    batch:
+      jdbc-url: ${DATASOURCE_BATCH_JDBC_URL_BASE}
+      username: ${DATASOURCE_BATCH_DB_APP_USERNAME}
+      password: ${DATASOURCE_BATCH_DB_APP_PASSWORD}
+      connection-timeout: ${DATASOURCE_CONN_TIMEOUT}
+      maximum-pool-size: ${DATASOURCE_READER_POOL_SIZE}
+      idle-timeout: ${DATASOURCE_READER_POOL_IDLE_TIMEOUT}
+      minimum-idle: ${DATASOURCE_READER_POOL_MINIMUM_IDLE}
+      max-lifetime: ${DATASOURCE_MAX_LIFETIME}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    portfolio:
+      jdbc-url: ${DATASOURCE_PORTFOLIO_JDBC_URL_BASE}
+      username: ${DATASOURCE_PORTFOLIO_DB_APP_USERNAME}
+      password: ${DATASOURCE_PORTFOLIO_DB_APP_PASSWORD}
+      connection-timeout: ${DATASOURCE_CONN_TIMEOUT}
+      maximum-pool-size: ${DATASOURCE_READER_POOL_SIZE}
+      idle-timeout: ${DATASOURCE_READER_POOL_IDLE_TIMEOUT}
+      minimum-idle: ${DATASOURCE_READER_POOL_MINIMUM_IDLE}
+      max-lifetime: ${DATASOURCE_MAX_LIFETIME}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    management:
+      jdbc-url: ${DATASOURCE_MANAGEMENT_JDBC_URL_BASE}
+      username: ${DATASOURCE_MANAGEMENT_DB_APP_USERNAME}
+      password: ${DATASOURCE_MANAGEMENT_DB_APP_PASSWORD}
+      connection-timeout: ${DATASOURCE_CONN_TIMEOUT}
+      maximum-pool-size: ${DATASOURCE_READER_POOL_SIZE}
+      idle-timeout: ${DATASOURCE_READER_POOL_IDLE_TIMEOUT}
+      minimum-idle: ${DATASOURCE_READER_POOL_MINIMUM_IDLE}
+      max-lifetime: ${DATASOURCE_MAX_LIFETIME}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        jdbc.time_zone: Asia/Singapore
+        format_sql: true
+    open-in-view: false
+  data:
+    rest:
+      base-path: ${DATA_REST_BASE_PATH}
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 50MB
+  config:
+    import: file:C:\\Users\\ICAM\\workspace\\spring-boot-portfolio\\common-config\\spring-boot\\@activeProfiles@\\deployment.properties
+
+app:
+  basePath: ${APP_REACT_BASE_PATH}
+  base-flask-path: ${APP_FLASK_BASE_PATH}
+  apiPath: ${APP_API_PATH}
+  privateApiPath: ${APP_PRIVATE_API_PATH}
+  publicApiPath: ${APP_PUBLIC_API_PATH}
+
+logging:
+  level:
+#    com.example.demo: ${LOGGING_LEVEL_APP_DEMO}
+    org.springframework.web: ${LOGGING_LEVEL_APP_WEB}
+    org.springframework.security: ${LOGGING_LEVEL_APP_SECURITY}
+    org.springframework.web.cors: ${LOGGING_LEVEL_APP_WEB_CORS}
+    io.minio: ${LOGGING_LEVEL_APP_MINIO}
+    org.springframework.jdbc.core: DEBUG
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.batch: ERROR
+    root: ${LOGGING_LEVEL_APP_ROOT}
+  file: app.log
+  config: classpath:logback-spring.xml
+
+minio:
+  endpoint: ${MINIO_ENDPOINT}
+  access-key: ${MINIO_ACCESS_KEY}
+  secret-key: ${MINIO_SECRET_KEY}
+  bucket-name: ${MINIO_BUCKET_NAME}
+  username: ${MINIO_USERNAME}
+  password: ${MINIO_PASSWORD}
+
+okta:
+  oauth2:
+    issuer: ${OKTA_OAUTH2_ISSUER}
+    client-id: ${OKTA_OAUTH2_CLIENT_ID}
+    client-secret: ${OKTA_OAUTH2_CLIENT_SECRET}
+    audience: ${OKTA_OAUTH2_AUDIENCE}
+
+batch:
+  portfolio:
+    chunkSize: ${CHUNK_SIZE}
+    output-file-path: ${OUTPUT_FILE_PATH}
+    output-file-base-name: ${OUTPUT_FILE_BASE_NAME}
+    output-file-type: ${OUTPUT_FILE_TYPE}
+    from-date: ${FROM_DATE}
+    to-date: ${TO_DATE}
+    portfolio-output-file-base-name: ${PORTFOLIO_OUTPUT_FILE_BASE_NAME}
+    file-manager:
+      aws-s3-endpoint: ${AWS_S3_ENDPOINT}
+      aws-secret-endpoint: ${AWS_SECRET_ENDPOINT}
+      region: ${AWS_REGION}
+      sftp-host: ${SFTP_HOST}
+      sftp-username: ${SFTP_USERNAME}
+      sftp-port: ${SFTP_PORT}
+      bucket-name-slift: ${BUCKET_NAME_SLIFT}
+      temp-file: ${BATCH_TEMP_FILE}
+      folder-name: ${AWS_S3_FOLDER_NAME}
+      prefix-key: ${BATCH_PREFIX_KEY}
+      cert-file-path: ${BATCH_CERT_FILE_PATH}
+      sftp-key-file-path: ${BATCH_SFTP_KEY_FILE_PATH}
+      error-file-path: ${BATCH_ERROR_FILE_PATH}
+      dest-file-path: ${BATCH_DEST_FILE_PATH}
+      src-file-path: ${BATCH_SRC_FILE_PATH}
+      slift-file-path: ${BATCH_SLIFT_FILE_PATH}
+      ssh-auth-user: ${BATCH_SSH_AUTH_USER_KEY}
+      sftp-ssh-pk-path: ${BATCH_SFTP_SSH_PK}
+      slift-pass-phrase: ${BATCH_SLIFT_PASS_PHRASE}
+      sftp-pass-phrase: ${BATCH_SFTP_PASS_PHRASE}
+      sftp-prefic-key: ${BATCH_SFTP_PREFIX_KEY}
+      slift-lib-jar-path: ${BATCH_SLIFT_LIB_JAR_PATH}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+
+file:
+  input: coffee-list.csv

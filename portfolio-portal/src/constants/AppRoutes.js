@@ -1,0 +1,10 @@
+export const ROUTE_HOME = '/';
+export const ROUTE_COMPONENT = '/component';
+export const ROUTE_MEDIUM = '/medium';
+export const ROUTE_MODULE = '/module';
+export const ROUTE_MOSQUE = '/mosque';
+export const ROUTE_SERIES = '/series';
+export const ROUTE_SPACE = '/space';
+export const ROUTE_WEBTOON = '/webtoon';
+export const ROUTE_STORAGE = '/storage';
+export const ROUTE_OPENAPI = '/openapi';
